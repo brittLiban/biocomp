@@ -1,0 +1,26 @@
+# Data (large — never commit)
+data/
+*.zip
+*.h5
+*.hdf5
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Experiments / outputs
+wandb/
+results/figures/*.png
+*.ckpt
+*.pt
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

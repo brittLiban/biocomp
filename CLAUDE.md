@@ -83,3 +83,79 @@ Not a DR screening tool, not a synthetic-data vendor, not a clinical chatbot, no
 ## Funding Context
 
 Building alongside other income — no dedicated runway. Near-zero burn through Month 6 (<$500). Do not introduce costs that require personal runway; time first cash needs to coincide with SBIR/grant funding.
+
+---
+
+## How to Work in This Repo (Read First, Every Session)
+
+At the start of every session, orient yourself:
+1. Read this file (CLAUDE.md) for mission, phase, and rules.
+2. Read `docs/NOW.md` for the current task — this is what we work on.
+3. Consult as needed: `docs/TECH_STACK.md` (how), `docs/ARCHITECTURE.md` (where code goes), `docs/DATA.md` (data shape), `docs/CLAIMS.md` (what we can honestly claim).
+
+If GPT or another model is being used, the human will paste the relevant docs manually. Same rules apply regardless of model.
+
+## The Document System
+
+Guard rails (stable — the why and the limits):
+- `docs/NORTH_STAR.pdf` — 3-year strategy, the constitution
+- `docs/YEAR_1.md` — what we achieve this year; rungs + gates
+- `docs/MILESTONES.md` — flat checklist of all milestones
+- `docs/CLAIMS.md` — what we CAN and CANNOT currently claim (overclaim guard)
+
+How we build (stable-ish):
+- `docs/TECH_STACK.md`, `docs/CODE_STYLE.md`, `docs/ARCHITECTURE.md`, `docs/GLOSSARY.md`
+
+The plan / the focus:
+- `docs/Q1_PLAN.md` — current quarter at high level
+- `docs/NOW.md` — THE current sprint, fully specified (this churns most)
+
+Memory (continuous):
+- `docs/PROGRESS.md` — present snapshot (in-flight, blocked)
+- `docs/LOG.md` — permanent append-only history of completed sprints
+- `docs/DECISIONS.md` — log of choices: X over Y because Z
+- `docs/OPEN_QUESTIONS.md` — unresolved unknowns
+- `docs/DATA.md` — dataset schemas + audit findings
+
+Archive: retired docs live in `docs/archive/now/` and `docs/archive/quarters/`,
+named `YYYY-MM_short-description.md`.
+
+## Update Protocol — When Docs Get Touched
+
+During a session:
+- A real decision was made → append to `docs/DECISIONS.md` immediately.
+- A new unknown surfaced, or one got answered → update `docs/OPEN_QUESTIONS.md`.
+- Session ending → update `docs/PROGRESS.md` to current state.
+
+The three phrases the human will use:
+- "log that decision" → append a DECISIONS.md entry now.
+- "update progress, we're done" → refresh PROGRESS.md.
+- "close out this sprint" → run the Sprint Closeout Ritual below.
+
+## Sprint Closeout Ritual
+
+When the human says "close out this sprint," do these in order:
+1. Copy `docs/NOW.md` → `docs/archive/now/YYYY-MM_description.md`
+2. Append one entry to `docs/LOG.md` (newest at top): date, what finished, outcome, link to the archived NOW.
+3. Confirm any decisions from this sprint are in `docs/DECISIONS.md`.
+4. Reset `docs/PROGRESS.md` to the new present.
+5. Copy `docs/templates/NOW_template.md` → fresh `docs/NOW.md`, filled with the next chunk from `docs/Q1_PLAN.md`. End it with a "Next up" line.
+6. If the sprint changed what we can honestly claim → update `docs/CLAIMS.md`. (The human owns this judgment — flag it, let them confirm.)
+7. If the sprint produced data findings → update `docs/DATA.md`.
+8. Update the "Current Task" pointer at the top of this file (CLAUDE.md).
+
+At a decision gate or quarter end (Month 3, 6, 12...):
+- Tick the milestone + record gate outcome in `docs/MILESTONES.md`.
+- Review `docs/RISKS.md` — retire, escalate, or add risks.
+- Archive the quarter plan → `docs/archive/quarters/`, activate the next one.
+
+## The One Human-Owned Judgment
+
+You (the AI) may move files and draft all entries. But CLAIMS.md honesty is the
+human's call. When closing a sprint, do NOT silently upgrade what we claim —
+propose the change and let the human confirm. We round DOWN, not up. The honest
+claim is always preferred over the impressive one.
+
+## Current Task
+
+> NOW: OLIVES feasibility audit — Q1, Month 1 (see `docs/NOW.md`)
