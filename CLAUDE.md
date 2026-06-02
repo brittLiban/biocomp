@@ -1,6 +1,6 @@
 # Synapse — CLAUDE.md
 
-> **CURRENT TASK:** Reproducible Infrastructure — Q1, Weeks 2-3 (see `docs/NOW.md`)
+> **CURRENT TASK:** EyePACS + Messidor Pipeline + RETFound Encoding — Q1, Weeks 3-4 (see `docs/NOW.md`)
 > **Honest odds:** 80% working prototype by Month 6 · 5-10% chance of $100M+ company · 2-5% unicorn
 
 ## What This Repo Is
@@ -158,4 +158,4 @@ claim is always preferred over the impressive one.
 
 ## Current Task
 
-> NOW: Reproducible Infrastructure — Q1, Weeks 2-3 (see `docs/NOW.md`)
+> NOW: EyePACS + Messidor Pipeline + RETFound Encoding — Q1, Weeks 3-4 (see `docs/NOW.md`)

@@ -4,7 +4,7 @@
 # Progress — Present Snapshot
 
 ## Current Sprint
-Reproducible Infrastructure (see NOW.md)
+EyePACS + Messidor Pipeline + RETFound Encoding (see NOW.md)
 
 ## In Flight
 - Nothing started yet.
@@ -13,9 +13,9 @@ Reproducible Infrastructure (see NOW.md)
 - None.
 
 ## Next Session Should
-- Set up W&B account + project
-- Create `environment.yml` with pinned dependencies
-- Add seed utility + test a reproducible logged experiment end-to-end
+- Download EyePACS via Kaggle CLI
+- Download Messidor-2
+- Start building data loader classes
 
 ## Last Updated
-2026-06-01 — OLIVES feasibility audit sprint closed. Starting infra sprint.
+2026-06-01 — Infra sprint closed. Starting EyePACS/Messidor/RETFound sprint.
