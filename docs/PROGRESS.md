@@ -4,17 +4,18 @@
 # Progress — Present Snapshot
 
 ## Current Sprint
-OLIVES Feasibility Audit (see NOW.md)
+Reproducible Infrastructure (see NOW.md)
 
 ## In Flight
-- [ ] Nothing started yet — repo just initialized.
+- Nothing started yet.
 
 ## Blocked
 - None.
 
 ## Next Session Should
-- Start the OLIVES download.
-- Set up notebooks/olives_feasibility_audit.ipynb.
+- Set up W&B account + project
+- Create `environment.yml` with pinned dependencies
+- Add seed utility + test a reproducible logged experiment end-to-end
 
 ## Last Updated
-Month 0 — repo initialized with full docs architecture.
+2026-06-01 — OLIVES feasibility audit sprint closed. Starting infra sprint.

@@ -7,9 +7,10 @@
 Status: [ ] open · [x] answered (then move the answer to DECISIONS.md if it's a choice)
 
 ## Data
-- [ ] OLIVES temporal depth — how many eyes have ≥4 timestamped visits? (the audit answers this)
+- [x] OLIVES temporal depth — 94/96 eyes have ≥4 visits; mean 16.6; latent ODE viable (2026-05-31)
 - [ ] Do OCT scans share a timestamp/clock with the paired fundus image?
-- [ ] Can injection/treatment dates be aligned to the imaging timeline?
+- [ ] Can injection/treatment dates be aligned to the imaging timeline? (`full_labels/OCT-DR.xlsx` has treatment arm + injection column; needs per-visit mapping — task for Weeks 4-5 baselines sprint)
+- [ ] Does `full_labels/OCT-DME.xlsx` (195-col wide table, VisitNums 1–28) contain full longitudinal biomarkers for all visits? If so, pivot to long format for use.
 - [ ] Does ACCORD EYE include raw image files or only derived datasets?
 - [ ] UK Biobank: exact independent-researcher eligibility + current fee?
 
@@ -18,5 +19,5 @@ Status: [ ] open · [x] answered (then move the answer to DECISIONS.md if it's a
 - [ ] Which controlled-data route is most realistic first: UK Biobank, EyePACS partnership, or local clinic?
 
 ## Technical
-- [ ] Is OLIVES temporal structure rich enough for a latent ODE, or only simpler baselines? (audit decides)
+- [x] Is OLIVES temporal structure rich enough for a latent ODE? YES — 97.9% of eyes ≥4 visits (2026-05-31 → DECISIONS.md #3)
 - [ ] RETFound frozen vs fine-tuned for v1 — defer until after encoding works.

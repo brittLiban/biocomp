@@ -8,7 +8,8 @@
 ## WE CAN CURRENTLY CLAIM
 - We are building a computational disease dynamics prototype.
 - We are testing whether DR progression can be modeled as a latent state-space system.
-- (Nothing empirical yet — no experiments run.)
+- OLIVES has the temporal structure to support dynamics modeling — 94/96 eyes with ≥4 visits, mean 16.6 visits per eye (confirmed by audit, 2026-06-01).
+- (No modeling results yet — no experiments run.)
 
 ## WE CANNOT CLAIM (YET)
 - That latent dynamics models work for DR progression — UNPROVEN until OLIVES PoC.

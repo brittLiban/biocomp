@@ -1,6 +1,6 @@
 # Synapse — CLAUDE.md
 
-> **CURRENT TASK:** OLIVES feasibility audit — Q1, Month 1 (see `docs/q1_sprint.md` when created)
+> **CURRENT TASK:** Reproducible Infrastructure — Q1, Weeks 2-3 (see `docs/NOW.md`)
 > **Honest odds:** 80% working prototype by Month 6 · 5-10% chance of $100M+ company · 2-5% unicorn
 
 ## What This Repo Is
@@ -158,4 +158,4 @@ claim is always preferred over the impressive one.
 
 ## Current Task
 
-> NOW: OLIVES feasibility audit — Q1, Month 1 (see `docs/NOW.md`)
+> NOW: Reproducible Infrastructure — Q1, Weeks 2-3 (see `docs/NOW.md`)
