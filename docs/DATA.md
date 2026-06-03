@@ -16,9 +16,9 @@ Hard-won lessons — read before starting any large download:
 ## Status Overview
 | Dataset | Access | Status | Role |
 |---|---|---|---|
-| OLIVES | Free, CC BY 4.0 | [x] labels downloaded [x] HuggingFace images (28.86 GB, no visit paths) [ ] Zenodo zip (needed for temporal modeling) [x] audited | Dynamics PoC |
-| EyePACS public | Free (Kaggle) | [ ] downloaded | Encoder pretraining |
-| Messidor / -2 | Free (ADCIS) | [ ] downloaded | External validation |
+| OLIVES | Free, CC BY 4.0 | [x] labels downloaded [x] HuggingFace images (28.86 GB) [x] Zenodo zip extracted (162,864 files) [x] audited | Dynamics PoC |
+| EyePACS public | Free (Kaggle) | [x] downloaded + extracted (35,126 images, data/raw/eyepacs/train/images/) | Encoder pretraining |
+| Messidor / -2 | Free (ADCIS) | [x] downloaded + extracted (1,748 images, data/raw/messidor/images/) | External validation |
 | FGADR | Free | [ ] downloaded | Lesion-aware aux |
 | UK Biobank | ~£9K | [ ] applied | Scale (Y2) |
 | EyePACS private | Partnership | [ ] inquired | Scale (Y2) |

@@ -12,6 +12,12 @@ Why: <reasoning>
 Alternatives rejected: <what we didn't pick and why>
 -->
 
+## #6 — 2026-06-02 — Encoding strategy: EyePACS/Messidor for classification, OLIVES for dynamics
+Context: peer review of encoding plan flagged that EyePACS has no per-eye temporal structure, and OLIVES has two modalities (fundus + OCT) that may need different encoders.
+Choice: use RETFound_cfp (frozen) for EyePACS + Messidor + OLIVES fundus images. Treat EyePACS/Messidor embeddings as classification/representation baselines only. OLIVES fundus embeddings feed into temporal sequences. OLIVES OCT encoder TBD — probe quality first.
+Why: clean separation of what each dataset is actually for. Don't overstate EyePACS as temporal data.
+Action: probe embedding dim at runtime; never hardcode 1024.
+
 ## #5 — 2026-06-01 — OLIVES dataloader: adapt authors' code, not build from scratch
 Context: explored the official OLIVES GitHub repo (https://github.com/olivesgatech/OLIVES_Dataset) in full.
 Choice: adapt the authors' `Time-Series Treatment Analysis` dataloader code as the reference implementation for our OLIVES temporal dataloader.
