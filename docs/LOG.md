@@ -10,6 +10,11 @@ Outcome: <result>. → docs/archive/now/YYYY-MM_description.md
 Decision(s) logged: <DECISIONS.md ref if any>
 -->
 
+## 2026-06-07 — EyePACS + Messidor + RETFound Encoding
+Built data pipelines for EyePACS and Messidor. Encoded all three datasets with frozen RETFound (bitfount/RETFound_MAE, ViT-Large, 1024-dim) on Google Colab T4 GPU. CPU encoding crashed after 26 hrs (OOM) — moved to Colab. Multiple disk/space issues worked through. All embeddings validated and saved locally.
+Outcome: **3 datasets encoded, 110,109 images total. Embeddings cached to data/processed/embeddings/.** → docs/archive/now/2026-06_eyepacs-messidor-retfound-encoding.md
+Decisions logged: DECISIONS.md #4 (HuggingFace use), #5 (authors dataloader), #6 (encoding strategy)
+
 ## 2026-06-01 — Reproducible Infrastructure
 Created requirements.txt (pinned deps), seed utility, W&B project synapse-v1, and smoke test. Verified two runs with seed=42 produce identical losses. W&B dashboard live.
 Outcome: **Infra working. Every future experiment is logged and reproducible.** → docs/archive/now/2026-06_reproducible-infra.md

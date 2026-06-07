@@ -4,29 +4,18 @@
 # Progress — Present Snapshot
 
 ## Current Sprint
-EyePACS + Messidor Pipeline + RETFound Encoding (see NOW.md)
+Baselines (see NOW.md)
 
 ## In Flight
-- [x] EyePACS encoded (31,542 × 1024) → data/processed/embeddings/eyepacs_retfound.npy ✅
-- [x] EyePACS labels → data/processed/embeddings/eyepacs_labels.npy ✅
-- [x] src/data/eyepacs.py, messidor.py, retfound.py — written
-- [x] notebooks/retfound_encoding_colab_v3.ipynb — definitive encoding notebook
-- [ ] Messidor encoding (Colab Cell 6, ~1 min — waiting for GPU limit reset)
-- [ ] OLIVES encoding (Colab Cell 7, ~5 min — waiting for GPU limit reset)
-- [ ] Commit + close sprint
+- Nothing started yet.
 
 ## Blocked
-- Colab GPU usage limit hit. Resets in a few hours.
-- Messidor + OLIVES are the only remaining tasks. Both fast once GPU is available.
+- None.
 
 ## Next Session Should
-- Open Colab, run Cell 0 (setup — no re-download needed for EyePACS)
-- Run Cell 6 (upload IMAGES4.zip from data/raw/messidor/IMAGES4.zip)
-- Run Cell 7 (OLIVES streams from HuggingFace — no upload needed)
-- Run Cell 8 (validate)
-- Download messidor_retfound.npy + olives_retfound.npy + olives_eye_ids.npy + olives_labels.npy
-- Move to data/processed/embeddings/
-- Commit + close sprint
+- Build OLIVES temporal dataloader (adapt authors' code from olivesgatech/OLIVES_Dataset)
+- Run logistic regression baseline
+- Then GRU-D, T-LSTM, Cox
 
 ## Last Updated
-2026-06-03 — EyePACS embeddings validated and saved locally (31,542 × 1024). Waiting for GPU reset for Messidor + OLIVES.
+2026-06-07 — Encoding sprint closed. All embeddings validated. Starting baselines sprint.
