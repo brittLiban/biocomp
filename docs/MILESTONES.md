@@ -9,11 +9,11 @@ Status key: [ ] not started · [~] in progress · [x] done · [!] blocked
 ## Year 1 — Prove the Architecture
 
 ### Q1 (Months 1-3)
-- [ ] OLIVES downloaded + feasibility audit complete
-- [ ] Reproducible infra (Git, W&B, env specs)
-- [ ] EyePACS + Messidor pipeline + RETFound integration
-- [ ] Baselines: logistic, GRU-D, T-LSTM, Cox survival
-- [ ] UK Biobank application submitted (Track 2)
+- [x] OLIVES downloaded + feasibility audit complete (2026-06-01)
+- [x] Reproducible infra (Git, W&B, env specs) (2026-06-01)
+- [x] EyePACS + Messidor pipeline + RETFound integration (2026-06-07)
+- [~] Baselines: logistic, GRU-D, T-LSTM, Cox survival — IN PROGRESS
+- [ ] UK Biobank application submitted (Track 2) — NOT STARTED
 - [ ] **GATE 1 (Month 3):** infra + baselines + audit done → outcome: ____
 
 ### Q2 (Months 4-6)
