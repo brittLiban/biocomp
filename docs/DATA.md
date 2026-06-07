@@ -51,8 +51,22 @@ Missing data rate: **~0%** (< 0.1% on two biomarkers).
 ### Alignment: Imaging ↔ Biomarkers ↔ Treatment
 - **Imaging ↔ 16 biomarkers**: aligned at image level in `Biomarker_Clinical_Data_Images.csv` (keyed by file path). Confirmed for 9,408 rows × 96 eyes.
 - **Note**: the `ml_centric` biomarker CSV appears to cover only ~2 visit timepoints per eye (baseline + one follow-up); the `full_labels/OCT-DME.xlsx` (195 columns, VisitNums 1–28) likely holds the full longitudinal biomarker table — **needs parsing**.
-- **Treatment/injection**: present in `full_labels/OCT-DR.xlsx` (columns: Treatment Arm, Injection, DRSS per week) but not yet aligned to visit-level image rows — **follow-up task**.
+- **Treatment/injection**: `full_labels/OCT-DR.xlsx` has patient-level demographics (age, gender, HbA1c at W24/W52/W76/W104, baseline BCVA/CST) — **no per-visit week data**. See timing audit below.
 - **Time clock**: TREX DME uses visit index V1..Vn; Prime_FULL uses weeks W0..W104. Both can be converted to a common relative timeline.
+
+### Per-Visit Timing Audit (Real Delta-T Sprint, 2026-06-07)
+
+| File | Contents | Usable for timing? |
+|---|---|---|
+| `full_labels/OCT-DR.xlsx` | 41×20: patient demographics (age, gender, HbA1c at W24/52/76/104, baseline BCVA/CST, treatment arm) | **No** — no per-visit data |
+| `full_labels/OCT-DME.xlsx` | 43×195: VisitNums 1–28, each block has VisitDate+Week+ETDRS+Snellen+Oct columns | **No** — Week columns are ~98% NaN (only 10 non-null values across the entire file) |
+| `ml_centric_labels/Clinical_Data_Images.xlsx` | 78185×5: File_Path, BCVA, CST, Eye_ID, Patient_ID | **No** — no timing columns |
+
+**Conclusion**: Real per-visit week data exists only in the file paths themselves:
+- **Prime_FULL (40 eyes)**: visit keys are `W{n}` → visit_nums ARE week numbers. Week gaps computed as `diff(visit_nums) / 4` (normalized to 4-week units). Gaps range 1.0–12.0 (min=4 wks, max=48 wks real). Genuine variation: 68% of gaps are 1.0, 25% are 2.0, 7% larger.
+- **TREX DME (56 eyes)**: visit keys are `V{n}` → ordinal only. TREX is a treat-and-extend protocol (variable intervals, not fixed monthly). OCT-DME Week columns are empty. Real timing unavailable — `week_gaps` field set to 1.0 per step.
+
+**Implementation**: `build_sequences()` (v2 cache, `olives_sequences_v2.pkl`) adds `week_gaps` field per eye using this logic. Normalized by 4 so 1.0 ≈ one 4-week interval, consistent across sub-studies.
 
 ### Largest Clean Longitudinal Subset
 94 eyes with ≥4 visits; 56 eyes with ≥16 visits.

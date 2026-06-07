@@ -24,7 +24,7 @@ _LABELS_PATH = Path(
     "data/raw/olives/labels/OLIVES_Dataset_Labels/"
     "ml_centric_labels/Clinical_Data_Images.xlsx"
 )
-_CACHE_PATH = Path("data/processed/olives_sequences.pkl")
+_CACHE_PATH = Path("data/processed/olives_sequences_v2.pkl")
 
 
 # ── Alignment ──────────────────────────────────────────────────────────────
@@ -125,16 +125,28 @@ def build_sequences(force: bool = False) -> dict:
     result = {}
     for eye_id, visits in sequences.items():
         visits.sort(key=lambda v: v["visit_num"])
+        sub_study = visits[0]["sub_study"]
+        vnums = np.array([v["visit_num"] for v in visits], dtype=np.float32)
+        # week_gaps: real week intervals between consecutive visits (length n_visits-1).
+        # Prime: visit_nums ARE week numbers (W0=0, W4=4, ...). Normalize by 4 so
+        #        1.0 = one 4-week interval, consistent with the TREX ordinal scale.
+        # TREX: real timing unavailable (treat-and-extend protocol, OCT-DME Week
+        #        columns ~98% empty). Use ordinal 1.0 per step.
+        if sub_study == "Prime":
+            week_gaps = np.diff(vnums) / 4.0
+        else:
+            week_gaps = np.ones(len(visits) - 1, dtype=np.float32)
         result[eye_id] = {
             "embeddings": np.stack([v["embedding"] for v in visits]),
             "visit_keys": np.array([v["visit_key"] for v in visits]),
-            "visit_nums": np.array([v["visit_num"] for v in visits], dtype=np.int32),
-            "sub_study":  visits[0]["sub_study"],
+            "visit_nums": vnums.astype(np.int32),
+            "sub_study":  sub_study,
             "bcva":       np.array([v["bcva"] for v in visits], dtype=np.float32),
             "cst":        np.array([v["cst"]  for v in visits], dtype=np.float32),
             "labels":     np.array([v["label"] for v in visits], dtype=np.int64),
             "n_scans":    np.array([v["n_scans"] for v in visits], dtype=np.int32),
             "n_visits":   len(visits),
+            "week_gaps":  week_gaps,
         }
 
     n_visits_list = [v["n_visits"] for v in result.values()]

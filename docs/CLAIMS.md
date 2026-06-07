@@ -3,7 +3,7 @@
 > README line, preprint sentence, or pitch.
 > Changes: ONLY when evidence changes the boundary. The HUMAN owns this judgment. Round DOWN, not up.
 
-# Claims — What We Can Honestly Say (as of: 2026-06-07, latent ODE complete)
+# Claims — What We Can Honestly Say (as of: 2026-06-07, real delta-t sprint complete)
 
 ## WE CAN CURRENTLY CLAIM
 - We are building a computational disease dynamics prototype.
@@ -14,8 +14,8 @@
 - A continuous-dynamics ODE-RNN achieves next-visit CST RMSE of ~82 um on 19 held-out OLIVES eyes — **matching** the best recurrent baselines (T-LSTM 82.0, GRU-D 82.2 um). This validates that continuous ODE dynamics modeling is feasible on this dataset at prototype scale. CAVEAT: the winning margin is 0.04 um on 19 eyes, which is within sampling variance. The honest framing is "ODE is comparable to strong temporal baselines," not "ODE clearly beats recurrent models." (Decision #10, 2026-06-07)
 
 ## WE CANNOT CLAIM (YET)
-- That the latent ODE clearly outperforms temporal baselines — the 0.04 um margin on 19 test eyes is within sampling noise. Definitive separation requires more data or real delta_t experiments.
-- That time-decay mechanisms are fully utilized — delta_t is currently ordinal (1.0 steps), not real week gaps. Real gaps pending OCT-DR.xlsx parsing. The ODE may gain further advantage over recurrent models with real irregular timing.
+- That the latent ODE clearly outperforms temporal baselines — the 0.04 um margin on 19 test eyes is within sampling noise. Definitive separation requires more data.
+- That real irregular timing gives the ODE a structural advantage on OLIVES — real delta-t was tested (Real Delta-T Sprint, 2026-06-07, Decision #11). All three models degraded: ODE +1.5 um, GRU-D +2.0 um, T-LSTM +3.0 um. ODE degraded least, consistent with its design, but the effect is not decisive on 19 test eyes. Hypothesis "ODE outperforms recurrents with real time" NOT confirmed on this dataset and implementation. Per-example ODE integration and more data are the next tests.
 - That results generalize beyond 96 OLIVES eyes — no external validation.
 - That treatment effects are modelable — no experiments yet.
 - "Validated DR progression at scale" — requires controlled data (Year 2).

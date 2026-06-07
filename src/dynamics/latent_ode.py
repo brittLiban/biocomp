@@ -92,42 +92,46 @@ class LatentODE(nn.Module):
         self.dropout    = nn.Dropout(dropout)
         self.decoder    = nn.Linear(latent_dim, 1)
 
-    def forward(self, x: torch.Tensor, lengths: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        x: torch.Tensor,
+        lengths: torch.Tensor,
+        delta_t_seq: torch.Tensor | None = None,
+    ) -> torch.Tensor:
         """
         Args:
-            x:       (batch, seq_len, emb_dim) — one embedding per visit step.
-                     Sequences shorter than seq_len are zero-padded.
-            lengths: (batch,) — true sequence length per eye (padding mask).
+            x:            (batch, seq_len, emb_dim) — one embedding per visit step.
+                          Sequences shorter than seq_len are zero-padded.
+            lengths:      (batch,) — true sequence length per eye (padding mask).
+            delta_t_seq:  (batch, seq_len) — per-step integration interval.
+                          If None, uses ordinal δt=1.0 at every step.
+                          Real week gaps (normalized): Prime eyes have values in
+                          {1.0, 2.0, 3.0, ...}; TREX eyes are always 1.0.
+                          Batch-mean over non-padded elements is used at each step
+                          so a single odeint call handles the whole batch.
 
         Returns:
             (batch, seq_len, 1) — predicted normalised CST at each next visit.
             Positions beyond lengths[i] are garbage; mask with lengths before loss.
-
-        Forward pass per timestep t:
-            emb_t   = x[:, t, :]                  (current visit embedding)
-            z_obs   = encoder(emb_t)               (project to latent)
-            h_t     = gru_update(z_obs, h_{t-1})   (assimilate observation)
-            h_{t+1} = odeint(f, h_t, [0, 1])[-1]  (integrate dynamics forward)
-            out_t   = decoder(dropout(h_{t+1}))    (predict next-visit CST)
-
-        Note: odeint is called once per timestep. With δt=1 (ordinal) this is
-        15 calls for a typical OLIVES eye. When real week gaps are available,
-        each call will use [0, δt_i] — same structure, no code change needed.
         """
         batch, seq_len, _ = x.shape
         h = torch.zeros(batch, self.latent_dim, device=x.device, dtype=x.dtype)
 
-        # Fixed integration interval: δt = 1 visit step (ordinal, per baseline spec)
-        t_span = torch.tensor([0.0, 1.0], device=x.device, dtype=x.dtype)
-
         outputs = []
         for t in range(seq_len):
             emb_t = x[:, t, :]                              # (batch, emb_dim)
-
             z_obs = self.encoder(emb_t)                     # (batch, latent_dim)
             h     = self.gru_update(z_obs, h)               # (batch, latent_dim)
 
-            # odeint output: (len(t_span), batch, latent_dim)
+            if delta_t_seq is not None:
+                # Batch-mean delta_t over non-padded positions at this step
+                valid = lengths > t
+                dt = delta_t_seq[:, t][valid].float().mean().item() if valid.any() else 1.0
+                dt = max(dt, 1e-6)
+            else:
+                dt = 1.0
+
+            t_span = torch.tensor([0.0, dt], device=x.device, dtype=x.dtype)
             h = odeint(
                 self.ode_func, h, t_span,
                 method="dopri5",

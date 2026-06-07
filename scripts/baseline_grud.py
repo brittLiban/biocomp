@@ -1,5 +1,5 @@
 """
-Task 4: GRU-D baseline — next-visit CST regression.
+Task 4 / Real Delta-T Sprint: GRU-D baseline — next-visit CST regression.
 
 GRU-D (Che et al. 2018) extends GRU with:
   - time-decay on hidden state (gamma_h): h decays toward learned mean as gap grows
@@ -26,7 +26,14 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 
+import wandb
+
 from data.olives import build_sequences, split_by_eye
+
+# Set True to use real week gaps (Prime eyes) instead of ordinal 1.0 everywhere.
+# Prime: gaps normalized to 4-week units (W0→W4 = 1.0, W0→W8 = 2.0, etc.).
+# TREX: ordinal 1.0 per step (real timing unavailable — T&E protocol, OCT-DME empty).
+REAL_DELTA_T = True
 
 
 # ── Dataset ────────────────────────────────────────────────────────────────
@@ -55,18 +62,19 @@ class CSTRegressionDataset(Dataset):
             n = seq["n_visits"]
             if n < 2:
                 continue
-            embs  = seq["embeddings"].astype(np.float32)   # (n, 1024)
-            cst   = seq["cst"].astype(np.float32)           # (n,)
-            bcva  = seq["bcva"].astype(np.float32)          # (n,)
+            embs = seq["embeddings"].astype(np.float32)   # (n, 1024)
+            cst  = seq["cst"].astype(np.float32)           # (n,)
+            bcva = seq["bcva"].astype(np.float32)          # (n,)
 
-            # delta_t: ordinal step (always 1.0 in this approximation;
-            # a real version would compute actual week gaps)
-            delta_t = np.ones(n, dtype=np.float32)
+            if REAL_DELTA_T and "week_gaps" in seq:
+                delta_t = seq["week_gaps"].astype(np.float32)  # (n-1,)
+            else:
+                delta_t = np.ones(n - 1, dtype=np.float32)
 
-            # Input: visits 0..n-2, target: CST at visits 1..n-1
+            # Input: visits 0..n-2; delta_t[i] = gap from visit i to i+1
             inp = np.concatenate([
                 embs[:-1],
-                delta_t[:-1, None],
+                delta_t[:, None],
                 bcva[:-1, None],
             ], axis=1)   # (n-1, 1026)
 
@@ -184,6 +192,23 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
+    run_name = "grud_realdelta_seed42" if REAL_DELTA_T else "grud_ordinal_seed42"
+    run = wandb.init(
+        project="synapse",
+        name=run_name,
+        config={
+            "model":        "gru-d",
+            "real_delta_t": REAL_DELTA_T,
+            "seed":         42,
+            "hidden_dim":   128,
+            "dropout":      0.2,
+            "lr":           1e-3,
+            "weight_decay": 1e-4,
+            "n_epochs":     60,
+        },
+        tags=["gru-d", "cst-regression", "real-delta-t" if REAL_DELTA_T else "ordinal"],
+    )
+
     # Data
     seqs = build_sequences()
     train_seqs, test_seqs = split_by_eye(seqs, test_frac=0.2, seed=42)
@@ -244,12 +269,7 @@ def main():
     model.load_state_dict(best_state)
     rmse, mae = evaluate(model, test_loader, cst_std, device)
 
-    print("\n=== GRU-D (next-visit CST regression) ===")
-    print(f"RMSE : {rmse:.1f} um  (primary)")
-    print(f"MAE  : {mae:.1f} um")
-    print(f"\nBaseline to beat: naive persistence (predict last observed CST)")
-
-    # Naive persistence baseline (lower bound on what temporal models should beat)
+    # Naive persistence baseline
     persist_rmse_list, persist_mae_list = [], []
     for seq in test_seqs.values():
         cst = seq["cst"]
@@ -261,6 +281,19 @@ def main():
         persist_mae_list.append(np.abs(pred - tgt).mean())
     persist_rmse = float(np.sqrt(np.mean(persist_rmse_list)))
     persist_mae  = float(np.mean(persist_mae_list))
+
+    wandb.log({
+        "final_rmse":       rmse,
+        "final_mae":        mae,
+        "persistence_rmse": persist_rmse,
+        "real_delta_t":     REAL_DELTA_T,
+    })
+    run.finish()
+
+    print("\n=== GRU-D (next-visit CST regression) ===")
+    print(f"Mode : {'real delta-t' if REAL_DELTA_T else 'ordinal'}")
+    print(f"RMSE : {rmse:.1f} um  (primary)")
+    print(f"MAE  : {mae:.1f} um")
     print(f"Persistence RMSE: {persist_rmse:.1f} um  |  MAE: {persist_mae:.1f} um")
     print(f"GRU-D vs persistence: RMSE delta = {rmse - persist_rmse:+.1f} um")
 

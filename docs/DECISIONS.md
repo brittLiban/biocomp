@@ -4,6 +4,31 @@
 
 # Decisions
 
+## #11 — 2026-06-07 — Real delta-t result: all models worse; ODE degrades least
+
+Context: Real Delta-T Sprint. Re-ran GRU-D, T-LSTM, Latent ODE with real week gaps (Prime eyes: diff(visit_nums)/4 normalized; TREX eyes: ordinal 1.0 — real timing unavailable). Seed=42, same split, same normalisation.
+
+Timing audit finding: OCT-DR.xlsx contains patient demographics only (no per-visit weeks). OCT-DME.xlsx Week columns are ~98% NaN. Real timing derives exclusively from file-path visit keys: Prime W-keys are week numbers (gaps range 4–48 wks, normalized 1.0–12.0); TREX V-keys are ordinal (real timing unknowable from available data — treat-and-extend protocol).
+
+Results — 2×3 table (RMSE in μm, test split 19 eyes, seed=42):
+
+| Model | Ordinal RMSE | Real-ΔT RMSE | RMSE Δ | Real-ΔT MAE |
+|---|---|---|---|---|
+| GRU-D | 82.2 um | 84.2 um | +2.0 um | 58.9 um |
+| T-LSTM | 82.0 um | 85.0 um | +3.0 um | 59.0 um |
+| Latent ODE | 81.96 um | 83.5 um | +1.5 um | 59.2 um |
+| Persistence | 91.7 um | 91.7 um | +0.0 um | — |
+
+W&B: grud_realdelta_seed42, tlstm_realdelta_seed42, ode_realdelta_seed42
+
+Choice: Accept these as official real delta-t results. Ordinal results remain the canonical comparison baseline.
+
+Why (interpretation): Real delta-t worsened all three models. Two likely causes: (1) GRU-D/T-LSTM decay mechanisms (exp(-W·Δt), c/(1+Δt)) grew more aggressive with variable gaps 1.0–12.0, disrupting decay rates learned for ordinal 1.0. (2) ODE batch-mean integration (batch-mean delta_t per step) is an approximation — real per-example integration may differ, but is more expensive to implement. Notably, the ODE degraded the least (+1.5 um vs +2.0/+3.0), consistent with its structural advantage for irregular time, but the advantage is not decisive on this small test set (19 eyes). Real timing added noise rather than signal, possibly because 68% of Prime gaps are still 1.0 and TREX timing is ordinal.
+
+What it means for claims: The hypothesis "real timing gives the ODE a larger advantage" is NOT confirmed on this dataset with this implementation. The honest claim remains "ODE matches recurrent baselines" — the ODE is not clearly better on either ordinal or real delta-t. The CANNOT CLAIM boundary is unchanged until more data or per-example ODE integration is implemented.
+
+Alternatives rejected: Per-example odeint (correct but ~16x slower); Prime-only split (violates frozen split constraint); estimating TREX gaps as 4-week fixed (wrong protocol — TREX is T&E with variable intervals).
+
 ## #10 — 2026-06-07 — Latent ODE result: RMSE 81.96 um — beats bar, narrow margin
 Context: First completed W&B run (latent_ode_v1_seed42, seed=42, 100 epochs, dopri5, rtol=1e-3/atol=1e-4). Architecture: ODE-RNN (Rubanova et al. 2019) — linear encoder (1024->32) + GRUCell observation update + 2-layer MLP ODEFunc (hidden 64) + linear decoder (32->1). 47,521 parameters. Re-run performed solely for checkpoint saving; result byte-identical (deterministic seed on CPU).
 Choice: Accept 81.96 um as official result. Beat bar per Decision #9.

@@ -1,5 +1,5 @@
 """
-Task 5: T-LSTM baseline — next-visit CST regression.
+Task 5 / Real Delta-T Sprint: T-LSTM baseline — next-visit CST regression.
 
 T-LSTM (Baytas et al. 2017) handles irregular time gaps by decomposing
 the LSTM memory cell into:
@@ -23,7 +23,14 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 
+import wandb
+
 from data.olives import build_sequences, split_by_eye
+
+# Set True to use real week gaps (Prime eyes) instead of ordinal 1.0 everywhere.
+# Prime: gaps normalized to 4-week units (W0→W4 = 1.0, W0→W8 = 2.0, etc.).
+# TREX: ordinal 1.0 per step (real timing unavailable — T&E protocol, OCT-DME empty).
+REAL_DELTA_T = True
 
 
 # ── Dataset (same as GRU-D) ────────────────────────────────────────────────
@@ -37,13 +44,18 @@ class CSTRegressionDataset(Dataset):
             n = seq["n_visits"]
             if n < 2:
                 continue
-            embs    = seq["embeddings"].astype(np.float32)
-            cst     = seq["cst"].astype(np.float32)
-            bcva    = seq["bcva"].astype(np.float32)
-            delta_t = np.ones(n, dtype=np.float32)
+            embs = seq["embeddings"].astype(np.float32)
+            cst  = seq["cst"].astype(np.float32)
+            bcva = seq["bcva"].astype(np.float32)
+
+            if REAL_DELTA_T and "week_gaps" in seq:
+                delta_t = seq["week_gaps"].astype(np.float32)  # (n-1,)
+            else:
+                delta_t = np.ones(n - 1, dtype=np.float32)
+
             inp = np.concatenate([
                 embs[:-1],
-                delta_t[:-1, None],
+                delta_t[:, None],
                 bcva[:-1, None],
             ], axis=1)
             tgt = (cst[1:] - cst_mean) / cst_std
@@ -159,6 +171,23 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
+    run_name = "tlstm_realdelta_seed42" if REAL_DELTA_T else "tlstm_ordinal_seed42"
+    run = wandb.init(
+        project="synapse",
+        name=run_name,
+        config={
+            "model":        "t-lstm",
+            "real_delta_t": REAL_DELTA_T,
+            "seed":         42,
+            "hidden_dim":   128,
+            "dropout":      0.2,
+            "lr":           1e-3,
+            "weight_decay": 1e-4,
+            "n_epochs":     60,
+        },
+        tags=["t-lstm", "cst-regression", "real-delta-t" if REAL_DELTA_T else "ordinal"],
+    )
+
     seqs = build_sequences()
     train_seqs, test_seqs = split_by_eye(seqs, test_frac=0.2, seed=42)
 
@@ -214,7 +243,7 @@ def main():
     model.load_state_dict(best_state)
     rmse, mae = evaluate(model, test_loader, cst_std, device)
 
-    # Persistence baseline (same data as GRU-D for reference)
+    # Naive persistence baseline
     persist_rmse_list = []
     for seq in test_seqs.values():
         cst = seq["cst"]
@@ -223,7 +252,16 @@ def main():
         persist_rmse_list.append(((cst[:-1] - cst[1:]) ** 2).mean())
     persist_rmse = float(np.sqrt(np.mean(persist_rmse_list)))
 
+    wandb.log({
+        "final_rmse":       rmse,
+        "final_mae":        mae,
+        "persistence_rmse": persist_rmse,
+        "real_delta_t":     REAL_DELTA_T,
+    })
+    run.finish()
+
     print("\n=== T-LSTM (next-visit CST regression) ===")
+    print(f"Mode : {'real delta-t' if REAL_DELTA_T else 'ordinal'}")
     print(f"RMSE : {rmse:.1f} um  (primary)")
     print(f"MAE  : {mae:.1f} um")
     print(f"Persistence RMSE: {persist_rmse:.1f} um")

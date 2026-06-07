@@ -4,21 +4,34 @@
 # Progress — Present Snapshot
 
 ## Current Sprint
-Real delta_t sprint (see NOW.md) — not started yet.
+Real delta_t sprint (see NOW.md) — code and runs complete; awaiting human decision on CLAIMS.md.
 
 ## In Flight
-- Nothing started yet.
+- Nothing in flight.
+
+## Completed This Sprint
+- Task 1: OCT-DR.xlsx audited. Finding: no per-visit timing (demographics only). OCT-DME.xlsx Week columns ~98% NaN. Real timing only in file-path visit keys. Documented in DATA.md.
+- Task 2: `build_sequences()` extended with `week_gaps` field (v2 cache). Prime: diff(visit_nums)/4; TREX: 1.0.
+- Task 3: All three scripts updated — REAL_DELTA_T=True, W&B added to GRU-D/T-LSTM.
+- Task 4: All three temporal models re-run with real delta_t, results logged to W&B.
+- Task 5: 2×3 comparison table built (see Decision #11 in DECISIONS.md).
+- Task 6: Decision #11 appended to DECISIONS.md.
+- Task 7: CLAIMS.md update — proposed, awaiting human confirmation (see below).
+
+## Full Results (Real Delta-T Sprint)
+
+| Model | Ordinal RMSE | Real-ΔT RMSE | Change | Real-ΔT MAE |
+|---|---|---|---|---|
+| GRU-D | 82.2 um | 84.2 um | +2.0 um worse | 58.9 um |
+| T-LSTM | 82.0 um | 85.0 um | +3.0 um worse | 59.0 um |
+| Latent ODE | 81.96 um | 83.5 um | +1.5 um worse | 59.2 um |
+| Persistence | 91.7 um | 91.7 um | no change | — |
+
+Finding: Real timing degraded all three models. ODE degraded least (+1.5 um) vs recurrent models (+2-3 um). Dynamics thesis is NOT confirmed by real timing — the "ODE outperforms recurrents with real irregular time" hypothesis is not supported on this dataset. Ordinal results remain the canonical comparison.
 
 ## Blocked
-- Nothing. OCT-DR.xlsx is on disk; sprint is ready to start.
-
-## Next Session Should
-1. Read NOW.md for the real delta_t sprint spec.
-2. Audit OCT-DR.xlsx — find the week/visit number columns, confirm Eye_ID join key.
-3. Extend build_sequences() to return week_gaps per eye.
-4. Re-run GRU-D, T-LSTM, Latent ODE with real delta_t on the same seed=42 split.
-5. Compare ordinal vs real-delta RMSE table.
+- CLAIMS.md update requires human confirmation (sprint rule).
+- Preprint draft (next sprint) can start; real delta-t is a complete negative result that belongs in the paper.
 
 ## Last Updated
-2026-06-07 — Latent ODE sprint closed. RMSE 81.96 um (matches bar, Decision #10).
-CLAIMS.md updated. Real delta_t sprint opened.
+2026-06-07 — Real delta-t sprint code and runs complete.

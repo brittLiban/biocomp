@@ -3,12 +3,13 @@ Latent ODE — next-visit CST regression training script.
 
 Model:  src/dynamics/latent_ode.py  (ODE-RNN, Rubanova et al. 2019)
 Target: RMSE < 82.0 um on next-visit CST, test split seed=42 (Decision #9)
-W&B:    project=synapse, run=latent_ode_v1_seed42
+W&B:    project=synapse, run=ode_realdelta_seed42 (real delta-t) or latent_ode_v1_seed42
 
 Input / target / split / normalisation identical to baseline_grud.py:
   - Input sequence: (n_visits - 1, 1026) = [emb_t (1024) | δt (1) | bcva_t (1)]
-    (only emb_t is used by the ODE encoder; δt and bcva are in the tensor for
-    shape compatibility with the shared collate_fn)
+    δt column: week_gaps (normalized) when REAL_DELTA_T=True; ordinal 1.0 otherwise.
+    Only emb_t[:, :1024] is fed to the ODE encoder; δt is also extracted for
+    the ODE integration interval.
   - Target: next-visit CST, normalised to zero mean / unit std (train stats only)
   - Split: split_by_eye(seqs, test_frac=0.2, seed=42) → 77 train / 19 test eyes
 
@@ -29,9 +30,14 @@ import wandb
 from data.olives import build_sequences, split_by_eye
 from dynamics.latent_ode import LatentODE
 
+# Set True to use real week gaps for ODE integration interval.
+# Prime eyes: gaps normalized to 4-week units (column 1024 of input tensor).
+# TREX eyes: ordinal 1.0 per step (real timing unavailable).
+# The ODE model reads x[:, :, 1024] as delta_t_seq when REAL_DELTA_T=True.
+REAL_DELTA_T = True
+
 
 # ── Dataset ────────────────────────────────────────────────────────────────
-# Identical to baseline_grud.py — same input shape, same normalisation.
 
 class CSTRegressionDataset(Dataset):
     """
@@ -40,8 +46,7 @@ class CSTRegressionDataset(Dataset):
     Input shape:  (n_visits - 1, 1026)  [emb_t (1024) | δt (1) | bcva_t (1)]
     Target shape: (n_visits - 1,)       CST at visit t+1, normalised.
 
-    δt is ordinal (1.0 everywhere) — same as all baselines. Real week gaps
-    require OCT-DR.xlsx parsing and a baseline re-run before using here.
+    δt column: week_gaps (normalized) when REAL_DELTA_T=True; ordinal 1.0 otherwise.
     """
 
     def __init__(self, sequences: dict, cst_mean: float, cst_std: float):
@@ -53,14 +58,18 @@ class CSTRegressionDataset(Dataset):
             n = seq["n_visits"]
             if n < 2:
                 continue
-            embs    = seq["embeddings"].astype(np.float32)   # (n, 1024)
-            cst     = seq["cst"].astype(np.float32)          # (n,)
-            bcva    = seq["bcva"].astype(np.float32)         # (n,)
-            delta_t = np.ones(n, dtype=np.float32)
+            embs = seq["embeddings"].astype(np.float32)   # (n, 1024)
+            cst  = seq["cst"].astype(np.float32)          # (n,)
+            bcva = seq["bcva"].astype(np.float32)         # (n,)
+
+            if REAL_DELTA_T and "week_gaps" in seq:
+                delta_t = seq["week_gaps"].astype(np.float32)  # (n-1,)
+            else:
+                delta_t = np.ones(n - 1, dtype=np.float32)
 
             inp = np.concatenate([
                 embs[:-1],
-                delta_t[:-1, None],
+                delta_t[:, None],   # column 1024: integration interval for ODE
                 bcva[:-1, None],
             ], axis=1)                                        # (n-1, 1026)
             tgt = (cst[1:] - cst_mean) / cst_std            # (n-1,)
@@ -111,8 +120,8 @@ def evaluate(model, loader, cst_std: float, device) -> tuple[float, float]:
     with torch.no_grad():
         for x, tgt, lengths in loader:
             x, tgt, lengths = x.to(device), tgt.to(device), lengths.to(device)
-            # LatentODE only uses the embedding slice (x[:, :, :1024])
-            pred = model(x[:, :, :1024], lengths).squeeze(-1)
+            delta_t_seq = x[:, :, 1024] if REAL_DELTA_T else None
+            pred = model(x[:, :, :1024], lengths, delta_t_seq=delta_t_seq).squeeze(-1)
             for i, l in enumerate(lengths):
                 all_pred.append(pred[i, :l].cpu().numpy())
                 all_tgt.append(tgt[i, :l].cpu().numpy())
@@ -161,12 +170,13 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
-    # ── W&B — run name is locked per sprint spec
+    run_name = "ode_realdelta_seed42" if REAL_DELTA_T else "latent_ode_v1_seed42"
     run = wandb.init(
         project = "synapse",
-        name    = "latent_ode_v1_seed42",
-        config  = CFG,
-        tags    = ["latent-ode", "cst-regression", "olives"],
+        name    = run_name,
+        config  = {**CFG, "real_delta_t": REAL_DELTA_T},
+        tags    = ["latent-ode", "cst-regression",
+                   "real-delta-t" if REAL_DELTA_T else "ordinal"],
     )
 
     # ── Data — same split as every baseline
@@ -220,8 +230,8 @@ def main():
         for x, tgt, lengths in train_loader:
             x, tgt, lengths = x.to(device), tgt.to(device), lengths.to(device)
             optimizer.zero_grad()
-            # Pass only the embedding slice to the model
-            pred = model(x[:, :, :1024], lengths)
+            delta_t_seq = x[:, :, 1024] if REAL_DELTA_T else None
+            pred = model(x[:, :, :1024], lengths, delta_t_seq=delta_t_seq)
             loss = masked_mse(pred, tgt, lengths)
             loss.backward()
             nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
@@ -273,7 +283,8 @@ def main():
     import pathlib
     ckpt_dir = pathlib.Path("models")
     ckpt_dir.mkdir(exist_ok=True)
-    ckpt_path = ckpt_dir / "latent_ode_v1_seed42.pt"
+    ckpt_name = "ode_realdelta_seed42.pt" if REAL_DELTA_T else "latent_ode_v1_seed42.pt"
+    ckpt_path = ckpt_dir / ckpt_name
     torch.save({
         "model_state": best_state,
         "cfg":         CFG,
