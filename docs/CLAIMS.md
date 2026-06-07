@@ -3,7 +3,7 @@
 > README line, preprint sentence, or pitch.
 > Changes: ONLY when evidence changes the boundary. The HUMAN owns this judgment. Round DOWN, not up.
 
-# Claims — What We Can Honestly Say (as of: 2026-06-07, baselines complete)
+# Claims — What We Can Honestly Say (as of: 2026-06-07, latent ODE complete)
 
 ## WE CAN CURRENTLY CLAIM
 - We are building a computational disease dynamics prototype.
@@ -11,10 +11,11 @@
 - OLIVES has the temporal structure to support dynamics modeling — 94/96 eyes with >=4 visits, mean 16.6 visits per eye (confirmed by audit, 2026-06-01).
 - Temporal structure in OLIVES visit sequences contains learnable signal for CST prediction: GRU-D and T-LSTM beat naive persistence by ~10% RMSE (82 vs 92 um) on 19 held-out eyes.
 - RETFound embeddings strongly encode disease type: logistic regression AUC 0.9906 on patient-level DME/healthy classification (static label — this is representation quality, not a dynamics result).
+- A continuous-dynamics ODE-RNN achieves next-visit CST RMSE of ~82 um on 19 held-out OLIVES eyes — **matching** the best recurrent baselines (T-LSTM 82.0, GRU-D 82.2 um). This validates that continuous ODE dynamics modeling is feasible on this dataset at prototype scale. CAVEAT: the winning margin is 0.04 um on 19 eyes, which is within sampling variance. The honest framing is "ODE is comparable to strong temporal baselines," not "ODE clearly beats recurrent models." (Decision #10, 2026-06-07)
 
 ## WE CANNOT CLAIM (YET)
-- That the latent ODE improves on temporal baselines — not built yet. ODE must beat RMSE 82.0 um (pre-committed bar, Decision #9).
-- That time-decay mechanisms are fully utilized — delta_t is ordinal (1.0 steps), not real week gaps. Real gaps pending OCT-DR.xlsx parsing.
+- That the latent ODE clearly outperforms temporal baselines — the 0.04 um margin on 19 test eyes is within sampling noise. Definitive separation requires more data or real delta_t experiments.
+- That time-decay mechanisms are fully utilized — delta_t is currently ordinal (1.0 steps), not real week gaps. Real gaps pending OCT-DR.xlsx parsing. The ODE may gain further advantage over recurrent models with real irregular timing.
 - That results generalize beyond 96 OLIVES eyes — no external validation.
 - That treatment effects are modelable — no experiments yet.
 - "Validated DR progression at scale" — requires controlled data (Year 2).
@@ -22,7 +23,7 @@
 
 ## CLAIM BOUNDARY BY RUNG
 - Rung 1 (representation): claimable once encoder beats baselines on public data + external val.
-- Rung 2 (temporal): claimable as PROTOTYPE once OLIVES dynamics PoC works (with small-n caveat).
+- Rung 2 (temporal): claimable as PROTOTYPE — ODE-RNN matches baselines, continuous dynamics validated with small-n caveat (96 eyes, 19 test, ordinal time). Gate 2 passed in prototype form.
 - Rung 3+ (scale, causal, synthetic): NOT claimable until controlled data + validation.
 
 ## THE RULE

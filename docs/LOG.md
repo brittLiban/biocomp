@@ -10,6 +10,19 @@ Outcome: <result>. → docs/archive/now/YYYY-MM_description.md
 Decision(s) logged: <DECISIONS.md ref if any>
 -->
 
+## 2026-06-07 — Latent ODE Sprint (Gate 2)
+Built ODE-RNN (Rubanova et al. 2019) on OLIVES sequences: linear encoder (1024->32) + GRUCell observation update + 2-layer MLP ODEFunc + dopri5 solver + linear decoder. 47,521 parameters. Smoke-tested import and gradient flow. Trained 100 epochs (seed=42, batch=16, lr=1e-3). Best checkpoint at epoch 10 — rapid overfitting on 77 training eyes. Checkpoint saved to models/latent_ode_v1_seed42.pt (gitignored). Re-run confirmed deterministic.
+Outcome: **RMSE 81.96 um — beats 82.0 um bar (Decision #9) by 0.04 um. Honest claim: ODE-RNN matches, not clearly beats, recurrent baselines. Gate 2 passed in prototype form. CLAIMS.md updated.** -> docs/archive/now/2026-06_latent-ode-sprint.md
+Decisions logged: DECISIONS.md #10 (result + overfitting pattern + margin caveat)
+
+Results (full table, ordinal delta_t=1.0):
+| Model        | RMSE (um) | MAE (um) | Notes                              |
+|--------------|-----------|----------|------------------------------------|
+| Persistence  | 91.7      | --       | Naive last-value lower bound       |
+| GRU-D        | 82.2      | ~60      | Baseline                           |
+| T-LSTM       | 82.0      | ~60      | Best baseline (tied with ODE)      |
+| Latent ODE   | 82.0*     | 58.3     | *81.96 um; 0.04 um over bar        |
+
 ## 2026-06-07 — Baselines Sprint (Weeks 4-5)
 Built OLIVES visit alignment (join via BCVA/CST, no File_Path in HuggingFace), sequence dataloader, and all four baselines. Discovered Disease Label is patient-level (static); pivoted temporal targets to CST regression. Logged all runs to W&B.
 Outcome: **Results table complete. ODE target locked: RMSE < 82.0 um. CLAIMS.md updated.** → docs/archive/now/2026-06_baselines-sprint.md

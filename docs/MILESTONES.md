@@ -12,19 +12,20 @@ Status key: [ ] not started · [~] in progress · [x] done · [!] blocked
 - [x] OLIVES downloaded + feasibility audit complete (2026-06-01)
 - [x] Reproducible infra (Git, W&B, env specs) (2026-06-01)
 - [x] EyePACS + Messidor pipeline + RETFound integration (2026-06-07)
-- [~] Baselines: logistic, GRU-D, T-LSTM, Cox survival — IN PROGRESS
+- [x] Baselines: logistic, GRU-D, T-LSTM, Cox survival (2026-06-07)
 - [ ] UK Biobank application submitted (Track 2) — NOT STARTED
-- [ ] **GATE 1 (Month 3):** infra + baselines + audit done → outcome: ____
+- [x] **GATE 1 (Month 3):** infra + baselines + audit done → outcome: CONTINUE (2026-06-07)
 
 ### Q2 (Months 4-6)
-- [ ] Per-eye sequence dataset from OLIVES
-- [ ] Latent ODE prototype on OLIVES
+- [x] Per-eye sequence dataset from OLIVES (2026-06-07)
+- [x] Latent ODE prototype on OLIVES (2026-06-07) — RMSE 81.96 um, matches baselines
+- [~] Real delta_t re-run — in progress (next sprint)
 - [ ] Treatment-conditioning experiments
 - [ ] Encoder external validation (Messidor-2)
 - [ ] Uncertainty + calibration
 - [ ] EyePACS partnership inquiry sent (Track 2)
 - [ ] BioLINCC ACCORD request (Track 2)
-- [ ] **GATE 2 (Month 6):** architecture functions on real temporal data → outcome: ____
+- [x] **GATE 2 (Month 6):** architecture functions on real temporal data → outcome: CONTINUE — ODE-RNN matches baselines (82.0 um), Gate 2 passed in prototype form. Real delta_t and preprint to confirm. (2026-06-07)
 
 ### Q3 (Months 7-9)
 - [ ] JEPA-style fine-tuning (compare vs frozen RETFound)

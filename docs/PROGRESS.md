@@ -4,35 +4,21 @@
 # Progress — Present Snapshot
 
 ## Current Sprint
-Latent ODE sprint — complete (see NOW.md)
+Real delta_t sprint (see NOW.md) — not started yet.
 
 ## In Flight
-- CLAIMS.md update proposed (Decision #10) — awaiting human confirmation before writing.
-
-## What Was Completed This Session
-- src/dynamics/__init__.py created (package stub)
-- src/dynamics/latent_ode.py — ODE-RNN model (ODEFunc + LatentODE classes)
-- scripts/latent_ode.py — training script, W&B logging, checkpoint saving
-- models/latent_ode_v1_seed42.pt — saved best checkpoint
-- RMSE 81.96 um logged to W&B latent_ode_v1_seed42 (run 942anp2d)
-- Decision #10 appended to DECISIONS.md
-
-## Result Summary
-| Model         | RMSE (um) | MAE (um) | Notes                        |
-|---------------|-----------|----------|------------------------------|
-| Persistence   | 91.7      | —        | Naive last-value lower bound |
-| GRU-D         | 82.2      | ~60      | Baseline                     |
-| T-LSTM        | 82.0      | ~60      | Best baseline                |
-| **Latent ODE**| **82.0*** | **58.3** | *81.96 um; beats bar by 0.04 um |
+- Nothing started yet.
 
 ## Blocked
-- Real week-based delta_t (OCT-DR.xlsx parsing) — not a blocker for ODE result, but needed before re-running baselines with real gaps.
-- CLAIMS.md update — human must confirm before writing.
+- Nothing. OCT-DR.xlsx is on disk; sprint is ready to start.
 
 ## Next Session Should
-- Human confirms (or adjusts) proposed CLAIMS.md change.
-- Close out the sprint (archive NOW.md, update LOG.md, reset for next sprint).
-- If preprint: draft results section first (models, metrics, persistence comparison).
+1. Read NOW.md for the real delta_t sprint spec.
+2. Audit OCT-DR.xlsx — find the week/visit number columns, confirm Eye_ID join key.
+3. Extend build_sequences() to return week_gaps per eye.
+4. Re-run GRU-D, T-LSTM, Latent ODE with real delta_t on the same seed=42 split.
+5. Compare ordinal vs real-delta RMSE table.
 
 ## Last Updated
-2026-06-07 — Latent ODE sprint complete. RMSE 81.96 um. Beat bar.
+2026-06-07 — Latent ODE sprint closed. RMSE 81.96 um (matches bar, Decision #10).
+CLAIMS.md updated. Real delta_t sprint opened.
