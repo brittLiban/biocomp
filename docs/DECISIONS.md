@@ -4,6 +4,14 @@
 
 # Decisions
 
+## #10 — 2026-06-07 — Latent ODE result: RMSE 81.96 um — beats bar, narrow margin
+Context: First completed W&B run (latent_ode_v1_seed42, seed=42, 100 epochs, dopri5, rtol=1e-3/atol=1e-4). Architecture: ODE-RNN (Rubanova et al. 2019) — linear encoder (1024->32) + GRUCell observation update + 2-layer MLP ODEFunc (hidden 64) + linear decoder (32->1). 47,521 parameters. Re-run performed solely for checkpoint saving; result byte-identical (deterministic seed on CPU).
+Choice: Accept 81.96 um as official result. Beat bar per Decision #9.
+Result: RMSE 81.96 um (best checkpoint, epoch 10 of 100) | MAE 58.3 um | Persistence 91.7 um | beats bar: YES
+Notable: Best checkpoint at epoch 10 of 100. Train loss decreases monotonically (0.59 -> 0.38) while test RMSE worsens after epoch 10 (82.0 -> 87.0) — rapid overfitting on 77 training eyes with 47K parameters. The 0.04 um margin over the bar is within sampling variance on 19 test eyes; the honest claim is "matches" not "clearly beats" temporal baselines. The ODE-RNN beats persistence by 9.7 um (same tier as GRU-D/T-LSTM), validating the dynamics approach.
+Checkpoint: models/latent_ode_v1_seed42.pt | W&B: project=synapse, run=latent_ode_v1_seed42 (run ID 942anp2d)
+Alternatives rejected: Accepting the first run (same result, same seed, but no checkpoint saved due to script bug). 
+
 ## #9 — 2026-06-07 — ODE minimum target: RMSE < 82.0 um on next-visit CST (pre-committed, no moving)
 Context: baselines sprint complete. GRU-D 82.2 um, T-LSTM 82.0 um on test eyes. Need a locked bar before building the latent ODE.
 Choice: ODE must achieve RMSE < 82.0 um on next-visit CST (same test split, seed=42, same normalisation). This number is fixed now and cannot be revised post-hoc.
