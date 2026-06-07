@@ -107,8 +107,9 @@ class LatentODE(nn.Module):
                           If None, uses ordinal δt=1.0 at every step.
                           Real week gaps (normalized): Prime eyes have values in
                           {1.0, 2.0, 3.0, ...}; TREX eyes are always 1.0.
-                          Batch-mean over non-padded elements is used at each step
-                          so a single odeint call handles the whole batch.
+                          Grouped odeint: at each step, elements are grouped by
+                          unique dt value and each group gets its own odeint call,
+                          giving exact per-example integration.
 
         Returns:
             (batch, seq_len, 1) — predicted normalised CST at each next visit.
@@ -124,19 +125,29 @@ class LatentODE(nn.Module):
             h     = self.gru_update(z_obs, h)               # (batch, latent_dim)
 
             if delta_t_seq is not None:
-                # Batch-mean delta_t over non-padded positions at this step
-                valid = lengths > t
-                dt = delta_t_seq[:, t][valid].float().mean().item() if valid.any() else 1.0
-                dt = max(dt, 1e-6)
+                # Per-example odeint grouped by unique dt value.
+                # Padded positions have dt=0 in the zero-padded tensor; map to 1.0
+                # so all elements go through odeint (same behaviour as ordinal path).
+                dt_vals = delta_t_seq[:, t].float().clone()
+                dt_vals[dt_vals <= 0] = 1.0
+                h_new = h.clone()
+                for dt_val in dt_vals.unique():
+                    idxs = (dt_vals == dt_val).nonzero(as_tuple=True)[0]
+                    t_span_g = torch.tensor(
+                        [0.0, dt_val.item()], device=x.device, dtype=x.dtype)
+                    h_g = odeint(
+                        self.ode_func, h[idxs].contiguous(), t_span_g,
+                        method="dopri5", rtol=self.rtol, atol=self.atol,
+                    )[-1]
+                    h_new[idxs] = h_g
+                h = h_new
             else:
-                dt = 1.0
-
-            t_span = torch.tensor([0.0, dt], device=x.device, dtype=x.dtype)
-            h = odeint(
-                self.ode_func, h, t_span,
-                method="dopri5",
-                rtol=self.rtol, atol=self.atol,
-            )[-1]                                            # (batch, latent_dim)
+                t_span = torch.tensor([0.0, 1.0], device=x.device, dtype=x.dtype)
+                h = odeint(
+                    self.ode_func, h, t_span,
+                    method="dopri5",
+                    rtol=self.rtol, atol=self.atol,
+                )[-1]                                        # (batch, latent_dim)
 
             outputs.append(self.decoder(self.dropout(h)))   # (batch, 1)
 

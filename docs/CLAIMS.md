@@ -14,12 +14,14 @@
 - A continuous-dynamics ODE-RNN achieves next-visit CST RMSE of ~82 um on 19 held-out OLIVES eyes — **matching** the best recurrent baselines (T-LSTM 82.0, GRU-D 82.2 um). This validates that continuous ODE dynamics modeling is feasible on this dataset at prototype scale. CAVEAT: the winning margin is 0.04 um on 19 eyes, which is within sampling variance. The honest framing is "ODE is comparable to strong temporal baselines," not "ODE clearly beats recurrent models." (Decision #10, 2026-06-07)
 
 ## WE CANNOT CLAIM (YET)
-- That the latent ODE clearly outperforms temporal baselines — the 0.04 um margin on 19 test eyes is within sampling noise. Definitive separation requires more data.
-- That real irregular timing gives the ODE a structural advantage on OLIVES — real delta-t was tested (Real Delta-T Sprint, 2026-06-07, Decision #11). All three models degraded: ODE +1.5 um, GRU-D +2.0 um, T-LSTM +3.0 um. ODE degraded least, consistent with its design, but the effect is not decisive on 19 test eyes. Hypothesis "ODE outperforms recurrents with real time" NOT confirmed on this dataset and implementation. Per-example ODE integration and more data are the next tests.
+- That the latent ODE clearly outperforms temporal baselines — the margin over T-LSTM ordinal is 0.4 um on 19 test eyes, within sampling noise. Definitive separation requires more data.
 - That results generalize beyond 96 OLIVES eyes — no external validation.
 - That treatment effects are modelable — no experiments yet.
 - "Validated DR progression at scale" — requires controlled data (Year 2).
 - Synthetic cohort validity — requires validated dynamics (Year 3).
+
+## DIRECTIONAL EVIDENCE (not a confirmed claim)
+- Real irregular timing benefits the ODE and hurts recurrent baselines (Real Delta-T Sprint v2, 2026-06-07, Decision #11). With per-example grouped odeint: ODE real-dt 81.6 um (−0.4 um from ordinal), GRU-D real-dt 84.2 um (+2.0 um), T-LSTM real-dt 85.0 um (+3.0 um). This is consistent with the dynamics thesis — the ODE integrates over exact biological intervals while recurrent decay parameters are miscalibrated outside their training range. The direction is right; the sample is too small (19 eyes) for a definitive claim. **Human must confirm before promoting to CAN CLAIM.**
 
 ## CLAIM BOUNDARY BY RUNG
 - Rung 1 (representation): claimable once encoder beats baselines on public data + external val.

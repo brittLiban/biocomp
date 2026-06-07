@@ -3,7 +3,7 @@ Latent ODE — next-visit CST regression training script.
 
 Model:  src/dynamics/latent_ode.py  (ODE-RNN, Rubanova et al. 2019)
 Target: RMSE < 82.0 um on next-visit CST, test split seed=42 (Decision #9)
-W&B:    project=synapse, run=ode_realdelta_seed42 (real delta-t) or latent_ode_v1_seed42
+W&B:    project=synapse, run=ode_realdelta_v2_seed42 (real delta-t, per-example grouped odeint) or latent_ode_v1_seed42
 
 Input / target / split / normalisation identical to baseline_grud.py:
   - Input sequence: (n_visits - 1, 1026) = [emb_t (1024) | δt (1) | bcva_t (1)]
@@ -170,7 +170,8 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
-    run_name = "ode_realdelta_seed42" if REAL_DELTA_T else "latent_ode_v1_seed42"
+    # v2: uses grouped per-example odeint instead of batch-mean (see Decision #11 update)
+    run_name = "ode_realdelta_v2_seed42" if REAL_DELTA_T else "latent_ode_v1_seed42"
     run = wandb.init(
         project = "synapse",
         name    = run_name,
@@ -283,7 +284,7 @@ def main():
     import pathlib
     ckpt_dir = pathlib.Path("models")
     ckpt_dir.mkdir(exist_ok=True)
-    ckpt_name = "ode_realdelta_seed42.pt" if REAL_DELTA_T else "latent_ode_v1_seed42.pt"
+    ckpt_name = "ode_realdelta_v2_seed42.pt" if REAL_DELTA_T else "latent_ode_v1_seed42.pt"
     ckpt_path = ckpt_dir / ckpt_name
     torch.save({
         "model_state": best_state,
