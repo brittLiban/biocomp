@@ -4,6 +4,19 @@
 
 # Decisions
 
+## #8 — 2026-06-07 — Temporal baseline target: CST regression (continuous) not binary threshold
+Context: OLIVES `Disease Label` is patient-level (static across all visits per eye — DME vs healthy control). A temporal model predicting "next-visit disease state" trivially scores ~1.0 by copying current state; no dynamics are learned.
+Choice: temporal baselines (GRU-D, T-LSTM) predict **next-visit CST** (continuous, μm) via regression. Metrics: RMSE (primary), MAE (secondary).
+Why: (1) Latent ODE will target continuous physiological state — RMSE baseline enables direct comparison. (2) Binary CST threshold (e.g. >300 μm) is arbitrary — a prediction of 298 when truth is 302 is meaningfully correct but scored wrong. (3) Binary threshold derivable post-hoc from continuous predictions at zero information cost.
+Results table splits cleanly: disease classification (logistic reg, AUC) vs. treatment-response dynamics (GRU-D/T-LSTM/ODE, RMSE/MAE).
+Alternatives rejected: binary CST threshold (Option B) — mixes arbitrary clinical cutoff into evaluation; not what the ODE will optimize.
+
+## #7 — 2026-06-07 — OLIVES visit alignment: (Eye_ID, BCVA, CST) join key, not File_Path
+Context: HuggingFace OLIVES `disease_classification` config has no `File_Path` field. Encoding (v3 notebook) saved only Eye_ID and Disease Label per embedding — no filename to join to Clinical_Data_Images.xlsx.
+Choice: join embeddings to visits using (Eye_ID, BCVA, CST) as composite key. Drops ~5.9% of B-scans where key maps to >1 visit (BCVA/CST unchanged between consecutive visits). Averages all B-scan embeddings within a visit into one 1024-d vector.
+Why: BCVA and CST are per-visit clinical measurements recorded identically in both the HuggingFace metadata and Clinical_Data_Images.xlsx. For 94.1% of B-scans the triple is unambiguous. Visit-averaged embeddings are the right input unit for temporal models anyway.
+Alternatives rejected: re-encoding with filename tracking — would require another full Colab run; the join approach recovers 94.1% of data cleanly.
+
 <!-- Format:
 ## #N — YYYY-MM-DD — <decision in one line>
 Context: <what prompted it>
