@@ -4,6 +4,13 @@
 
 # Decisions
 
+## #9 — 2026-06-07 — ODE minimum target: RMSE < 82.0 um on next-visit CST (pre-committed, no moving)
+Context: baselines sprint complete. GRU-D 82.2 um, T-LSTM 82.0 um on test eyes. Need a locked bar before building the latent ODE.
+Choice: ODE must achieve RMSE < 82.0 um on next-visit CST (same test split, seed=42, same normalisation). This number is fixed now and cannot be revised post-hoc.
+Why: pre-committing the bar prevents cherry-picking. If the ODE cannot beat strong temporal baselines, the dynamics thesis is not demonstrated on this data.
+Caveat: delta_t is currently ordinal (1.0 steps, not real week gaps). Once real gaps are parsed from OCT-DR.xlsx, baselines should be re-run. The ODE bar updates to match the re-run baselines — but only if baselines are re-run first, before ODE.
+Alternatives rejected: setting bar post-hoc after seeing ODE results — invalidates the comparison.
+
 ## #8 — 2026-06-07 — Temporal baseline target: CST regression (continuous) not binary threshold
 Context: OLIVES `Disease Label` is patient-level (static across all visits per eye — DME vs healthy control). A temporal model predicting "next-visit disease state" trivially scores ~1.0 by copying current state; no dynamics are learned.
 Choice: temporal baselines (GRU-D, T-LSTM) predict **next-visit CST** (continuous, μm) via regression. Metrics: RMSE (primary), MAE (secondary).
