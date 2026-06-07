@@ -19,7 +19,7 @@ Status key: [ ] not started · [~] in progress · [x] done · [!] blocked
 ### Q2 (Months 4-6)
 - [x] Per-eye sequence dataset from OLIVES (2026-06-07)
 - [x] Latent ODE prototype on OLIVES (2026-06-07) — RMSE 81.96 um, matches baselines
-- [~] Real delta_t re-run — in progress (next sprint)
+- [x] Real delta_t re-run — complete (2026-06-07) — ODE 81.6 um with real timing, beats bar
 - [ ] Treatment-conditioning experiments
 - [ ] Encoder external validation (Messidor-2)
 - [ ] Uncertainty + calibration

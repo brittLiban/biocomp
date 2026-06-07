@@ -1,6 +1,6 @@
 # Synapse — CLAUDE.md
 
-> **CURRENT TASK:** Real Delta-T Sprint — re-run all temporal models with real week gaps (see `docs/NOW.md`)
+> **CURRENT TASK:** Preprint Draft Sprint — write arXiv preprint + EyePACS inquiry email (see `docs/NOW.md`)
 > **Honest odds:** 80% working prototype by Month 6 · 5-10% chance of $100M+ company · 2-5% unicorn
 
 ## What This Repo Is
@@ -158,4 +158,4 @@ claim is always preferred over the impressive one.
 
 ## Current Task
 
-> NOW: Real Delta-T Sprint — re-run all temporal models with real week gaps (see `docs/NOW.md`)
+> NOW: Preprint Draft Sprint — write arXiv preprint + EyePACS inquiry email (see `docs/NOW.md`)

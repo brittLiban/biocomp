@@ -1,67 +1,72 @@
-> Parent: docs/Q1_PLAN.md (Q2, Track 1) · Constitution: CLAUDE.md
+> Parent: docs/Q1_PLAN.md (Q2/Q3, Track 1) · Constitution: CLAUDE.md
 > This doc: THE current sprint. Fully specified. Rewritten each sprint via the closeout ritual.
 
-# NOW — Real Delta-T Sprint
+# NOW — Preprint Draft Sprint
 
 ## Goal
-Replace ordinal visit steps (delta_t = 1.0 everywhere) with real week gaps parsed from
-OCT-DR.xlsx. Re-run GRU-D, T-LSTM, and the Latent ODE on the same split with real gaps.
-Determine whether real timing changes the relative ranking — especially whether the ODE
-gains further advantage over recurrent models (which it should, by design).
+Write the Synapse Year 1 preprint. Results section first — the 2×3 table (ordinal + real
+delta_t, three models) is the paper's core claim. Then methods, introduction, and
+discussion. Target: arXiv-ready draft by end of sprint.
 
 ## Why This Now
-Every result so far used delta_t = 1.0 (ordinal). The comparison is internally consistent
-but scientifically impoverished: the models' time-awareness is not actually tested.
-The latent ODE's core advantage — continuous time integration — is inert when all gaps
-are identical. Real week gaps may widen or close the margin. We need to know before
-writing the preprint or pitching the dynamics thesis to anyone.
+The results table is complete and the story has a clean arc:
+1. Temporal structure in OLIVES contains learnable signal (GRU-D/T-LSTM beat persistence ~10%)
+2. Continuous ODE dynamics match the best recurrent baselines on ordinal time (81.96 um)
+3. Real irregular timing helps the ODE (-0.4 um) and hurts recurrents (+2-3 um) — directional
+   evidence for the continuous-time structural advantage
+4. Conclusion: architecture is validated at prototype scale; controlled data needed for
+   statistical confirmation
 
-This is also a scientific integrity issue: if the preprint shows "ODE matches baselines"
-on ordinal time, a reviewer will immediately ask why we didn't use real timing. We need
-that result in the table.
+This is a complete, honest, publishable arc. The preprint (a) makes the work citable, (b)
+establishes priority, (c) provides concrete material for the EyePACS partnership ask, and
+(d) gates an honest upgrade of CLAIMS.md to "Rung 2 demonstrated" post-submission.
 
 ## Inputs
-- `data/raw/olives/labels/OLIVES_Dataset_Labels/full_labels/OCT-DR.xlsx` — injection
-  timing and visit week numbers. Parse VisitNum or Week column per Eye_ID.
-- `src/data/olives.py` — extend `build_sequences()` to include `week_gaps` per eye.
-- `scripts/baseline_grud.py`, `scripts/baseline_tlstm.py`, `scripts/latent_ode.py`
-  — all need a real-delta_t mode (swap ordinal 1.0 for parsed week gaps).
-- Ordinal baseline RMSEs: GRU-D 82.2, T-LSTM 82.0, Latent ODE 81.96 um (all seed=42).
+All results are final. Key numbers:
+- Ordinal: Persistence 91.7, GRU-D 82.2, T-LSTM 82.0, Latent ODE 81.96 um (seed=42)
+- Real-ΔT: GRU-D 84.2, T-LSTM 85.0, Latent ODE 81.6 um (seed=42, grouped odeint)
+- Representation: Logistic reg AUC 0.9906 (patient-level DME/healthy classification)
+- Cox PH C-index 0.7955 (time to CST normalization)
+- Dataset: OLIVES, 96 eyes, 77 train / 19 test (seed=42), two sub-studies (TREX DME, Prime_FULL)
+- Model: ODE-RNN (Rubanova et al. 2019), 47,521 params, dopri5 solver, latent_dim=32
+- W&B runs: latent_ode_v1_seed42, grud_realdelta_v2_seed42, ode_realdelta_v2_seed42 (project: synapse)
+- DECISIONS.md #7–#11, CLAIMS.md, DATA.md — read before writing claims
 
 ## Tasks
-1. **Audit OCT-DR.xlsx** — inspect columns. Find per-eye, per-visit week numbers.
-   Confirm the join key to Eye_ID matches olives.py. Document findings in DATA.md.
-2. **Extend build_sequences()** — add `week_gaps` field per eye: gaps between consecutive
-   visits in weeks (length n_visits - 1). Cache invalidation: increment pkl version or
-   set `force=True`. Do NOT break the existing ordinal path.
-3. **Update baseline scripts** — add a `--real-delta-t` flag (or a constant at top)
-   that swaps `delta_t = np.ones(n)` for `seq['week_gaps']`. Both modes must work;
-   don't delete the ordinal path (it is the canonical comparison baseline).
-4. **Re-run all three temporal models** with real delta_t, seed=42, same split.
-   Log each to W&B: `grud_realdelta_seed42`, `tlstm_realdelta_seed42`, `ode_realdelta_seed42`.
-5. **Compare results** — build a 2x3 table: ordinal vs real-delta for each model.
-   Does the ODE gain more than the recurrent models? If yes, that is the dynamics thesis.
-6. **Log to DECISIONS.md** — Decision #11: real delta_t outcome and what it means for claims.
-7. **Update CLAIMS.md** — if real delta_t gives the ODE a larger, statistically distinguishable
-   lead, upgrade the claim from "matches" to "outperforms." Human confirms.
+1. **Results section** — write the full results section: representation quality, baseline
+   comparison table (ordinal), real delta_t comparison table (with correct caveat on n=19),
+   and the ODE vs recurrent timing differential. Include all RMSE/MAE numbers.
+2. **Methods section** — dataset (OLIVES, two sub-studies, visit alignment), models
+   (GRU-D, T-LSTM, ODE-RNN), training setup (seed=42, Adam, cosine/step LR, dopri5),
+   timing encoding (ordinal vs real, Prime/TREX handling), evaluation (next-visit CST RMSE).
+3. **Introduction** — motivate the dynamics framing (disease as hidden state, observations
+   as noisy projections). Position vs screening tools. State the OLIVES experiment clearly.
+4. **Discussion** — interpret the real-timing experiment; acknowledge the 19-eye limitation;
+   frame "directional evidence, not confirmation"; say what controlled data would confirm.
+5. **Abstract + title** — write last; should match the honest arc above.
+6. **Parallel: EyePACS inquiry email** — draft a short, specific ask:
+   "We have a working latent ODE pipeline with real-timing differential results. We need
+   longitudinal data at scale to confirm this statistically." Attach or link the preprint
+   draft. This is a Track 2 task that unblocks scale validation.
 
 ## Done When
-- OCT-DR.xlsx audited and week gap field documented in DATA.md
-- `build_sequences()` returns `week_gaps` per eye
-- All three temporal models re-run with real delta_t, results logged to W&B
-- 2x3 comparison table written (ordinal vs real delta_t, RMSE + MAE)
-- Decision #11 appended to DECISIONS.md
-- CLAIMS.md updated if real delta_t result warrants it (human confirms)
-- Clean git commit
+- Full draft exists as `docs/preprint_draft.md` (or .tex if LaTeX preferred)
+- Every claim in the draft is traceable to CLAIMS.md CAN CLAIM section
+- Results section contains the 2×3 table with correct caveat language
+- Discussion explicitly names the limitations (19 test eyes, no external validation,
+  no treatment conditioning yet)
+- EyePACS email draft exists
+- PROGRESS.md updated; MILESTONES.md ticked
 
 ## Hard Constraints
-- Same train/test split: `split_by_eye(seqs, test_frac=0.2, seed=42)` — never change this.
-- Same normalization: CST stats computed on training eyes only.
-- Ordinal results remain the canonical comparison baseline — document both in the table,
-  do not replace ordinal results, only add real-delta results alongside.
-- No cherry-picking: first completed W&B run per model is the result.
-- CLAIMS.md change is human-confirmed only.
+- EVERY claim in the preprint must be in CLAIMS.md CAN CLAIM or DIRECTIONAL EVIDENCE.
+  If writing forces an upgrade, flag it for human confirmation — never silently upgrade.
+- Do NOT claim treatment effects are modeled — no experiments yet.
+- Do NOT claim generalization — no external validation.
+- "Directional evidence" language is mandatory in any sentence about the real-timing result.
+- The 19-test-eye limitation must appear in the limitations section.
 
 ## Next Up
-Preprint draft — results section first. The table of models x metrics (ordinal + real delta_t)
-is the core of the paper. Write that section once real delta_t results are in.
+Encoder external validation on Messidor-2 — this would let us upgrade the representation
+claim from "strong on OLIVES" to "generalizes out-of-distribution." That plus the preprint
+submission completes the honest Gate 2 story for investors and collaborators.
