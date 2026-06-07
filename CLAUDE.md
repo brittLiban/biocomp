@@ -1,6 +1,6 @@
 # Synapse — CLAUDE.md
 
-> **CURRENT TASK:** Baselines — Q1, Weeks 4-5 (see `docs/NOW.md`)
+> **CURRENT TASK:** Latent ODE Sprint — beat RMSE 82.0 um (see `docs/NOW.md`)
 > **Honest odds:** 80% working prototype by Month 6 · 5-10% chance of $100M+ company · 2-5% unicorn
 
 ## What This Repo Is
@@ -158,4 +158,4 @@ claim is always preferred over the impressive one.
 
 ## Current Task
 
-> NOW: Baselines — Q1, Weeks 4-5 (see `docs/NOW.md`)
+> NOW: Latent ODE Sprint — beat RMSE 82.0 um (see `docs/NOW.md`)

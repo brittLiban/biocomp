@@ -4,18 +4,19 @@
 # Progress — Present Snapshot
 
 ## Current Sprint
-Baselines (see NOW.md)
+Latent ODE prototype (see NOW.md)
 
 ## In Flight
 - Nothing started yet.
 
 ## Blocked
-- None.
+- Real week-based delta_t for GRU-D/T-LSTM pending OCT-DR.xlsx injection-timing parse.
+  Not a blocker for ODE start — ordinal delta_t is the established baseline.
 
 ## Next Session Should
-- Build OLIVES temporal dataloader (adapt authors' code from olivesgatech/OLIVES_Dataset)
-- Run logistic regression baseline
-- Then GRU-D, T-LSTM, Cox
+- Read NOW.md for the ODE sprint spec
+- Start with torchdiffeq install + minimal latent ODE skeleton
+- Target: RMSE < 82.0 um on next-visit CST (pre-committed bar, Decision #9)
 
 ## Last Updated
-2026-06-07 — Encoding sprint closed. All embeddings validated. Starting baselines sprint.
+2026-06-07 — Baselines sprint closed. All 4 baselines complete. ODE bar locked.
