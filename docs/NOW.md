@@ -1,72 +1,64 @@
-> Parent: docs/Q1_PLAN.md (Q2/Q3, Track 1) · Constitution: CLAUDE.md
+> Parent: docs/Q1_PLAN.md (Q2, Track 1) · Constitution: CLAUDE.md
 > This doc: THE current sprint. Fully specified. Rewritten each sprint via the closeout ritual.
 
-# NOW — Preprint Draft Sprint
+# NOW — Messidor External Validation Sprint
 
 ## Goal
-Write the Synapse Year 1 preprint. Results section first — the 2×3 table (ordinal + real
-delta_t, three models) is the paper's core claim. Then methods, introduction, and
-discussion. Target: arXiv-ready draft by end of sprint.
+Validate that RETFound embeddings generalize out-of-distribution: train a binary DR
+classifier on EyePACS embeddings, evaluate on Messidor. Report AUC. This closes the
+"no external validation" gap in CLAIMS.md before writing the preprint.
 
 ## Why This Now
-The results table is complete and the story has a clean arc:
-1. Temporal structure in OLIVES contains learnable signal (GRU-D/T-LSTM beat persistence ~10%)
-2. Continuous ODE dynamics match the best recurrent baselines on ordinal time (81.96 um)
-3. Real irregular timing helps the ODE (-0.4 um) and hurts recurrents (+2-3 um) — directional
-   evidence for the continuous-time structural advantage
-4. Conclusion: architecture is validated at prototype scale; controlled data needed for
-   statistical confirmation
+Every result so far is within-distribution (OLIVES or EyePACS only). A reviewer will ask
+about generalization. Messidor is the standard external benchmark — doing it now means the
+preprint can make a stronger Rung 1 claim: not just "strong representation on OLIVES" but
+"RETFound embeddings generalize to held-out DR dataset."
 
-This is a complete, honest, publishable arc. The preprint (a) makes the work citable, (b)
-establishes priority, (c) provides concrete material for the EyePACS partnership ask, and
-(d) gates an honest upgrade of CLAIMS.md to "Rung 2 demonstrated" post-submission.
+## Current Blockers (must resolve before coding)
+- **Label file missing**: `messidor-2.csv` is a left/right pairing file — no DR grades.
+  Need the ADCIS Messidor annotation Excel files (`Annotation_Base11.xls` through
+  `Annotation_Base34.xls` for original Messidor; separate file for Messidor-2 PNGs).
+  Download from the ADCIS Messidor page and put in `data/raw/messidor/annotations/`.
+- **Partial encoding**: only 745 of 1748 images encoded, with no filename index saved.
+  Need to re-encode all images with filename tracking so embeddings can be joined to labels.
 
 ## Inputs
-All results are final. Key numbers:
-- Ordinal: Persistence 91.7, GRU-D 82.2, T-LSTM 82.0, Latent ODE 81.96 um (seed=42)
-- Real-ΔT: GRU-D 84.2, T-LSTM 85.0, Latent ODE 81.6 um (seed=42, grouped odeint)
-- Representation: Logistic reg AUC 0.9906 (patient-level DME/healthy classification)
-- Cox PH C-index 0.7955 (time to CST normalization)
-- Dataset: OLIVES, 96 eyes, 77 train / 19 test (seed=42), two sub-studies (TREX DME, Prime_FULL)
-- Model: ODE-RNN (Rubanova et al. 2019), 47,521 params, dopri5 solver, latent_dim=32
-- W&B runs: latent_ode_v1_seed42, grud_realdelta_v2_seed42, ode_realdelta_v2_seed42 (project: synapse)
-- DECISIONS.md #7–#11, CLAIMS.md, DATA.md — read before writing claims
+- `data/raw/messidor/images/IMAGES/` — 1748 images (690 JPG Messidor-1, 1058 PNG Messidor-2)
+- `data/raw/messidor/annotations/` — **NEEDS TO BE DOWNLOADED** from ADCIS
+- `data/processed/embeddings/eyepacs_retfound.npy` + `eyepacs_labels.npy` — 31,542 × 1024, grades 0-4
+- `src/data/messidor.py` — dataset class already built (expects labels_csv + image_dir)
+- `src/encoders/retfound.py` — encoder already built
 
 ## Tasks
-1. **Results section** — write the full results section: representation quality, baseline
-   comparison table (ordinal), real delta_t comparison table (with correct caveat on n=19),
-   and the ODE vs recurrent timing differential. Include all RMSE/MAE numbers.
-2. **Methods section** — dataset (OLIVES, two sub-studies, visit alignment), models
-   (GRU-D, T-LSTM, ODE-RNN), training setup (seed=42, Adam, cosine/step LR, dopri5),
-   timing encoding (ordinal vs real, Prime/TREX handling), evaluation (next-visit CST RMSE).
-3. **Introduction** — motivate the dynamics framing (disease as hidden state, observations
-   as noisy projections). Position vs screening tools. State the OLIVES experiment clearly.
-4. **Discussion** — interpret the real-timing experiment; acknowledge the 19-eye limitation;
-   frame "directional evidence, not confirmation"; say what controlled data would confirm.
-5. **Abstract + title** — write last; should match the honest arc above.
-6. **Parallel: EyePACS inquiry email** — draft a short, specific ask:
-   "We have a working latent ODE pipeline with real-timing differential results. We need
-   longitudinal data at scale to confirm this statistically." Attach or link the preprint
-   draft. This is a Track 2 task that unblocks scale validation.
+1. **Download labels** — get ADCIS Messidor annotation XLS files, put in
+   `data/raw/messidor/annotations/`. Parse all batches into a single
+   `data/processed/messidor_labels.csv` with columns: filename, dr_grade (0-3).
+2. **Re-encode Messidor** — run full encoding with filename index saved alongside
+   embeddings. Save: `messidor_retfound.npy` (N, 1024) + `messidor_filenames.npy` (N,).
+3. **Join labels to embeddings** — match filenames in `messidor_filenames.npy` to
+   `messidor_labels.csv`. Keep only matched rows.
+4. **Train/eval** — logistic regression on EyePACS (binary: referable = grade ≥ 2).
+   Evaluate on Messidor with same binary threshold. Report AUC-ROC, accuracy, sensitivity,
+   specificity. Script: `scripts/validate_messidor.py`.
+5. **Log result** — W&B run `messidor_val_v1`. Append to DECISIONS.md (#12).
+6. **Update CLAIMS.md** — if AUC is strong (>0.85), the representation claim upgrades
+   from "strong on OLIVES" to "generalizes OOD." Human confirms.
 
 ## Done When
-- Full draft exists as `docs/preprint_draft.md` (or .tex if LaTeX preferred)
-- Every claim in the draft is traceable to CLAIMS.md CAN CLAIM section
-- Results section contains the 2×3 table with correct caveat language
-- Discussion explicitly names the limitations (19 test eyes, no external validation,
-  no treatment conditioning yet)
-- EyePACS email draft exists
-- PROGRESS.md updated; MILESTONES.md ticked
+- `messidor_labels.csv` parsed and saved
+- All 1748 Messidor images re-encoded with filename tracking
+- Logistic regression trained on EyePACS, evaluated on Messidor
+- AUC + confusion matrix reported and logged to W&B
+- Decision #12 appended to DECISIONS.md
+- CLAIMS.md updated (human confirms if warranted)
+- Clean git commit
 
 ## Hard Constraints
-- EVERY claim in the preprint must be in CLAIMS.md CAN CLAIM or DIRECTIONAL EVIDENCE.
-  If writing forces an upgrade, flag it for human confirmation — never silently upgrade.
-- Do NOT claim treatment effects are modeled — no experiments yet.
-- Do NOT claim generalization — no external validation.
-- "Directional evidence" language is mandatory in any sentence about the real-timing result.
-- The 19-test-eye limitation must appear in the limitations section.
+- No fine-tuning — frozen RETFound embeddings only
+- Train on EyePACS, test on Messidor — no Messidor data in training
+- CLAIMS.md change is human-confirmed only
 
 ## Next Up
-Encoder external validation on Messidor-2 — this would let us upgrade the representation
-claim from "strong on OLIVES" to "generalizes out-of-distribution." That plus the preprint
-submission completes the honest Gate 2 story for investors and collaborators.
+Preprint Draft Sprint — once Messidor validation is done, the full results table is
+complete (representation + temporal baselines + ODE + real delta_t + external validation)
+and the paper has a complete arc.

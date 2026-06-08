@@ -1,6 +1,6 @@
 # Synapse — CLAUDE.md
 
-> **CURRENT TASK:** Preprint Draft Sprint — write arXiv preprint + EyePACS inquiry email (see `docs/NOW.md`)
+> **CURRENT TASK:** Messidor External Validation Sprint — validate RETFound generalization OOD (see `docs/NOW.md`)
 > **Honest odds:** 80% working prototype by Month 6 · 5-10% chance of $100M+ company · 2-5% unicorn
 
 ## What This Repo Is
@@ -158,4 +158,4 @@ claim is always preferred over the impressive one.
 
 ## Current Task
 
-> NOW: Preprint Draft Sprint — write arXiv preprint + EyePACS inquiry email (see `docs/NOW.md`)
+> NOW: Messidor External Validation Sprint — validate RETFound generalization OOD (see `docs/NOW.md`)
