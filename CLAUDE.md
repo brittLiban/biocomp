@@ -90,8 +90,8 @@ Building alongside other income — no dedicated runway. Near-zero burn through 
 
 At the start of every session, orient yourself:
 1. Read this file (CLAUDE.md) for mission, phase, and rules.
-2. Read `docs/NOW.md` for the current task — this is what we work on.
-3. Consult as needed: `docs/TECH_STACK.md` (how), `docs/ARCHITECTURE.md` (where code goes), `docs/DATA.md` (data shape), `docs/CLAIMS.md` (what we can honestly claim).
+2. Read `docs/NOW.md` for the current task and status — this is what we work on.
+3. Consult as needed: `docs/TECH_STACK.md` (how), `docs/ARCHITECTURE.md` (where code goes), `docs/DATA.md` (data shape), `docs/CLAIMS.md` (what we can honestly claim), `docs/OPEN_QUESTIONS.md` (unresolved unknowns).
 
 If GPT or another model is being used, the human will paste the relevant docs manually. Same rules apply regardless of model.
 
@@ -107,14 +107,14 @@ How we build (stable-ish):
 - `docs/TECH_STACK.md`, `docs/CODE_STYLE.md`, `docs/ARCHITECTURE.md`, `docs/GLOSSARY.md`
 
 The plan / the focus:
-- `docs/Q1_PLAN.md` — current quarter at high level
-- `docs/NOW.md` — THE current sprint, fully specified (this churns most)
+- `docs/Q3_PLAN.md` — current quarter at high level (Q1 archived → `docs/archive/quarters/`)
+- `docs/NOW.md` — THE current sprint, fully specified; includes **Status** section (replaces PROGRESS.md)
 
 Memory (continuous):
-- `docs/PROGRESS.md` — present snapshot (in-flight, blocked)
 - `docs/LOG.md` — permanent append-only history of completed sprints
 - `docs/DECISIONS.md` — log of choices: X over Y because Z
-- `docs/OPEN_QUESTIONS.md` — unresolved unknowns
+- `docs/RUNS.md` — index of all W&B runs: name, ID, script, key metric, decision ref
+- `docs/OPEN_QUESTIONS.md` — unresolved unknowns; reviewed every sprint closeout
 - `docs/DATA.md` — dataset schemas + audit findings
 
 Archive: retired docs live in `docs/archive/now/` and `docs/archive/quarters/`,
@@ -124,12 +124,13 @@ named `YYYY-MM_short-description.md`.
 
 During a session:
 - A real decision was made → append to `docs/DECISIONS.md` immediately.
+- A W&B run was logged → append a row to `docs/RUNS.md` immediately.
 - A new unknown surfaced, or one got answered → update `docs/OPEN_QUESTIONS.md`.
-- Session ending → update `docs/PROGRESS.md` to current state.
+- Session ending → update the **Status** section at the bottom of `docs/NOW.md`.
 
 The three phrases the human will use:
 - "log that decision" → append a DECISIONS.md entry now.
-- "update progress, we're done" → refresh PROGRESS.md.
+- "update progress, we're done" → update the Status section in NOW.md.
 - "close out this sprint" → run the Sprint Closeout Ritual below.
 
 ## Sprint Closeout Ritual
@@ -138,16 +139,18 @@ When the human says "close out this sprint," do these in order:
 1. Copy `docs/NOW.md` → `docs/archive/now/YYYY-MM_description.md`
 2. Append one entry to `docs/LOG.md` (newest at top): date, what finished, outcome, link to the archived NOW.
 3. Confirm any decisions from this sprint are in `docs/DECISIONS.md`.
-4. Reset `docs/PROGRESS.md` to the new present.
-5. Copy `docs/templates/NOW_template.md` → fresh `docs/NOW.md`, filled with the next chunk from `docs/Q1_PLAN.md`. End it with a "Next up" line.
-6. If the sprint changed what we can honestly claim → update `docs/CLAIMS.md`. (The human owns this judgment — flag it, let them confirm.)
-7. If the sprint produced data findings → update `docs/DATA.md`.
-8. Update the "Current Task" pointer at the top of this file (CLAUDE.md).
+4. Confirm any W&B runs from this sprint are in `docs/RUNS.md`.
+5. Review `docs/OPEN_QUESTIONS.md`: mark answered questions [x], add any new ones surfaced this sprint.
+6. Copy `docs/templates/NOW_template.md` → fresh `docs/NOW.md`, filled with the next chunk from the current Q-plan. Fill the Status section with "Sprint just opened."
+7. If the sprint changed what we can honestly claim → update `docs/CLAIMS.md`. (The human owns this judgment — flag it, let them confirm.)
+8. If the sprint produced data findings → update `docs/DATA.md`.
+9. Update the "Current Task" pointer at the top of this file (CLAUDE.md).
 
-At a decision gate or quarter end (Month 3, 6, 12...):
-- Tick the milestone + record gate outcome in `docs/MILESTONES.md`.
+At a decision gate or quarter end (Month 3, 6, 9, 12...):
+- Tick milestones + record gate outcome in `docs/MILESTONES.md`.
 - Review `docs/RISKS.md` — retire, escalate, or add risks.
-- Archive the quarter plan → `docs/archive/quarters/`, activate the next one.
+- Spot-check reference docs (TECH_STACK, ARCHITECTURE, GLOSSARY) for staleness.
+- Archive the quarter plan → `docs/archive/quarters/`, activate the next one (update this file's Q-plan reference above).
 
 ## The One Human-Owned Judgment
 

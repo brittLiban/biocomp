@@ -22,5 +22,5 @@ Status: [ ] open · [x] answered (then move the answer to DECISIONS.md if it's a
 - [x] Is OLIVES temporal structure rich enough for a latent ODE? YES — 97.9% of eyes ≥4 visits (2026-05-31 → DECISIONS.md #3)
 - [ ] RETFound frozen vs fine-tuned for v1 — defer until after encoding works.
 - [ ] OLIVES OCT modality: does RETFound_cfp (colour fundus) work well on OCT slices, or do we need a separate OCT encoder? Check embedding quality after encoding. May need RETFound_oct variant.
-- [ ] RETFound embedding dim: probe at runtime — likely 1024 (ViT-Large) but verify with probe_embedding_dim() before hardcoding anywhere.
-- [ ] EyePACS patient/eye IDs: does the dataset include repeat visits per patient? If yes, temporal sequences are possible. If no, EyePACS is classification-only.
+- [x] RETFound embedding dim: **1024** (ViT-Large confirmed via probe_embedding_dim() during encoding, 2026-06-07)
+- [x] EyePACS patient/eye IDs: public Kaggle release is **classification-only** — image-level labels, no patient-level temporal structure in available metadata. Used as classification training set only. (2026-06-07)

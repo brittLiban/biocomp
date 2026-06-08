@@ -53,3 +53,12 @@ A preprint now lets us get priority, gather feedback, and support grant applicat
 ## Next Up
 arXiv submission → share with 2-3 domain experts for informal feedback before
 submitting to a venue (MICCAI, MIDL, or Nature Comms Medicine).
+
+---
+
+## Status
+> Updated each session. Replaces PROGRESS.md.
+
+**Last session:** 2026-06-07 — Messidor validation complete; sprint closed; this sprint opened.
+**In flight:** Nothing — sprint just opened.
+**Blocked:** Nothing.

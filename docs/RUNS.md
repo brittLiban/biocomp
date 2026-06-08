@@ -1,0 +1,23 @@
+> Parent: CLAUDE.md · Related: docs/DECISIONS.md (each run has a matching decision entry)
+> This doc: index of all W&B training runs. One row per run — name, ID, script, key metric, decision.
+> Changes: append a row every time a run is logged to W&B. Never delete rows (mark superseded instead).
+> How to use: find a result → get the run ID → open W&B or grep DECISIONS.md for the full context.
+
+# W&B Run Index
+
+W&B project: **synapse** (most runs) · legacy: **synapse-v1** (encoding run)
+Dashboard: https://wandb.ai/models-biocomp/synapse
+
+## Runs
+
+| Run name | Run ID | Date | Script | Key metric | Decision | Notes |
+|---|---|---|---|---|---|---|
+| retfound-encoding | — | 2026-06-01 | experiments/encode_datasets.py | EyePACS (31,542×1024), Messidor partial (745×1024) | #6 | project=synapse-v1; Messidor encoding was incomplete (no filename index) — superseded by messidor_val_v1 encoding |
+| grud_seed42 | — | 2026-06-07 | scripts/baseline_grud.py | RMSE 82.2 um (ordinal) | #9 | Ordinal delta_t baseline; canonical comparison |
+| tlstm_seed42 | — | 2026-06-07 | scripts/baseline_tlstm.py | RMSE 82.0 um (ordinal) | #9 | Ordinal delta_t baseline; sets the bar for ODE |
+| latent_ode_v1_seed42 | 942anp2d | 2026-06-07 | scripts/latent_ode.py | RMSE 81.96 um (ordinal) | #10 | Best checkpoint epoch 10/100; rapid overfitting on 77 eyes |
+| ode_realdelta_seed42 | — | 2026-06-07 | scripts/latent_ode.py | RMSE 83.5 um (real-dt) | #11 | **SUPERSEDED** — batch-mean delta_t approximation (reproducibility defect); replaced by v2 |
+| grud_realdelta_seed42 | — | 2026-06-07 | scripts/baseline_grud.py | RMSE 84.2 um (real-dt) | #11 | Real delta_t; +2.0 um vs ordinal — recurrent degrades |
+| tlstm_realdelta_seed42 | — | 2026-06-07 | scripts/baseline_tlstm.py | RMSE 85.0 um (real-dt) | #11 | Real delta_t; +3.0 um vs ordinal — recurrent degrades |
+| ode_realdelta_v2_seed42 | — | 2026-06-07 | scripts/latent_ode.py | RMSE 81.6 um (real-dt) | #11 | Corrected: grouped per-example odeint; -0.4 um vs ordinal — ODE benefits from real timing |
+| messidor_val_v1 | fxkir659 | 2026-06-07 | scripts/validate_messidor.py | AUC 0.7699 OOD | #12 | Frozen logreg; train=EyePACS, test=Messidor-2 (1,744); cross-dataset DR signal confirmed |

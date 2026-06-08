@@ -1,4 +1,4 @@
-> Parent: docs/Q1_PLAN.md (<which chunk>) · Constitution: CLAUDE.md
+> Parent: docs/Q3_PLAN.md (<which chunk>) · Constitution: CLAUDE.md
 > This doc: THE current sprint. Copy this template to docs/NOW.md and fill it.
 
 # NOW — <sprint name>
@@ -26,3 +26,12 @@
 
 ## Next Up
 <the one task that comes after this — gives the AI look-ahead>
+
+---
+
+## Status
+> Updated each session. Replaces PROGRESS.md.
+
+**Last session:** <date> — <one line: what was done>
+**In flight:** <what is running / partially done right now>
+**Blocked:** <anything stalled and why>

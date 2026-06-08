@@ -21,7 +21,7 @@ Status key: [ ] not started · [~] in progress · [x] done · [!] blocked
 - [x] Latent ODE prototype on OLIVES (2026-06-07) — RMSE 81.96 um, matches baselines
 - [x] Real delta_t re-run — complete (2026-06-07) — ODE 81.6 um with real timing, beats bar
 - [ ] Treatment-conditioning experiments
-- [ ] Encoder external validation (Messidor-2)
+- [x] Encoder external validation (Messidor-2) — AUC 0.77 OOD, frozen linear probe (2026-06-07, Decision #12)
 - [ ] Uncertainty + calibration
 - [ ] EyePACS partnership inquiry sent (Track 2)
 - [ ] BioLINCC ACCORD request (Track 2)
