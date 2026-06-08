@@ -178,4 +178,4 @@ Mechanism is what researchers remember.
 
 ## Current Task
 
-> NOW: Messidor External Validation Sprint — validate RETFound generalization OOD (see `docs/NOW.md`)
+> NOW: Preprint Draft Sprint — write first full paper draft; all results in hand (see `docs/NOW.md`)

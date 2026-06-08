@@ -18,7 +18,7 @@ Hard-won lessons — read before starting any large download:
 |---|---|---|---|
 | OLIVES | Free, CC BY 4.0 | [x] labels [x] Zenodo extracted (162,864 files) [x] audited [x] encoded (78,822 × 1024) | Dynamics PoC |
 | EyePACS public | Free (Kaggle) | [x] downloaded [x] encoded (31,542 × 1024) | Encoder pretraining |
-| Messidor / -2 | Free (ADCIS) | [x] downloaded + extracted (1,748 images, data/raw/messidor/images/) | External validation |
+| Messidor / -2 | Free (ADCIS + Kaggle) | [x] downloaded [x] encoded (1,748 × 1024) [x] labeled (1,744 gradable, Krause 2018 ICDR 0-4) [x] validated (AUC 0.77 OOD) | External validation |
 | FGADR | Free | [ ] downloaded | Lesion-aware aux |
 | UK Biobank | ~£9K | [ ] applied | Scale (Y2) |
 | EyePACS private | Partnership | [ ] inquired | Scale (Y2) |

@@ -10,6 +10,19 @@ Outcome: <result>. → docs/archive/now/YYYY-MM_description.md
 Decision(s) logged: <DECISIONS.md ref if any>
 -->
 
+## 2026-06-07 — Messidor External Validation Sprint
+Downloaded Krause et al. 2018 adjudicated Messidor-2 labels (Kaggle API). Re-encoded all 1748 images with filename tracking (fixed truncated PNG). Logistic regression trained on EyePACS (31,542), evaluated OOD on Messidor-2 (1,744 gradable). AUC 0.77. All tasks done, W&B logged, CLAIMS.md updated and human-confirmed.
+Outcome: **AUC 0.7699 OOD — cross-dataset DR signal confirmed, >0.85 strong-generalization bar not met. Honest claim: embeddings carry DR signal across camera/country/format.** → docs/archive/now/2026-06_messidor-validation.md
+Decisions logged: DECISIONS.md #12
+
+Results:
+| Metric | Value |
+|---|---|
+| AUC-ROC | **0.7699** |
+| Sensitivity | 0.2341 (threshold calibration artifact — EyePACS 19.5% vs Messidor 26.2% referable) |
+| Specificity | 0.9852 |
+| TP / FP / FN / TN | 107 / 19 / 350 / 1268 |
+
 ## 2026-06-07 — Real Delta-T Sprint
 Re-ran GRU-D, T-LSTM, and Latent ODE with real week gaps from OLIVES visit keys (Prime: diff(visit_nums)/4; TREX: ordinal — real timing unavailable). Mid-sprint correction: ODE batch-mean delta_t (batch-composition-dependent, reproducibility defect) replaced with grouped per-example odeint. GRU-D and T-LSTM degrade with real timing (+2.0/+3.0 um); ODE improves (-0.4 um, 81.6 um). Directional evidence for ODE structural advantage with irregular time.
 Outcome: **ODE 81.6 um with real delta_t — beats bar. Recurrent models degrade with real timing. CLAIMS.md updated with directional evidence section (human confirmed: not promoted to CAN CLAIM, 19 eyes too small).** → docs/archive/now/2026-06_realdelta.md
