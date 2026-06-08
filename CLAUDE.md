@@ -116,6 +116,8 @@ Memory (continuous):
 - `docs/RUNS.md` — index of all W&B runs: name, ID, script, key metric, decision ref
 - `docs/OPEN_QUESTIONS.md` — unresolved unknowns; reviewed every sprint closeout
 - `docs/DATA.md` — dataset schemas + audit findings
+- `docs/FUNDING.md` — grant opportunities, deadlines, application status; reviewed every quarterly review
+- `docs/CONTACTS.md` — domain experts, collaborators, data partners, funders; reviewed every quarterly review
 
 Archive: retired docs live in `docs/archive/now/` and `docs/archive/quarters/`,
 named `YYYY-MM_short-description.md`.
@@ -141,16 +143,20 @@ When the human says "close out this sprint," do these in order:
 3. Confirm any decisions from this sprint are in `docs/DECISIONS.md`.
 4. Confirm any W&B runs from this sprint are in `docs/RUNS.md`.
 5. Review `docs/OPEN_QUESTIONS.md`: mark answered questions [x], add any new ones surfaced this sprint.
-6. Copy `docs/templates/NOW_template.md` → fresh `docs/NOW.md`, filled with the next chunk from the current Q-plan. Fill the Status section with "Sprint just opened."
-7. If the sprint changed what we can honestly claim → update `docs/CLAIMS.md`. (The human owns this judgment — flag it, let them confirm.)
-8. If the sprint produced data findings → update `docs/DATA.md`.
-9. Update the "Current Task" pointer at the top of this file (CLAUDE.md).
+6. If any funding actions were taken this sprint → update `docs/FUNDING.md`.
+7. If any new contacts were made or relevant contacts surfaced → update `docs/CONTACTS.md`.
+8. Copy `docs/templates/NOW_template.md` → fresh `docs/NOW.md`, filled with the next chunk from the current Q-plan. Fill the Status section with "Sprint just opened."
+9. If the sprint changed what we can honestly claim → update `docs/CLAIMS.md`. (The human owns this judgment — flag it, let them confirm.)
+10. If the sprint produced data findings → update `docs/DATA.md`.
+11. Update the "Current Task" pointer at the top of this file (CLAUDE.md).
+12. **Quarter check** — state out loud: which quarter we're in, which Q-plan chunks are done vs. remaining, and whether it's time to run the quarterly review. Trigger the review below if all chunks are done OR the quarter's month window has elapsed.
 
-At a decision gate or quarter end (Month 3, 6, 9, 12...):
-- Tick milestones + record gate outcome in `docs/MILESTONES.md`.
-- Review `docs/RISKS.md` — retire, escalate, or add risks.
-- Spot-check reference docs (TECH_STACK, ARCHITECTURE, GLOSSARY) for staleness.
-- Archive the quarter plan → `docs/archive/quarters/`, activate the next one (update this file's Q-plan reference above).
+### Quarterly Review (trigger when quarter is complete)
+- Tick milestones + record outcome in `docs/MILESTONES.md` (CONTINUE / ITERATE / PIVOT).
+- Review `docs/RISKS.md` — retire resolved risks, escalate worsened ones, add new ones.
+- Spot-check reference docs (`TECH_STACK`, `ARCHITECTURE`, `GLOSSARY`) for staleness.
+- Review `docs/FUNDING.md` — are deadlines coming up? Anything to act on?
+- Archive the quarter plan → `docs/archive/quarters/`, activate the next one; update Q-plan reference in this file.
 
 ## The One Human-Owned Judgment
 
