@@ -31,3 +31,33 @@
 ## THE RULE
 Round DOWN, not up. The honest claim is always preferred over the impressive one.
 When closing a sprint, the AI proposes any claim-boundary change; the HUMAN confirms.
+
+## THE THREE BETS (what we are actually testing)
+
+Bet 1: Continuous-time models better match irregular
+clinical observation structure than discrete recurrent
+models.
+→ CURRENT PREPRINT. This is what we are testing now.
+
+Bet 2: Treatment-aware disease dynamics can be learned
+from observational longitudinal data.
+→ Year 2. Requires controlled data. Not claimed yet.
+
+Bet 3: A reusable disease engine generalizes across
+diseases and institutions.
+→ Year 3+. Not claimed. Not tested.
+
+We are on Bet 1. We do not claim Bet 2 or 3
+until evidence supports them.
+
+## PHRASES TO NEVER USE
+- "Nobody has published exactly that"
+- "We are the first to..."
+- "No one has done this before"
+
+## SAFE ALTERNATIVES
+- "To our knowledge, no widely adopted reproducible
+  demonstration exists of..."
+- "We are not aware of prior work that..."
+- "The closest prior work is [X], which differs
+  because..."

@@ -156,6 +156,26 @@ human's call. When closing a sprint, do NOT silently upgrade what we claim —
 propose the change and let the human confirm. We round DOWN, not up. The honest
 claim is always preferred over the impressive one.
 
+## Scientific Discipline
+
+We are testing Bet 1 only:
+"Continuous-time models better match irregular clinical
+observation structure than discrete recurrent models."
+
+We do not claim Bet 2 (treatment conditioning works)
+or Bet 3 (generalizes across diseases) until evidence
+supports them.
+
+Every claim must have a matching result. If there is
+no result, there is no claim.
+
+Never write "nobody has done this" or "we are the first."
+Always write "to our knowledge" and cite the closest
+prior work.
+
+Lead with mechanism. Numbers support the mechanism.
+Mechanism is what researchers remember.
+
 ## Current Task
 
 > NOW: Messidor External Validation Sprint — validate RETFound generalization OOD (see `docs/NOW.md`)

@@ -25,3 +25,15 @@
 - **The two tracks** — Track 1: build on open data now. Track 2: secure controlled data.
 - **The claim boundary** — the line between what we can and cannot honestly claim. Lives in CLAIMS.md.
 - **Rung** — a single concrete capability on the ladder. We climb one at a time.
+- **The Three Bets** — the three sequential scientific claims Synapse is built on.
+  Only Bet 1 is currently being tested. See CLAIMS.md.
+- **Mechanism vs Benchmark** — a benchmark result reports a number (RMSE 81.6 um).
+  A mechanistic result explains WHY (ODE improves with real timing because it integrates
+  over biological intervals rather than using learned discrete-step decay that degrades
+  under distributional shift). We always lead with mechanism. Numbers support the
+  mechanism — they are not the point.
+- **Falsifiable Hypothesis (current)** — "Continuous-time latent ODE modeling is
+  structurally better suited for irregular clinical time series than discrete recurrent
+  models, because ODE integration over real biological intervals does not require learned
+  approximations of time that degrade under distributional shift."
+  This is what the timing experiment tests. This is what the preprint claims. Nothing more.
