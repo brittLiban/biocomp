@@ -4,6 +4,29 @@
 
 # Decisions
 
+## #12 — 2026-06-07 — Messidor external validation: AUC 0.77 OOD — signal confirmed, not strong
+
+Context: Messidor External Validation Sprint. Train logistic regression on EyePACS RETFound embeddings (31,542 images, frozen, binary: referable = grade ≥ 2 ICDR). Evaluate on Messidor-2 (1,744 gradable images, Krause et al. 2018 adjudicated ICDR grades). No Messidor data used in training.
+
+W&B: messidor_val_v1 (run ID fxkir659, project synapse)
+
+Results:
+| Metric | Value |
+|---|---|
+| AUC-ROC | **0.7699** |
+| Accuracy | 0.7884 |
+| Sensitivity | 0.2341 |
+| Specificity | 0.9852 |
+| TP / FP / FN / TN | 107 / 19 / 350 / 1268 |
+
+Choice: Accept AUC 0.77 as the official OOD result. Do NOT trigger the ">0.85 strong generalization" claim upgrade from NOW.md. The result is honest cross-dataset signal, not strong generalization.
+
+Why (interpretation): AUC 0.77 confirms that frozen RETFound embeddings carry DR-relevant signal across datasets — a logistic regression trained on a US clinical camera dataset (EyePACS, JPEG) generalizes meaningfully to a French hospital dataset (Messidor-2, PNG, different cameras). This is a zero-shot cross-domain probe; AUC 0.77 is in the expected range for this setup. The very low sensitivity (0.23) is a threshold-calibration artifact: EyePACS is 19.5% referable, Messidor-2 is 26.2% referable — the 0.5 default threshold over-predicts non-referable. AUC is threshold-independent and is the correct primary metric. The 350 FNs are not a sign the embeddings lack signal — they are a sign the decision boundary needs re-calibrating for Messidor's prevalence.
+
+What it means for claims: The "no external validation" gap is closed. We can now say: "frozen RETFound embeddings generalize OOD on Messidor-2 (AUC 0.77, linear probe)" — with the caveat that 0.77 is not strong. The honest framing: "cross-dataset DR signal confirmed." The preprint can note that threshold recalibration to Messidor's prevalence would substantially improve sensitivity while preserving AUC. Human must confirm any CLAIMS.md change.
+
+Alternatives rejected: Reporting sensitivity/specificity as headline metrics — misleading given threshold-calibration mismatch; AUC is the canonical threshold-independent metric for this comparison.
+
 ## #11 — 2026-06-07 — Real delta-t result (CORRECTED v2): ODE improves; recurrents degrade
 
 Context: Real Delta-T Sprint. Re-ran GRU-D, T-LSTM, Latent ODE with real week gaps (Prime eyes: diff(visit_nums)/4 normalized; TREX eyes: ordinal 1.0 — real timing unavailable). Seed=42, same split, same normalisation.

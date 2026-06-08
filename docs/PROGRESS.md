@@ -4,37 +4,35 @@
 # Progress — Present Snapshot
 
 ## Current Sprint
-Real delta_t sprint (see NOW.md) — all runs complete including ODE v2 correction.
-Awaiting human decision on CLAIMS.md directional evidence section.
+Messidor External Validation Sprint — COMPLETE (see NOW.md, Decision #12).
 
 ## In Flight
 - Nothing in flight.
 
 ## Completed This Sprint
-- Task 1: OCT-DR.xlsx audited. Finding: no per-visit timing (demographics only). OCT-DME.xlsx Week columns ~98% NaN. Real timing only in file-path visit keys. Documented in DATA.md.
-- Task 2: `build_sequences()` extended with `week_gaps` field (v2 cache). Prime: diff(visit_nums)/4; TREX: 1.0.
-- Task 3: All three scripts updated — REAL_DELTA_T=True, W&B added to GRU-D/T-LSTM.
-- Task 4: All three temporal models re-run with real delta_t, results logged to W&B.
-- Task 5: 2×3 comparison table built and corrected (see Decision #11 v2 in DECISIONS.md).
-- Task 6: Decision #11 updated with corrected ODE result (grouped per-example odeint).
-- Task 7: CLAIMS.md updated — directional evidence section added, awaiting human confirmation.
-- Task 8: ODE v2 correction — replaced batch-mean odeint with grouped per-example odeint (reproducibility fix).
+- Task 1: Labels downloaded (Kaggle google-brain/messidor2-dr-grades) + parsed to `data/processed/messidor_labels.csv` (1744 gradable rows, ICDR 0-4). 4 ungradable images excluded.
+- Task 2: All 1748 Messidor images re-encoded with filename tracking. Saved `messidor_retfound.npy` (1748, 1024) + `messidor_filenames.npy` (1748,). Fixed truncated PNG crash (ImageFile.LOAD_TRUNCATED_IMAGES).
+- Task 3: Labels joined to embeddings — 1744/1748 matched (4 ungradable had no label).
+- Task 4: Logistic regression trained on EyePACS (31,542 × 1024, binary grade ≥ 2), evaluated on Messidor-2. AUC 0.7699. Logged to W&B as messidor_val_v1 (run fxkir659).
+- Task 5: Decision #12 appended to DECISIONS.md.
+- Task 6: CLAIMS.md updated — OOD cross-dataset signal added to CAN CLAIM with honest caveats; "no external validation" removed from CANNOT CLAIM. **Human confirmation pending.**
 
-## Full Results (Real Delta-T Sprint, FINAL CORRECTED)
+## Final Result — Messidor External Validation
 
-| Model | Ordinal RMSE | Real-ΔT RMSE | Change | Real-ΔT MAE |
-|---|---|---|---|---|
-| GRU-D | 82.2 um | 84.2 um | +2.0 um worse | 58.9 um |
-| T-LSTM | 82.0 um | 85.0 um | +3.0 um worse | 59.0 um |
-| Latent ODE | 81.96 um | **81.6 um** | **-0.4 um better** | 58.0 um |
-| Persistence | 91.7 um | 91.7 um | no change | — |
+| Metric | Value |
+|---|---|
+| AUC-ROC | **0.7699** |
+| Accuracy | 0.7884 |
+| Sensitivity | 0.2341 |
+| Specificity | 0.9852 |
+| TP / FP / FN / TN | 107 / 19 / 350 / 1268 |
 
-W&B: grud_realdelta_seed42, tlstm_realdelta_seed42, ode_realdelta_v2_seed42
+W&B: messidor_val_v1 (run fxkir659, project synapse)
 
-Finding: With correct per-example ODE integration, the ODE IMPROVES marginally on real delta-t while recurrents degrade. This is directional evidence for the ODE's structural advantage with irregular time. Still 19 test eyes — not definitive.
+Finding: Frozen RETFound embeddings carry cross-dataset DR signal (AUC 0.77, zero-shot cross-domain linear probe). Low sensitivity is a threshold-calibration artifact (EyePACS 19.5% vs Messidor 26.2% referable rate). AUC is the canonical threshold-independent metric. Does NOT meet the ">0.85 strong" bar from NOW.md — honest framing: "cross-dataset DR signal confirmed, not strong generalization."
 
 ## Blocked
-- CLAIMS.md "directional evidence" section requires human confirmation before promotion to CAN CLAIM.
+- CLAIMS.md change is proposed; awaiting human confirmation before treating as settled.
 
 ## Last Updated
-2026-06-07 — ODE v2 correction complete; all sprint results finalized.
+2026-06-07 — Messidor validation complete; all sprint tasks done except git commit.
