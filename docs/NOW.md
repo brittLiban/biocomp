@@ -59,6 +59,8 @@ submitting to a venue (MICCAI, MIDL, or Nature Comms Medicine).
 ## Status
 > Updated each session. Replaces PROGRESS.md.
 
-**Last session:** 2026-06-07 — Messidor validation complete; sprint closed; this sprint opened.
-**In flight:** Nothing — sprint just opened.
-**Blocked:** Nothing.
+**Last session:** 2026-06-08 — Four paper fixes applied: abstract persistence comparison fixed, contributions 1+2 merged, "Bet 2" language replaced, eye-wt numbers removed from 3.4. References completed (all 6 with full citations). All three figures generated (figure1_roc_curves, figure2_timing_bar, figure3_architecture). Decision #13 logged (both metrics reported). make_figures.py fixed (olives_retfound.npy filename, persistence line removed from Figure 2).
+
+**In flight:** Human review pass — full draft is complete, awaiting human read of abstract + Discussion caveats before arXiv submission.
+
+**Next:** Confirm repository URL for code availability section, then arXiv submission.

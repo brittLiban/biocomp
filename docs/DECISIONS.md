@@ -4,6 +4,24 @@
 
 # Decisions
 
+## #13 — 2026-06-08 — Metric inconsistency resolution: report both ts-wt and eye-wt RMSE
+
+Context: Preprint Draft Sprint. Discovered that model RMSE values (82.x μm, from W&B logs) used timestep-weighted RMSE (each visit counts equally), while the persistence baseline (91.7 μm) was computed with eye-weighted RMSE (each patient counts equally). These are different metrics; comparing them directly is incorrect.
+
+Diagnostic (scripts/diagnose_metrics.py):
+- Eye-weighted: persistence 91.7 μm, models 73–75 μm → models beat persistence ✓
+- Timestep-weighted: persistence 55.0 μm, models 82.x μm → models do NOT beat persistence ✗
+- Root cause: test eyes 4 (1 visit, 291 μm persistence error) and 12 (2 visits, 190 μm) dominate eye-weighted persistence; models beat persistence on only 8/19 test eyes (42%).
+- Timing experiment direction (ODE improves, recurrents degrade) holds under BOTH metrics ✓
+
+Choice: Option C — report both metrics explicitly. Table 1 shows ts-wt and eye-wt columns. Section 2.4 defines both metrics and explains why they diverge for persistence. Neither metric is suppressed.
+
+Why: The divergence is real and scientifically informative. Eye-weighted and timestep-weighted answer different clinical questions (per-patient vs. per-visit accuracy). Forcing one metric would either make an overclaim (models beat persistence) or underclaim (models worse than persistence). Both results are true; both are reported. The paper's core contribution — the timing experiment — holds under both, so the inconsistency does not undermine the main thesis.
+
+Alternatives rejected: (A) eye-weighted throughout — changes W&B numbers, creates inconsistency with logged run values; (B) timestep-weighted throughout — would suppress the eye-weighted result and make it look like models universally fail to beat persistence.
+
+Paper impact: Abstract updated to cite both persistence values (91.7 eye-wt, 55.0 ts-wt). Table 1 has two persistence rows. Section 3.2 explicitly frames the metric-dependence. The timing experiment (Section 3.4) is evaluated under ts-wt (matching W&B) and noted to hold under eye-wt as well.
+
 ## #12 — 2026-06-07 — Messidor external validation: AUC 0.77 OOD — signal confirmed, not strong
 
 Context: Messidor External Validation Sprint. Train logistic regression on EyePACS RETFound embeddings (31,542 images, frozen, binary: referable = grade ≥ 2 ICDR). Evaluate on Messidor-2 (1,744 gradable images, Krause et al. 2018 adjudicated ICDR grades). No Messidor data used in training.
