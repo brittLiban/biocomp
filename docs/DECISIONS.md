@@ -4,6 +4,31 @@
 
 # Decisions
 
+## #14 — 2026-06-10 — Validation split fix: correct checkpoint selection method; all prior ODE/recurrent runs superseded
+
+Context: Preprint Draft Sprint — pre-submission peer review corrections. Prior runs (Decisions #10, #11, #13) selected the final checkpoint by lowest TEST RMSE (evaluated at epoch 10 in the first ODE run, epoch 60 in recurrent runs). This is test-set leakage: the test set influenced which checkpoint was selected, invalidating the reported test performance.
+
+Fix: Added a held-out validation split. The 77 training+validation eyes are split 60 train / 17 val (split_by_eye, test_frac=0.22, seed=42). Checkpoints selected by lowest val RMSE. Test set (19 eyes) evaluated exactly once with the selected checkpoint and not used for any modeling decision.
+
+New runs (all: 60 train / 17 val / 19 test, val-checkpoint selection, seed=42):
+
+| Run | W&B ID | Ordinal ts-wt RMSE | Real-dt ts-wt RMSE |
+|---|---|---|---|
+| grud_ordinal_valsplit_seed42 | qvs59tf8 | 88.21 μm | — |
+| grud_realdelta_valsplit_seed42 | f13m74kn | — | 85.15 μm |
+| tlstm_ordinal_valsplit_seed42 | f46o6mn2 | 83.35 μm | — |
+| tlstm_realdelta_valsplit_seed42 | d7t3lidm | — | 84.68 μm |
+| ode_ordinal_valsplit_seed42 | w80ry34u | 81.63 μm | — |
+| ode_realdelta_valsplit_seed42 | wvl490h1 | — | 81.69 μm |
+
+Timing-condition deltas: ODE +0.06 μm (flat), T-LSTM +1.33 μm (marginal degradation), GRU-D −3.06 μm (improvement from poor ordinal baseline).
+
+Old results (from Decisions #10, #11): ODE ordinal 81.96 μm, ODE real-dt 81.6 μm, T-LSTM ordinal ~82.0 μm, GRU-D ordinal ~82.2 μm. These are superseded.
+
+Impact on narrative: The old directional story (ODE benefits, recurrents degrade under real timing) does not hold. The ODE is robust across conditions; the timing experiment is inconclusive at n=19. The ODE still achieves the best test RMSE under both conditions. Paper updated accordingly (Sections 3.3, 3.4, 4.1, 5; CLAIMS.md DIRECTIONAL EVIDENCE).
+
+Script: scripts/run_valsplit.py
+
 ## #13 — 2026-06-08 — Metric inconsistency resolution: report both ts-wt and eye-wt RMSE
 
 Context: Preprint Draft Sprint. Discovered that model RMSE values (82.x μm, from W&B logs) used timestep-weighted RMSE (each visit counts equally), while the persistence baseline (91.7 μm) was computed with eye-weighted RMSE (each patient counts equally). These are different metrics; comparing them directly is incorrect.

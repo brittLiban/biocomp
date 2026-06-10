@@ -21,3 +21,9 @@ Dashboard: https://wandb.ai/models-biocomp/synapse
 | tlstm_realdelta_seed42 | — | 2026-06-07 | scripts/baseline_tlstm.py | RMSE 85.0 um (real-dt) | #11 | Real delta_t; +3.0 um vs ordinal — recurrent degrades |
 | ode_realdelta_v2_seed42 | — | 2026-06-07 | scripts/latent_ode.py | RMSE 81.6 um (real-dt) | #11 | Corrected: grouped per-example odeint; -0.4 um vs ordinal — ODE benefits from real timing |
 | messidor_val_v1 | fxkir659 | 2026-06-07 | scripts/validate_messidor.py | AUC 0.7699 OOD | #12 | Frozen logreg; train=EyePACS, test=Messidor-2 (1,744); cross-dataset DR signal confirmed |
+| grud_ordinal_valsplit_seed42 | 7aaazk8q | 2026-06-10 | scripts/run_valsplit.py | ts-wt 88.21 μm / eye-wt 76.70 μm (ordinal) | #14 | 60/17/19 split, val-checkpoint; SUPERSEDES prior grud runs |
+| grud_realdelta_valsplit_seed42 | yjk28y9q | 2026-06-10 | scripts/run_valsplit.py | ts-wt 85.15 μm / eye-wt 74.23 μm (real-dt) | #14 | 60/17/19 split, val-checkpoint |
+| tlstm_ordinal_valsplit_seed42 | xis5opkq | 2026-06-10 | scripts/run_valsplit.py | ts-wt 83.35 μm / eye-wt 73.07 μm (ordinal) | #14 | 60/17/19 split, val-checkpoint; SUPERSEDES prior tlstm runs |
+| tlstm_realdelta_valsplit_seed42 | 03hzdy9j | 2026-06-10 | scripts/run_valsplit.py | ts-wt 84.68 μm / eye-wt 73.63 μm (real-dt) | #14 | 60/17/19 split, val-checkpoint |
+| ode_ordinal_valsplit_seed42 | xfsrrnp1 | 2026-06-10 | scripts/run_valsplit.py | ts-wt 81.63 μm / eye-wt 70.89 μm (ordinal) | #14 | 60/17/19 split, val-checkpoint; SUPERSEDES prior ODE runs |
+| ode_realdelta_valsplit_seed42 | 0gwhx722 | 2026-06-10 | scripts/run_valsplit.py | ts-wt 81.69 μm / eye-wt 71.90 μm (real-dt) | #14 | 60/17/19 split, val-checkpoint |
