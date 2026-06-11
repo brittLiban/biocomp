@@ -1,7 +1,28 @@
-> Parent: docs/Q1_PLAN.md (Q2, Track 1) · Constitution: CLAUDE.md
+> Parent: docs/Q3_PLAN.md (Chunk 1) · Constitution: CLAUDE.md
 > This doc: THE current sprint. Fully specified. Rewritten each sprint via the closeout ritual.
 
 # NOW — Preprint Draft Sprint
+
+## Orientation
+> Rewritten each sprint closeout. The single source of current state. Read this first.
+> **Last rewritten: 2026-06-11**
+
+**Phase:** Rung 1 complete · Rung 2 complete (prototype) · Preprint written (`paper/preprint_v1.md`) · arXiv submission pending. Rung 3 requires controlled data (Year 2).
+
+**Active bet:** Bet 1 only — continuous-time ODE-RNN vs recurrent baselines on irregular clinical observation timing.
+
+**Live results (all from val-split corrected runs, Decision #14):**
+- AUC 0.9906 — OLIVES within-dist DME classification (static label; representation quality, not dynamics)
+- AUC 0.77 OOD — Messidor-2 frozen linear probe (cross-dataset DR signal confirmed; not strong; Decision #12)
+- ODE-RNN: 81.63 μm ts-wt / 70.89 μm eye-wt (ordinal, 60/17/19 split, 19 test eyes)
+- T-LSTM: 83.35 μm ts-wt / 73.07 μm eye-wt · GRU-D: 88.21 μm ts-wt / 76.70 μm eye-wt
+- Timing experiment: inconclusive at n=19 — GRU-D moved opposite direction (see DIRECTIONAL EVIDENCE in CLAIMS.md)
+
+**Cannot claim:** strong OOD generalization (0.77 < 0.85 bar) · clear ODE advantage (margins within noise) · treatment effects · anything Rung 3+
+
+**Decisions binding this sprint:** #14 (val-split; all prior numbers superseded) · #13 (report both metrics) · #8 (CST regression target)
+
+**Docs needed this sprint:** CLAIMS.md (required before writing any sentence that could be a claim)
 
 ## Goal
 Write the first full preprint draft. The results table is complete — representation,

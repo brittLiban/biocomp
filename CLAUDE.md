@@ -1,13 +1,8 @@
 # Synapse — CLAUDE.md
 
-> **CURRENT TASK:** Messidor External Validation Sprint — validate RETFound generalization OOD (see `docs/NOW.md`)
-> **Honest odds:** 80% working prototype by Month 6 · 5-10% chance of $100M+ company · 2-5% unicorn
-
 ## What This Repo Is
 
 This is the codebase for **Synapse**, a computational disease dynamics company founded by Liban Britt. The goal is a "physics engine" for how disease evolves under treatment, starting with diabetic retinopathy (DR).
-
-The source-of-truth strategy document is `Synapse_North_Star_3Year_Strategic_Roadmap.pdf` (v3.0). Read it before making architectural decisions.
 
 ## The Core Idea
 
@@ -21,46 +16,20 @@ Everything — encoders, fusion, simulation, synthetic generation — is infrast
 
 ## Current Phase
 
-**Year 1, Rung 1-2 of the capability ladder.**
-
-- Rung 1: Strong retinal representation (public data)
-- Rung 2: Temporal modeling on real sequences (OLIVES)
-
-We do not claim Rung 3+ until data and evidence support it.
-
-## Immediate Priority (Month 1)
-
-1. **OLIVES feasibility audit** — literal first task. Answer 4 questions before any modeling:
-   - File structure on disk
-   - Temporal depth per eye (histogram of visit counts)
-   - Alignment of imaging + 16 biomarkers + treatment timeline
-   - Size of clean longitudinal subset
-   - Decision gate: if most eyes have 4+ visits → latent ODE viable; if 2-3 → simpler temporal baselines
-
-   **Claim boundary:** The honest Year 1 claim is *"open-data temporal prototype showing multimodal retinal disease states can be modeled over time, including treatment information."* Not "we solved DR progression." This applies to code comments, commit messages, and the preprint equally.
-
-2. **UK Biobank application** — start Month 1, runs in parallel (async, takes months)
-
-## Key Datasets
-
-| Dataset | Access | Role |
-|---|---|---|
-| OLIVES | Free, CC BY 4.0 | Dynamics PoC — 96 eyes, longitudinal, treatment timing |
-| EyePACS public | Free | Encoder pretraining |
-| Messidor / -2 | Free | External validation |
-| FGADR | Free | Lesion-aware auxiliary tasks |
-| UK Biobank | ~£9K, grant-funded | Scale validation (Y2) |
-| EyePACS private | Partnership | Scale validation (Y2) |
+See `docs/NOW.md → ## Orientation` for current phase, rung status, and live results.
+The full Year 1 roadmap is in `docs/YEAR_1.md`. Strategic 3-year context is in `docs/NORTH_STAR_summary.md`.
 
 ## Architecture (7 Tiers)
 
-- **Tier 1** — Data ingestion (OLIVES + EyePACS loaders) — MVP
-- **Tier 2** — Encoder: RETFound backbone; JEPA fine-tuning (Y1+) — MVP is RETFound
-- **Tier 3** — HAWVA belief state: probabilistic hidden state — minimal in MVP
-- **Tier 4** — Disease dynamics engine: latent ODE — MVP core
-- **Tier 5** — Active inference (Y2-3)
-- **Tier 6** — Simulation & generation (Y2-3)
-- **Tier 7** — Products & APIs (Y2-3)
+- **Tier 1** — Data ingestion (`src/data/`) — MVP built
+- **Tier 2** — Encoder: RETFound backbone (`src/encoders/`) — MVP built (frozen)
+- **Tier 3** — HAWVA belief state (`src/belief/`) — minimal in MVP
+- **Tier 4** — Disease dynamics engine: ODE-RNN (`src/dynamics/`) — MVP built
+- **Tier 5** — Active inference — Year 2-3, not built
+- **Tier 6** — Simulation & generation — Year 2-3, not built
+- **Tier 7** — Products & APIs — Year 2-3, not built
+
+Only Tiers 1-4 are in scope for Year 1. See `docs/ARCHITECTURE.md` for module boundaries and dependency rules.
 
 ## What We Are NOT Building
 
@@ -68,17 +37,17 @@ Not a DR screening tool, not a synthetic-data vendor, not a clinical chatbot, no
 
 ## Scientific Principles
 
-- Prioritize falsifiability. The dynamics thesis might be wrong — that's acceptable.
-- Decide model class BEFORE building it (the feasibility audit exists for this reason).
+- Prioritize falsifiability. The dynamics thesis might be wrong — that is acceptable.
 - External validation on held-out datasets before claiming any result.
 - Every claim must be evidence-backed. Scope claims honestly.
+- Lead with mechanism. Numbers support mechanism. Mechanism is what researchers remember.
 
 ## Code Standards
 
 - Reproducible experiments: all runs logged to W&B, seeds set, env specs committed.
-- Clean separation: data loaders / encoders / dynamics model / evaluation are separate modules.
-- Baselines first: logistic regression, GRU-D, T-LSTM, Cox survival before latent ODE.
-- No model code before the feasibility audit is complete.
+- Clean separation: data loaders / encoders / dynamics / evaluation are separate modules.
+- Baselines first: logistic regression, GRU-D, T-LSTM, Cox survival before ODE.
+- See `docs/CODE_STYLE.md` for naming conventions, docstrings, and definition of done.
 
 ## Funding Context
 
@@ -86,105 +55,140 @@ Building alongside other income — no dedicated runway. Near-zero burn through 
 
 ---
 
-## How to Work in This Repo (Read First, Every Session)
+## How to Work in This Repo
 
-At the start of every session, orient yourself:
-1. Read this file (CLAUDE.md) for mission, phase, and rules.
-2. Read `docs/NOW.md` for the current task and status — this is what we work on.
-3. Consult as needed: `docs/TECH_STACK.md` (how), `docs/ARCHITECTURE.md` (where code goes), `docs/DATA.md` (data shape), `docs/CLAIMS.md` (what we can honestly claim), `docs/OPEN_QUESTIONS.md` (unresolved unknowns).
+**Every session, in order:**
 
-If GPT or another model is being used, the human will paste the relevant docs manually. Same rules apply regardless of model.
+1. **Read `docs/NOW.md`** — the Orientation block gives you current phase, live claims, bound decisions, and which docs this sprint needs. This is the one required read.
+2. **Consult the Document Tier Table below** for anything beyond the current sprint's scope.
 
-## The Document System
+**Session-start stale check:** If NOW.md Status has no entry dated within the last few days, or if recent work clearly happened that isn't logged — ask before starting: *"Last session logged was [date] — anything to capture before we start?"*
 
-Guard rails (stable — the why and the limits):
-- `docs/NORTH_STAR.pdf` — 3-year strategy, the constitution
-- `docs/YEAR_1.md` — what we achieve this year; rungs + gates
-- `docs/MILESTONES.md` — flat checklist of all milestones
-- `docs/CLAIMS.md` — what we CAN and CANNOT currently claim (overclaim guard)
+*If another AI model is being used: the human will paste the relevant docs manually. Same rules apply regardless of model.*
 
-How we build (stable-ish):
-- `docs/TECH_STACK.md`, `docs/CODE_STYLE.md`, `docs/ARCHITECTURE.md`, `docs/GLOSSARY.md`
+---
 
-The plan / the focus:
-- `docs/Q3_PLAN.md` — current quarter at high level (Q1 archived → `docs/archive/quarters/`)
-- `docs/NOW.md` — THE current sprint, fully specified; includes **Status** section (replaces PROGRESS.md)
+## Document Tier Table
 
-Memory (continuous):
-- `docs/LOG.md` — permanent append-only history of completed sprints
-- `docs/DECISIONS.md` — log of choices: X over Y because Z
-- `docs/RUNS.md` — index of all W&B runs: name, ID, script, key metric, decision ref
-- `docs/OPEN_QUESTIONS.md` — unresolved unknowns; reviewed every sprint closeout
-- `docs/DATA.md` — dataset schemas + audit findings
-- `docs/FUNDING.md` — grant opportunities, deadlines, application status; reviewed every quarterly review
-- `docs/CONTACTS.md` — domain experts, collaborators, data partners, funders; reviewed every quarterly review
+### Tier 1 — Always (every session, no exceptions)
+| Doc | What it gives you |
+|---|---|
+| `docs/NOW.md` | Current phase · live claims · bound decisions · docs needed this sprint |
 
-Archive: retired docs live in `docs/archive/now/` and `docs/archive/quarters/`,
-named `YYYY-MM_short-description.md`.
+### Tier 2 — Task-Triggered (read when the trigger applies, before starting the work)
+| Doc | Read when... |
+|---|---|
+| `docs/ARCHITECTURE.md` | Writing or restructuring Python code · adding new `src/` modules |
+| `docs/TECH_STACK.md` | Adding a dependency · choosing a tool or library |
+| `docs/DATA.md` | Data pipeline work · writing Methods section · working with any dataset |
+| `docs/CODE_STYLE.md` | Writing new Python code · reviewing existing code |
+| `docs/GLOSSARY.md` | Using domain terms: CST, BCVA, TREX, Prime_FULL, HAWVA, ODE-RNN |
 
-## Update Protocol — When Docs Get Touched
+### Tier 3 — Reference (look up specific things; do not read start-to-finish)
+| Doc | Use when... |
+|---|---|
+| `docs/CLAIMS.md` | Writing anything that could be a claim — commit messages, paper sentences, READMEs, grant text |
+| `docs/DECISIONS.md` | Wondering if a question is already settled — scan the index table first |
+| `docs/RUNS.md` | Referencing any experiment result |
+| `docs/NORTH_STAR_summary.md` | Architectural decisions · scope questions · grant positioning |
 
-During a session:
-- A real decision was made → append to `docs/DECISIONS.md` immediately.
-- A W&B run was logged → append a row to `docs/RUNS.md` immediately.
-- A new unknown surfaced, or one got answered → update `docs/OPEN_QUESTIONS.md`.
-- Session ending → update the **Status** section at the bottom of `docs/NOW.md`.
+### Tier 4 — Periodic (sprint closeout or quarterly review only)
+| Doc | When |
+|---|---|
+| `docs/YEAR_1.md` | Quarterly review — gates and rungs |
+| `docs/MILESTONES.md` | Quarterly review — tick outcomes |
+| `docs/RISKS.md` | Quarterly review — retire or escalate |
+| `docs/Q3_PLAN.md` | Sprint closeout — tick completed chunk checkbox |
+| `docs/FUNDING.md` | Quarterly review — deadlines, actions |
+| `docs/CONTACTS.md` | Quarterly review — new contacts, follow-ups |
 
-The three phrases the human will use:
-- "log that decision" → append a DECISIONS.md entry now.
-- "update progress, we're done" → update the Status section in NOW.md.
-- "close out this sprint" → run the Sprint Closeout Ritual below.
+### Tier 5 — Constitutional (major pivots and architectural decisions only)
+| Doc | When |
+|---|---|
+| `docs/NORTH_STAR.pdf` | Fundamental scope changes · major strategic pivots |
+| `docs/YEAR_1.md` | Go / no-go gate decisions |
+
+---
+
+## In-Session Update Rules
+
+These happen **immediately** during the session — do not batch to closeout:
+
+- **Decision made** → append to `docs/DECISIONS.md` + update the Quick Index at the top. Do this as soon as the decision is settled, not at the end.
+- **W&B run completes** → append row to `docs/RUNS.md` immediately.
+- **Open question resolves** → **delete** it from `docs/OPEN_QUESTIONS.md` immediately. The answer lives in `DECISIONS.md`.
+- **New open question surfaces** → add it to `docs/OPEN_QUESTIONS.md` immediately.
+- **Code changes module structure** → update `docs/ARCHITECTURE.md` before committing.
+- **New dependency added** → update `docs/TECH_STACK.md` before committing.
+- **New dataset added or schema changes** → update `docs/DATA.md` immediately.
+- **New domain term used** → add it to `docs/GLOSSARY.md` immediately.
+- **All sprint tasks checked off** → surface: *"All tasks are done — say 'close out this sprint' when ready."*
+
+**Session-end rule (non-negotiable):** Before ending any session, prompt: *"Before we stop — should I update the Status block in NOW.md?"* Do not let a session end without the Status block being current.
+
+---
 
 ## Sprint Closeout Ritual
 
-When the human says "close out this sprint," do these in order:
+When the human says **"close out this sprint"**, run the tiers in order. Stopping after Tier 1 is acceptable if time is short — the next session will still start correctly oriented.
+
+### Tier 1 — Must Do (5 minutes)
 1. Copy `docs/NOW.md` → `docs/archive/now/YYYY-MM_description.md`
-2. Append one entry to `docs/LOG.md` (newest at top): date, what finished, outcome, link to the archived NOW.
-3. Confirm any decisions from this sprint are in `docs/DECISIONS.md`.
-4. Confirm any W&B runs from this sprint are in `docs/RUNS.md`.
-5. Review `docs/OPEN_QUESTIONS.md`: mark answered questions [x], add any new ones surfaced this sprint.
-6. If any funding actions were taken this sprint → update `docs/FUNDING.md`.
-7. If any new contacts were made or relevant contacts surfaced → update `docs/CONTACTS.md`.
-8. Copy `docs/templates/NOW_template.md` → fresh `docs/NOW.md`, filled with the next chunk from the current Q-plan. Fill the Status section with "Sprint just opened."
-9. If the sprint changed what we can honestly claim → update `docs/CLAIMS.md`. (The human owns this judgment — flag it, let them confirm.)
-10. If the sprint produced data findings → update `docs/DATA.md`.
-11. Update the "Current Task" pointer at the top of this file (CLAUDE.md).
-12. **Quarter check** — state out loud: which quarter we're in, which Q-plan chunks are done vs. remaining, and whether it's time to run the quarterly review. Trigger the review below if all chunks are done OR the quarter's month window has elapsed.
+2. Append one entry to `docs/LOG.md` (newest at top): date, what finished, outcome, link to archived NOW.
+3. Copy `docs/templates/NOW_template.md` → fresh `docs/NOW.md`, filled with the next Q-plan chunk.
+4. **Write the Orientation block first and accurately — this is the load-bearing step.** It is the only source of current state loaded at every session.
+5. Set Status: *"Sprint just opened."*
+
+*Stopping here is safe. The next session starts correctly oriented.*
+
+### Tier 2 — Should Do (add 10 minutes)
+6. Verify all sprint decisions are in `docs/DECISIONS.md` and the Quick Index is current.
+7. Verify all W&B runs from this sprint are in `docs/RUNS.md`.
+8. Clean `docs/OPEN_QUESTIONS.md` — delete answered items, add new ones surfaced this sprint.
+9. Tick the completed chunk checkbox in `docs/Q3_PLAN.md`.
+10. If the sprint changed what we can honestly claim → **propose** the `docs/CLAIMS.md` change and wait for human confirmation. Do NOT update CLAIMS.md without explicit human sign-off.
+
+### Tier 3 — Full Closeout (add 10 minutes)
+11. If sprint produced data findings → update `docs/DATA.md`.
+12. If funding actions were taken → update `docs/FUNDING.md`.
+13. If new contacts were made or are newly relevant → update `docs/CONTACTS.md`.
+14. **Quarter check** — state out loud: which quarter we are in, which Q-plan chunks are done vs. remaining, and whether it is time to run the quarterly review. Trigger the review if all chunks are done or the quarter's month window has elapsed.
 
 ### Quarterly Review (trigger when quarter is complete)
 - Tick milestones + record outcome in `docs/MILESTONES.md` (CONTINUE / ITERATE / PIVOT).
 - Review `docs/RISKS.md` — retire resolved risks, escalate worsened ones, add new ones.
-- Spot-check reference docs (`TECH_STACK`, `ARCHITECTURE`, `GLOSSARY`) for staleness.
-- Review `docs/FUNDING.md` — are deadlines coming up? Anything to act on?
-- Archive the quarter plan → `docs/archive/quarters/`, activate the next one; update Q-plan reference in this file.
+- Spot-check Tier 2 reference docs (`ARCHITECTURE`, `TECH_STACK`, `DATA`, `GLOSSARY`, `CODE_STYLE`) for staleness.
+- Review `docs/FUNDING.md` — deadlines coming up? Anything to act on?
+- Archive the quarter plan → `docs/archive/quarters/`, activate the next one; update the Q-plan reference in this section.
+
+---
 
 ## The One Human-Owned Judgment
 
-You (the AI) may move files and draft all entries. But CLAIMS.md honesty is the
-human's call. When closing a sprint, do NOT silently upgrade what we claim —
-propose the change and let the human confirm. We round DOWN, not up. The honest
-claim is always preferred over the impressive one.
+You (the AI) may move files and draft all entries. But CLAIMS.md honesty is the human's call. When closing a sprint, do NOT silently upgrade what we claim — propose the change and let the human confirm. We round DOWN, not up. The honest claim is always preferred over the impressive one.
+
+---
 
 ## Scientific Discipline
 
 We are testing Bet 1 only:
-"Continuous-time models better match irregular clinical
-observation structure than discrete recurrent models."
+*"Continuous-time models better match irregular clinical observation structure than discrete recurrent models."*
 
-We do not claim Bet 2 (treatment conditioning works)
-or Bet 3 (generalizes across diseases) until evidence
-supports them.
+We do not claim Bet 2 (treatment conditioning works) or Bet 3 (generalizes across diseases) until evidence supports them.
 
-Every claim must have a matching result. If there is
-no result, there is no claim.
+Every claim must have a matching result. If there is no result, there is no claim.
 
-Never write "nobody has done this" or "we are the first."
-Always write "to our knowledge" and cite the closest
-prior work.
+Never write "nobody has done this" or "we are the first." Always write "to our knowledge" and cite the closest prior work.
 
-Lead with mechanism. Numbers support the mechanism.
-Mechanism is what researchers remember.
+---
 
-## Current Task
+## Working With AI
 
-> NOW: Preprint Draft Sprint — write first full paper draft; all results in hand (see `docs/NOW.md`)
+- **Liban works in session bursts**, often with days or weeks between sessions. Do not ask orientation questions — read NOW.md Orientation and start from current state.
+- **Scientific claim discipline is non-negotiable.** When uncertain about a claim, flag it and wait for human confirmation. Never write a claim that is not in CLAIMS.md CAN CLAIM.
+- **Respond to session-end prompts.** When the AI asks "should I update the Status block?" answer yes or no. When it says "all tasks are done — ready to close out?" answer yes or no.
+- **The three phrases:**
+  - *"log that decision"* → append to DECISIONS.md now, update index
+  - *"update progress, we're done"* → update Status section in NOW.md now
+  - *"close out this sprint"* → run the Sprint Closeout Ritual above
+- **CLAIMS.md is the veto.** Before any claim appears in writing — paper, README, commit message, grant — check CLAIMS.md. If it is not in CAN CLAIM, it cannot be written.

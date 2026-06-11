@@ -1,8 +1,31 @@
 > Parent: CLAUDE.md · Related: docs/OPEN_QUESTIONS.md
 > This doc: log of non-obvious choices and WHY. Stops re-litigating settled questions.
-> Changes: append immediately when a real decision is made. Newest at top.
+> Changes: append entry + update Quick Index immediately when a decision is made. Newest at top.
 
 # Decisions
+
+## Quick Index
+> Scan this first — 5 seconds to check if your question is already settled.
+> **Last updated: 2026-06-11**
+
+| # | Date | Summary |
+|---|---|---|
+| 14 | 2026-06-10 | Val-split fix: 60/17/19 split, val-checkpoint selection — all prior ODE/recurrent runs superseded; timing experiment inconclusive |
+| 13 | 2026-06-08 | Report both ts-wt AND eye-wt RMSE — both correct, both in Table 1 |
+| 12 | 2026-06-07 | Messidor AUC 0.77 OOD — cross-dataset signal confirmed, not strong; ">0.85 strong" bar not met |
+| 11 | 2026-06-07 | Real delta-t v2: ODE −0.4 μm, recurrents +2-3 μm (SUPERSEDED by #14 val-split correction) |
+| 10 | 2026-06-07 | ODE-RNN 81.96 μm beats bar (SUPERSEDED by #14 val-split correction) |
+| 9 | 2026-06-07 | ODE target pre-committed: RMSE < 82.0 μm, cannot move post-hoc |
+| 8 | 2026-06-07 | Target: CST regression (RMSE), not binary classification threshold |
+| 7 | 2026-06-07 | OLIVES join key: (Eye_ID, BCVA, CST) composite — not File_Path |
+| 6 | 2026-06-02 | EyePACS/Messidor = classification baseline; OLIVES = dynamics |
+| 5 | 2026-06-01 | Adapt OLIVES authors' dataloader, not build from scratch |
+| 4 | 2026-06-01 | HuggingFace OLIVES: encoder pretraining only; Zenodo needed for dynamics |
+| 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
+| 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
+| 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+---
 
 ## #14 — 2026-06-10 — Validation split fix: correct checkpoint selection method; all prior ODE/recurrent runs superseded
 

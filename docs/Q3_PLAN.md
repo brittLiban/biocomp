@@ -12,7 +12,7 @@ scale — Q3 is about publishing it, getting feedback, and positioning for the n
 
 ## Work Chunks (roll each into NOW.md when reached)
 
-### Chunk 1 — Preprint Draft [NOW]
+### Chunk 1 — Preprint Draft [x]
 Write the first full paper draft. Sections: intro, methods, results (4 subsections),
 discussion. Every claim maps to CLAIMS.md CAN CLAIM. Human reviews abstract +
 discussion caveats before submission.
