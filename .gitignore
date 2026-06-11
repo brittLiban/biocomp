@@ -21,6 +21,9 @@ results/figures/*.png
 *.ckpt
 *.pt
 
+# Logs
+*.log
+
 # OS / editor
 .DS_Store
 .vscode/
