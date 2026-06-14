@@ -14,7 +14,8 @@
 - **JEPA** — Joint-Embedding Predictive Architecture; self-supervised method that predicts
   latent representations of future inputs. An optional Tier-2 enhancement, NOT the brand.
 - **RETFound** — pretrained retinal foundation model (1.6M images). Our encoder backbone.
-- **Latent ODE** — neural model learning continuous-time latent dynamics; candidate for Tier 4.
+- **ODE-RNN** — what was actually built (Rubanova et al. 2019, discriminative variant). Encodes each visit, updates a GRU hidden state, then integrates that state forward in continuous time using a neural ODE before predicting next-visit CST. Deterministic — no posterior, no ELBO, no trajectory sampling. Tests Bet 1 (continuous-time vs discrete recurrent). This is the Rung 2 prototype.
+- **Latent ODE** — the generative architecture (Chen et al. 2018). Runs an RNN encoder backwards over the full sequence to infer a posterior z_0, then integrates forward in latent space and reconstructs observations via a decoder. Enables trajectory sampling, counterfactual simulation, and synthetic cohort generation. This is the Year 2 / Rung 3 target. **Not what was built for the preprint.**
 - **The capability ladder** — 8 rungs from "strong representation" to "disease infrastructure."
   We are on Rungs 1-2.
 - **The feasibility audit** — the OLIVES data-structure check done BEFORE any modeling.
@@ -32,8 +33,10 @@
   over biological intervals rather than using learned discrete-step decay that degrades
   under distributional shift). We always lead with mechanism. Numbers support the
   mechanism — they are not the point.
-- **Falsifiable Hypothesis (current)** — "Continuous-time latent ODE modeling is
-  structurally better suited for irregular clinical time series than discrete recurrent
-  models, because ODE integration over real biological intervals does not require learned
-  approximations of time that degrade under distributional shift."
-  This is what the timing experiment tests. This is what the preprint claims. Nothing more.
+- **Falsifiable Hypothesis (current)** — "The ODE-RNN is structurally better suited for
+  irregular clinical time series than discrete recurrent models, because ODE integration
+  over real biological intervals does not require a learned decay parameter that can
+  miscalibrate under distributional shift."
+  This is what the timing experiment tests. The timing experiment is inconclusive at n=19
+  (Decision #15). The ODE-RNN's near-zero timing sensitivity is consistent with the
+  hypothesis but does not confirm it. Nothing more is claimed.

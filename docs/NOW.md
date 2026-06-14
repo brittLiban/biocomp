@@ -80,13 +80,12 @@ submitting to a venue (MICCAI, MIDL, or Nature Comms Medicine).
 ## Status
 > Updated each session. Replaces PROGRESS.md.
 
-**Last session:** 2026-06-10 — Four pre-submission peer-review corrections applied:
-1. **Naming**: Renamed "Latent ODE" → "ODE-RNN" throughout (we implement the deterministic ODE-RNN variant, not variational Latent ODE with ELBO).
-2. **Test-set leakage fix**: Added 60/17/19 train/val/test split with val-checkpoint selection. Re-ran all 6 models × 2 timing conditions. New ts-wt numbers: ODE 81.63/81.69 μm, T-LSTM 83.35/84.68 μm, GRU-D 88.21/85.15 μm. Eye-wt: ODE 70.89/71.90 μm, T-LSTM 73.07/73.63 μm, GRU-D 76.70/74.23 μm. Decision #14 logged. All 6 val-split runs in W&B.
-3. **Input fairness**: Section 3.2 now explicitly frames the asymmetric input regime (temporal models: embeddings+BCVA; persistence: current CST).
-4. **Modality clarification**: Section 2.2 documents the RETFound_cfp-on-OCT mismatch; Section 4.2 adds encoder scope limitation.
-Paper updated: Abstract, Contributions, Sections 2.2, 2.3, 2.4, 3.2, 3.3, 3.4, 4.1, 4.2, 4.3, 5. CLAIMS.md downgraded timing directional evidence (old story doesn't hold; results inconclusive). Table 1 now has full eye-wt column.
+**Last session:** 2026-06-14 — CLAIMS.md directional evidence downgrade human-confirmed (Decision #15). ODE-RNN vs Latent ODE architectural distinction logged. Updates applied:
+1. **CLAIMS.md** — DIRECTIONAL EVIDENCE section confirmed as inconclusive; robustness framing added; date updated to 2026-06-14.
+2. **Paper Section 4.1 title** — updated from stale "Why Real Timing Helps the ODE and Hurts Recurrents" → "Continuous-Time Integration vs. Learned Decay — Structural Differences Under Irregular Timing".
+3. **DECISIONS.md** — Decision #15 added (confirmation + ODE-RNN distinction).
+4. **GLOSSARY.md** — ODE-RNN and Latent ODE defined separately; Falsifiable Hypothesis updated to name ODE-RNN explicitly.
 
-**In flight:** CLAIMS.md change flagged for human review — the DIRECTIONAL EVIDENCE section was downgraded (timing experiment inconclusive; GRU-D went opposite direction).
+**In flight:** Nothing. All corrections applied. Paper is ready for submission.
 
-**Next:** Human confirm CLAIMS.md directional evidence downgrade → git commit → confirm repository URL → arXiv submission.
+**Next:** git commit → confirm arXiv repository URL → arXiv submission.

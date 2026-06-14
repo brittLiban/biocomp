@@ -180,9 +180,9 @@ AUC 0.77 is cross-dataset signal, not strong out-of-distribution generalization.
 
 ## 4. Discussion
 
-### 4.1 Mechanism: Why Real Timing Helps the ODE and Hurts Recurrents
+### 4.1 Mechanism: Continuous-Time Integration vs. Learned Decay — Structural Differences Under Irregular Timing
 
-The central result of this paper is directional: providing real inter-visit timing improves the ODE while degrading both recurrent baselines. Understanding why requires looking at the structural difference between the two model families, not just at the numbers.
+Understanding the timing-condition results requires looking at the structural difference between the two model families, not just at the numbers.
 
 Recurrent models — GRU-D and T-LSTM — handle irregular time by applying a learned decay function to hidden states or cell memory between observations. This decay is parameterized during training and calibrated to the distribution of inter-visit gaps in the training set. Under ordinal time, all gaps are 1.0 and the decay functions operate exactly as trained. Under real time, Prime\_FULL gaps range from 1.0 to 12.0 normalized units (4 to 48 weeks). A decay parameter calibrated on predominantly 1.0-step intervals is not equipped to extrapolate to a 12.0-step interval: it will over-decay states for long gaps and under-decay them for short ones. T-LSTM's marginal degradation (+1.33 μm) with real timing is consistent with this miscalibration. GRU-D's improvement (−3.06 μm) is harder to interpret: it may reflect that GRU-D's ordinal performance was particularly degraded by the 60-eye training set, and that the additional variation in real timing signal partially compensates for this.
 

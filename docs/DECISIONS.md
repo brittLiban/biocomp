@@ -10,6 +10,7 @@
 
 | # | Date | Summary |
 |---|---|---|
+| 15 | 2026-06-14 | Human confirmed directional evidence downgrade; ODE-RNN (discriminative) ≠ Latent ODE (generative) — Year 2 target |
 | 14 | 2026-06-10 | Val-split fix: 60/17/19 split, val-checkpoint selection — all prior ODE/recurrent runs superseded; timing experiment inconclusive |
 | 13 | 2026-06-08 | Report both ts-wt AND eye-wt RMSE — both correct, both in Table 1 |
 | 12 | 2026-06-07 | Messidor AUC 0.77 OOD — cross-dataset signal confirmed, not strong; ">0.85 strong" bar not met |
@@ -24,6 +25,16 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #15 — 2026-06-14 — Human confirmed CLAIMS.md directional evidence downgrade; ODE-RNN vs Latent ODE distinction logged
+
+Context: Preprint Draft Sprint. The DIRECTIONAL EVIDENCE section downgrade proposed in Decision #14 required explicit human confirmation per protocol (CLAIMS.md is the one human-owned judgment).
+
+Choice: Human confirmed on 2026-06-14. DIRECTIONAL EVIDENCE is now officially: timing experiment inconclusive at n=19; old directional story superseded. Paper Section 4.1 title updated from "Why Real Timing Helps the ODE and Hurts Recurrents" → "Continuous-Time Integration vs. Learned Decay — Structural Differences Under Irregular Timing" to match the body.
+
+Secondary clarification logged: What was built is an **ODE-RNN** (Rubanova et al. 2019, discriminative), not the full **Latent ODE** (Chen et al. 2018, generative/VAE). The ODE-RNN evolves a GRU hidden state forward in continuous time and predicts next-visit CST directly. The full Latent ODE adds variational inference over the initial latent state and reconstructs sequences — enabling trajectory sampling and counterfactual simulation. That generative architecture is the Year 2 / Rung 3 target. The paper correctly uses "ODE-RNN" throughout (renamed in Decision #14). GLOSSARY.md updated to reflect the distinction explicitly.
+
+Why this matters: The "disease dynamics engine" framing in the North Star implies a generative model. The ODE-RNN is a valid prototype for Bet 1 (continuous-time vs discrete recurrent) but is not yet the generative architecture. The Discussion and paper scope correctly reflect this; the company story should too.
 
 ---
 

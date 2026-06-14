@@ -3,7 +3,7 @@
 > README line, preprint sentence, or pitch.
 > Changes: ONLY when evidence changes the boundary. The HUMAN owns this judgment. Round DOWN, not up.
 
-# Claims — What We Can Honestly Say (as of: 2026-06-07, Messidor external validation complete)
+# Claims — What We Can Honestly Say (as of: 2026-06-14, directional evidence downgrade human-confirmed)
 
 ## WE CAN CURRENTLY CLAIM (as of: 2026-06-07, Messidor external validation complete)
 - We are building a computational disease dynamics prototype.
@@ -22,7 +22,10 @@
 - Synthetic cohort validity — requires validated dynamics (Year 3).
 
 ## DIRECTIONAL EVIDENCE (not a confirmed claim)
-- ~~Real irregular timing benefits the ODE and hurts recurrent baselines~~ — **SUPERSEDED by val-split corrected results (Decision #14, 2026-06-10).** With proper validation split (60 train / 17 val / 19 test, checkpoint by val RMSE), the timing-condition effect is: ODE +0.06 μm (flat), T-LSTM +1.33 μm (marginal degradation), GRU-D −3.06 μm (improvement from poor ordinal baseline). The old directional story (ODE benefits, recurrents degrade) does not hold; GRU-D going the opposite direction makes this inconclusive. The ODE's near-zero response is consistent with its structural property (decay-free integration), but the mixed picture for recurrents makes the timing experiment inconclusive at n=19. **Not promotable to CAN CLAIM. Old Decision #11 numbers (from leaky test-set checkpoint selection) are superseded.**
+> Human-confirmed downgrade: 2026-06-14. Decision #15.
+
+- ~~Real irregular timing benefits the ODE and hurts recurrent baselines~~ — **SUPERSEDED and downgraded to inconclusive (Decisions #14, #15).** Val-split corrected results: ODE +0.06 μm (flat), T-LSTM +1.33 μm (marginal degradation), GRU-D −3.06 μm (improved — opposite direction to the old story). The timing experiment is **inconclusive at n=19**. Not promotable to CAN CLAIM.
+- **What IS consistent with mechanism:** The ODE-RNN's near-zero timing response is structurally expected — unlike GRU-D/T-LSTM, it has no explicit decay parameter that can miscalibrate on real vs ordinal gaps. This robustness is worth noting in the paper but is not a confirmed claim of benefit. Distinguishing robustness from advantage requires larger n.
 
 ## CLAIM BOUNDARY BY RUNG
 - Rung 1 (representation): claimable once encoder beats baselines on public data + external val.
