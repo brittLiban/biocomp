@@ -1,11 +1,8 @@
-> Working draft — review before any submission. Every claim must clear docs/CLAIMS.md.
-> Citation note: T-LSTM = Baytas et al. 2017, NOT Jarrett 2020 — verify all citations before arXiv.
-
 # Modeling Diabetic Retinopathy Progression as Continuous-Time Latent Dynamics: Prototype Evidence from Irregular Longitudinal OCT
 
 **Authors:** Liban Britt  
 **Affiliation:** Synapse  
-**Status:** Draft v1 — not submitted
+**Contact:** liban3367@gmail.com
 
 ---
 
@@ -23,7 +20,7 @@ These results constitute a feasibility demonstration: continuous-time dynamics m
 
 ## 1. Introduction
 
-Diabetic retinopathy (DR) is the leading cause of preventable blindness in working-age adults, affecting approximately one-third of people with diabetes worldwide [CITE]. Disease progression is not uniform: macular edema can accumulate or resolve over weeks, retinal vasculature can deteriorate across years, and the rate of change varies substantially between patients and across treatment phases. Optical coherence tomography (OCT) enables non-invasive, quantitative monitoring of this progression through repeated measurements of retinal layer thickness — most importantly central subfield thickness (CST), a sensitive marker of macular edema and treatment response.
+Diabetic retinopathy (DR) is the leading cause of preventable blindness in working-age adults, affecting approximately one-third of people with diabetes worldwide (Yau et al., 2012). Disease progression is not uniform: macular edema can accumulate or resolve over weeks, retinal vasculature can deteriorate across years, and the rate of change varies substantially between patients and across treatment phases. Optical coherence tomography (OCT) enables non-invasive, quantitative monitoring of this progression through repeated measurements of retinal layer thickness — most importantly central subfield thickness (CST), a sensitive marker of macular edema and treatment response.
 
 The fundamental challenge in longitudinal DR modeling is temporal irregularity. Patients are not seen on fixed schedules. In clinical practice and in structured clinical trials, the gap between consecutive visits ranges from a few weeks to many months depending on disease activity, treatment protocol, and patient adherence. A model that treats all inter-visit gaps as equivalent imposes a structural misspecification: it assumes that the disease system advances by the same biological amount regardless of whether the gap was four weeks or forty.
 
@@ -105,7 +102,7 @@ The primary metric is AUC-ROC, which is threshold-independent and therefore not 
 
 ### Code and Reproducibility
 
-Code, model checkpoints, and experiment configurations are available at: [repository URL — add before submission]. All runs are logged to Weights & Biases (project: synapse); run IDs are documented in the supplementary materials. The random seed is fixed at 42 throughout; all results are reproducible on CPU without GPU access.
+Code and model checkpoints are available upon request. All runs are logged to Weights & Biases (project: synapse); run IDs are documented in the supplementary materials. The random seed is fixed at 42 throughout; all results are reproducible on CPU without GPU access.
 
 ---
 
@@ -113,7 +110,7 @@ Code, model checkpoints, and experiment configurations are available at: [reposi
 
 ### 3.1 Representation Quality
 
-A logistic regression trained on frozen RETFound embeddings of OLIVES fundus images achieves AUC 0.9906 on within-distribution classification of DME versus healthy control eyes (Figure 1). This confirms that the frozen encoder captures strong disease-type signal without any task-specific fine-tuning on OLIVES data.
+A logistic regression trained on frozen RETFound embeddings of OLIVES fundus images achieves AUC 0.9906 on within-distribution classification of DME versus healthy control eyes. This confirms that the frozen encoder captures strong disease-type signal without any task-specific fine-tuning on OLIVES data.
 
 Two caveats apply. First, the Disease Label in OLIVES is patient-level and static — every visit for a given eye carries the same label. A model predicting this label from any single visit embedding is not performing temporal reasoning; it is distinguishing DME from healthy retinae based on structural appearance. This result characterizes representation quality, not dynamics. Second, the near-perfect AUC reflects a relatively easy binary task (DME versus healthy controls in a clinical trial cohort), not a fine-grained DR grading problem. We report it as evidence that the frozen encoder is usable as a feature extractor for this dataset, not as a clinical performance benchmark.
 
@@ -230,6 +227,8 @@ Diabetic retinopathy progresses through biological states observed at irregular 
 
 ## References
 
+Yau, J.W.Y., Rogers, S.L., Kawasaki, R., Lamoureux, E.L., Kowalski, J.W., Bek, T., Chen, S.J., Dekker, J.M., Fletcher, A., Grauslund, J., Haffner, S., Hamman, R.F., Ikram, M.K., Kayama, T., Klein, B.E.K., Klein, R., Krishnaiah, S., Mayurasakorn, K., O'Hare, J.P., Orchard, T.J., Porta, M., Rema, M., Roy, M.S., Sharma, T., Shaw, J., Taylor, H., Tielsch, J.M., Varma, R., Wang, J.J., Wang, N., West, S., Xu, L., Yasuda, M., Zhang, X., Mitchell, P., & Wong, T.Y. (2012). Global prevalence and major risk factors of diabetic retinopathy. *Diabetes Care*, *35*(3), 556–564.
+
 Baytas, I.M., Xiao, C., Zhang, X., Wang, F., Jain, A.K., & Zhou, J. (2017). Patient subtyping via time-aware LSTM networks. *Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining* (KDD '17), 65–74.
 
 Che, Z., Purushotham, S., Cho, K., Sontag, D., & Liu, Y. (2018). Recurrent neural networks for multivariate time series with missing values. *Scientific Reports*, *8*(1), 6085.
@@ -244,4 +243,4 @@ Zhou, Y., Chia, M.A., Wagner, S.K., Ayhan, M.S., Williamson, D.J., Struyven, R.R
 
 ---
 
-*Draft v1 — Liban Britt / Synapse / 2026-06-07*
+*Liban Britt / Synapse / 2026-06-14*
