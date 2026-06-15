@@ -6,10 +6,11 @@
 
 ## Quick Index
 > Scan this first — 5 seconds to check if your question is already settled.
-> **Last updated: 2026-06-11**
+> **Last updated: 2026-06-15**
 
 | # | Date | Summary |
 |---|---|---|
+| 16 | 2026-06-15 | Submitted to medRxiv (not arXiv) — endorsement required for cs.LG; medRxiv ID MEDRXIV/2026/355647 |
 | 15 | 2026-06-14 | Human confirmed directional evidence downgrade; ODE-RNN (discriminative) ≠ Latent ODE (generative) — Year 2 target |
 | 14 | 2026-06-10 | Val-split fix: 60/17/19 split, val-checkpoint selection — all prior ODE/recurrent runs superseded; timing experiment inconclusive |
 | 13 | 2026-06-08 | Report both ts-wt AND eye-wt RMSE — both correct, both in Table 1 |
@@ -25,6 +26,16 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #16 — 2026-06-15 — Submitted to medRxiv instead of arXiv
+
+Context: arXiv requires endorsement for cs.LG from an existing author in the category. As a first-time submitter without an institutional affiliation, endorsement was not immediately available.
+
+Choice: Submitted to medRxiv (Ophthalmology category) instead. medRxiv has no endorsement requirement, has an Ophthalmology category that fits the paper well, and is indexed by Google Scholar and PubMed. Submission ID: MEDRXIV/2026/355647. License: All Rights Reserved. Screening expected 4-5 days. DOI pending.
+
+Why this matters: arXiv remains an option once endorsement is obtained (e.g., from OLIVES dataset authors). The two are not mutually exclusive — a cross-post to arXiv can happen after medRxiv posts.
+
+---
 
 ## #15 — 2026-06-14 — Human confirmed CLAIMS.md directional evidence downgrade; ODE-RNN vs Latent ODE distinction logged
 

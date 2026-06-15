@@ -18,10 +18,10 @@ discussion. Every claim maps to CLAIMS.md CAN CLAIM. Human reviews abstract +
 discussion caveats before submission.
 Done when: `paper/preprint_v1.pdf` exists; all claims checked; human approved.
 
-### Chunk 2 — arXiv Submission
-Submit preprint to arXiv (cs.LG or q-bio.QM). Get submission ID. Share with 2-3
-domain experts (retina clinician + ML researcher) for informal pre-review feedback.
-Done when: arXiv ID recorded in DECISIONS.md; feedback received and logged in OPEN_QUESTIONS.md.
+### Chunk 2 — Preprint Submission [x]
+Submit preprint to medRxiv (Ophthalmology). Submitted 2026-06-15.
+Submission ID: MEDRXIV/2026/355647. Screening in progress (4-5 days).
+Done when: medRxiv DOI received and logged in DECISIONS.md. ← PENDING DOI
 
 ### Chunk 3 — Grant / SBIR Application
 Identify the right mechanism (NIH SBIR R43, NSF SBIC, or Wellcome equivalent).
