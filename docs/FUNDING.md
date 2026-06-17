@@ -33,9 +33,9 @@ _None yet._
 - Clinical collaborator (subcontract): ~$50-70K — retinal specialist to consult on clinical validity, co-author next paper, open doors to patient data
 
 **What Phase I produces:**
-- Timing experiment replicated at scale (Bet 1 confirmed or killed)
-- True Latent ODE trained on UK Biobank data
-- Phase II application ($1.75M, 2 years) to add treatment conditioning
+- Timing experiment replicated at scale (Bet 1 confirmed or killed) — using DRCR + UK Biobank
+- True Latent ODE trained on scale data with treatment conditioning (Bet 2)
+- Phase II application ($1.75M, 2 years) to build the full disease engine
 
 **Phase II is where the company becomes real. Phase I buys the answer to whether it's worth building Phase II.**
 
@@ -45,11 +45,11 @@ _None yet._
 
 **Done:**
 - [>] Science: preprint submitted to Research Square (Springer Nature) 2026-06-16 — prescreening, DOI pending 24-48 hrs. Sufficient for SBIR and UK Biobank.
-- [x] Clear next experiment: scale timing test on UK Biobank
+- [x] Clear next experiment: true Latent ODE on OLIVES + GRAPE (Bet 1 depth); DRCR Protocol T for Bet 2
 - [x] Clear budget rationale
 
 **Not done (in order):**
-- [ ] Incorporate Synapse as LLC or C-Corp (~1-2 weeks, ~$100-500 via Stripe Atlas or state filing)
+- [ ] Incorporate Synapse Computational LLC — Washington State, $200, sos.wa.gov. **BLOCKED: no funds currently.** File as soon as $200 available — gates all federal funding.
 - [ ] SAM.gov registration — get UEI number (2-4 weeks processing, free, required for all federal grants)
 - [ ] UK Biobank application submitted (shows reviewers you have a data plan)
 - [ ] Specific Aims page — 1 page, the most important document (~1-2 weeks to draft)
