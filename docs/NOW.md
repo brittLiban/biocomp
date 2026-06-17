@@ -82,12 +82,15 @@ submitting to a venue (MICCAI, MIDL, or Nature Comms Medicine).
 
 **Last session:** 2026-06-15 — Preprint submitted to medRxiv (MEDRXIV/2026/355647). Paper finalized: draft markers removed, [CITE] resolved (Yau et al. 2012), Figure 1 reference removed, code availability upon request added. PDF generated via Pandoc, committed and pushed (ae12e6d). Docs updated: Q3_PLAN Chunk 2 marked done, DECISIONS #16 logged (medRxiv over arXiv), NOW.md next steps written. Strategic direction confirmed: UK Biobank application → incorporate + SAM.gov → SBIR → Latent ODE.
 
-**In flight:** medRxiv screening (MEDRXIV/2026/355647) — awaiting public posting and DOI.
+**Current session (2026-06-16):** medRxiv issued final rejection — affiliation policy, no further appeal. Pivoting to Research Square (Springer Nature). Decision #18 logged. Submitting preprint to researchsquare.com today.
+
+**In flight:** Research Square prescreening — submitted 2026-06-16, DOI pending (24-48 hrs).
 
 **Next (in order):**
-1. Wait for medRxiv DOI → log in DECISIONS.md
-2. UK Biobank application (apply now, 2-4 month approval, runs parallel to everything else)
-3. Incorporate Synapse as LLC/C-Corp + get SAM.gov UEI (required for SBIR)
-4. NIH SBIR Phase I application (NEI) — August cycle target
-5. Share preprint with 2-3 domain experts for informal feedback
-6. Return to building: true Latent ODE on expanded data once UK Biobank access granted
+1. Submit to Research Square → get DOI
+2. Incorporate Synapse as Washington State LLC ($200, sos.wa.gov) — urgent, blocks SBIR + UK Biobank MTA
+3. UK Biobank application (apply now, 2-4 month approval, runs parallel)
+4. SAM.gov UEI registration (2-4 weeks, free, requires LLC first)
+5. NIH SBIR Phase I application (NEI) — December 5, 2026 target
+6. Share preprint with 2-3 domain experts for informal feedback
+7. Return to building: true Latent ODE on expanded data once UK Biobank access granted

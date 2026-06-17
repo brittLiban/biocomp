@@ -44,7 +44,7 @@ _None yet._
 ## Gap Analysis — How Far From a Submitted Phase I?
 
 **Done:**
-- [x] Science: preprint submitted (MEDRXIV/2026/355647) — feasibility demonstrated
+- [>] Science: preprint submitted to Research Square (Springer Nature) 2026-06-16 — prescreening, DOI pending 24-48 hrs. Sufficient for SBIR and UK Biobank.
 - [x] Clear next experiment: scale timing test on UK Biobank
 - [x] Clear budget rationale
 

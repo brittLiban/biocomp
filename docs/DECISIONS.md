@@ -6,10 +6,12 @@
 
 ## Quick Index
 > Scan this first — 5 seconds to check if your question is already settled.
-> **Last updated: 2026-06-15**
+> **Last updated: 2026-06-16**
 
 | # | Date | Summary |
 |---|---|---|
+| 18 | 2026-06-16 | medRxiv final rejection confirmed; pivot to Research Square (Springer Nature) — no affiliation required, gives DOI |
+| 17 | 2026-06-15 | medRxiv rejected MEDRXIV/2026/355647 — no org affiliation; appeal sent; fallback is arXiv; no LLC yet |
 | 16 | 2026-06-15 | Submitted to medRxiv (not arXiv) — endorsement required for cs.LG; medRxiv ID MEDRXIV/2026/355647 |
 | 15 | 2026-06-14 | Human confirmed directional evidence downgrade; ODE-RNN (discriminative) ≠ Latent ODE (generative) — Year 2 target |
 | 14 | 2026-06-10 | Val-split fix: 60/17/19 split, val-checkpoint selection — all prior ODE/recurrent runs superseded; timing experiment inconclusive |
@@ -26,6 +28,30 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #18 — 2026-06-16 — medRxiv final rejection; pivot to Research Square
+
+Context: medRxiv confirmed final rejection on 2026-06-16. Their policy requires an established organizational affiliation — "in the process of incorporating" is not sufficient. No further appeal possible until Synapse LLC exists.
+
+Choice: Submit to Research Square (researchsquare.com), Springer Nature's preprint server. No affiliation requirement. Gives a DOI. Indexed by Google Scholar and PubMed preprint results. Sufficient for SBIR and UK Biobank purposes.
+
+Why not arXiv: Decision #16 flagged that cs.LG requires an endorser for first-time submitters. Research Square is faster with no endorsement friction.
+
+Future option: Once Synapse LLC is incorporated, medRxiv resubmission is possible for the medRxiv-specific DOI. Not a priority — Research Square DOI is fully sufficient.
+
+---
+
+## #17 — 2026-06-15 — medRxiv rejected MEDRXIV/2026/355647; appeal pending; fallback arXiv
+
+Context: medRxiv rejected the submission for lacking an organizational affiliation. Synapse is not yet incorporated (no LLC or C-Corp exists as of 2026-06-15). Liban replied the same day explaining Synapse as an independent research entity in the process of incorporating, taking full accountability, and noting no human subjects data was used (all public datasets).
+
+Choice: Wait for medRxiv's response to the appeal. If they decline again, fall back to arXiv (the original plan from Decision #16). arXiv does not require institutional affiliation — at most an endorser for cs.LG, which can be obtained from an established arXiv author. OSF Preprints and Research Square are additional fallbacks requiring no affiliation.
+
+Why this matters: Incorporating Synapse (LLC) was already on the SBIR critical path. This rejection makes incorporation more urgent — both for the preprint and for the SAM.gov UEI needed for SBIR. No LLC is the root cause of the medRxiv block.
+
+Constraint: Do NOT resubmit to medRxiv with "Synapse LLC" until the LLC actually exists. Making a false affiliation claim would be worse than the current situation.
+
+---
 
 ## #16 — 2026-06-15 — Submitted to medRxiv instead of arXiv
 
