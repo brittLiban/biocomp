@@ -11,6 +11,13 @@
 
 **Active bet:** Bet 1 only — continuous-time ODE-RNN vs recurrent baselines on irregular clinical observation timing.
 
+**Bet status (precise, as of 2026-06-16):**
+- Bet 1 (timing mechanism): pilot done, inconclusive. ODE-RNN best RMSE at n=19 but margins within noise. NOT confirmed. Only scale data (DRCR, UK Biobank) closes this. True Latent ODE deepens Bet 1 (calibrated uncertainty) but does not confirm it.
+- Bet 2 (treatment-aware dynamics): NOT STARTED. No experiment in the current plan touches treatment as a model input. DRCR data is required before Bet 2 can begin.
+- Bet 3 (cross-disease generalization): NOT TESTED. GRAPE gives an early, cheap, informal pilot signal — years ahead of schedule. A positive GRAPE result is "directional pilot toward Bet 3," not confirmation. Cannot claim generalization at this scale.
+
+**What the next sprint (Latent ODE + GRAPE) actually advances:** Bet 1 depth (calibrated uncertainty via true Latent ODE) + early Bet 3 pilot signal (GRAPE transfer). Does not touch Bet 2 at all.
+
 **Live results (all from val-split corrected runs, Decision #14):**
 - AUC 0.9906 — OLIVES within-dist DME classification (static label; representation quality, not dynamics)
 - AUC 0.77 OOD — Messidor-2 frozen linear probe (cross-dataset DR signal confirmed; not strong; Decision #12)

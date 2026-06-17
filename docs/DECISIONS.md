@@ -10,6 +10,7 @@
 
 | # | Date | Summary |
 |---|---|---|
+| 22 | 2026-06-16 | Three bets precisely restated; current plan mapped to each; Bet 2 explicitly not started |
 | 21 | 2026-06-16 | Revised dataset priority: GRAPE first (free, longitudinal, glaucoma), DRCR T/I next (treatment), UK Biobank downgraded (visits years apart) |
 | 20 | 2026-06-16 | AI-READI ruled out as Bet 1 dataset — confirmed cross-sectional (1 visit/participant); UK Biobank remains primary longitudinal path |
 | 19 | 2026-06-16 | Pause UK Biobank £9K fee commitment; investigate AI-READI first (free, self-serve, diabetes-specific) |
@@ -31,6 +32,26 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #22 — 2026-06-16 — Three bets precisely restated; current plan mapped to each
+
+Context: Language in recent sessions drifted toward overclaiming on Bet 3 (GRAPE described as "strong generalization result") and understating Bet 2's absence from the plan. Corrected here to prevent future abstract-writing errors.
+
+**The three bets, precisely:**
+- Bet 1: Continuous-time models better match irregular clinical observation structure than discrete recurrent models. Purely architectural — does integrating over real elapsed time beat learned decay? Nothing about treatment, nothing about multiple diseases.
+- Bet 2: Treatment-aware disease dynamics can be learned from observational longitudinal data. Model must see treatment events as input and learn how they change the trajectory. Counterfactual reasoning ("what without treatment") requires this.
+- Bet 3: The disease engine generalizes across diseases and institutions. Same architecture transfers to a different disease, population, or data site without rebuilding.
+
+**Where the current plan (Latent ODE + GRAPE) lands:**
+- Bet 1: Pilot done (ODE-RNN, OLIVES, n=19), inconclusive. True Latent ODE adds calibrated uncertainty — deepens Bet 1 but does not confirm it. Only scale data closes Bet 1.
+- Bet 2: Not started. Not touched by ODE-RNN on GRAPE, Latent ODE on OLIVES, or Latent ODE on GRAPE. DRCR Protocol T/I data is required before Bet 2 can begin. No experiment in this sprint has treatment as a model input.
+- Bet 3: Early informal pilot via GRAPE — years ahead of the Year 3 roadmap schedule, fine to run since data is free, but a positive result is "directional pilot signal," not confirmation. Bet 3 was staged to wait until Bet 1 and Bet 2 held up at scale.
+
+**The one sentence that must appear in any future abstract or grant framing this sprint:** "This sprint advances Bet 1 depth (calibrated uncertainty via true Latent ODE) and produces an early Bet 3 pilot signal (GRAPE disease transfer). It does not touch Bet 2."
+
+Alternatives rejected: Allowing "GRAPE transfer = Bet 3 confirmed" language — directly overclaims at prototype scale on a 263-eye dataset.
+
+---
 
 ## #21 — 2026-06-16 — Revised dataset priority order based on longitudinal catalog
 
