@@ -10,6 +10,7 @@
 
 | # | Date | Summary |
 |---|---|---|
+| 19 | 2026-06-16 | Pause UK Biobank £9K fee commitment; investigate AI-READI first (free, self-serve, diabetes-specific) |
 | 18 | 2026-06-16 | medRxiv final rejection confirmed; pivot to Research Square (Springer Nature) — no affiliation required, gives DOI |
 | 17 | 2026-06-15 | medRxiv rejected MEDRXIV/2026/355647 — no org affiliation; appeal sent; fallback is arXiv; no LLC yet |
 | 16 | 2026-06-15 | Submitted to medRxiv (not arXiv) — endorsement required for cs.LG; medRxiv ID MEDRXIV/2026/355647 |
@@ -28,6 +29,20 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #19 — 2026-06-16 — Pause UK Biobank fee commitment; prioritize AI-READI investigation first
+
+Context: UK Biobank requires ~£9K (~$11K) fee charged on approval — a cost we do not currently have budgeted. AI-READI (Artificial Intelligence Ready and Equitable Atlas for Diabetes Insights) was discovered as a free, self-serve alternative: NIH Bridge2AI-funded, ~4,000 participants, diabetes-specific, multimodal, self-serve access via fairhub.io (days not months). UW is one of AI-READI's data-generating sites.
+
+Choice: Continue UK Biobank APPLICATION (free to register and begin; £9K only due on approval) but do NOT commit to the fee until AI-READI has been evaluated. Request AI-READI mini dataset access (100 participants, 179 GB) immediately to inspect longitudinal structure.
+
+Why: AI-READI may resolve our scale-data need at zero cost. No reason to spend £9K before confirming whether a free option addresses Bet 1. The UK Biobank application runs in the background and costs nothing until approval.
+
+Critical unknown: Whether AI-READI retinal imaging is longitudinal (repeated visits) or cross-sectional (single visit). If cross-sectional, it cannot address the Bet 1 timing experiment — this must be confirmed before any further planning. See OPEN_QUESTIONS.md.
+
+Alternatives rejected: Proceeding directly to UK Biobank fee payment — premature given an unverified free alternative exists.
+
+---
 
 ## #18 — 2026-06-16 — medRxiv final rejection; pivot to Research Square
 

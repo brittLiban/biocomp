@@ -20,7 +20,8 @@ Hard-won lessons — read before starting any large download:
 | EyePACS public | Free (Kaggle) | [x] downloaded [x] encoded (31,542 × 1024) | Encoder pretraining |
 | Messidor / -2 | Free (ADCIS + Kaggle) | [x] downloaded [x] encoded (1,748 × 1024) [x] labeled (1,744 gradable, Krause 2018 ICDR 0-4) [x] validated (AUC 0.77 OOD) | External validation |
 | FGADR | Free | [ ] downloaded | Lesion-aware aux |
-| UK Biobank | ~£9K | [ ] applied | Scale (Y2) |
+| AI-READI | Free, self-serve via fairhub.io | [ ] mini access requested [ ] full access requested [ ] longitudinal structure confirmed | Candidate scale dataset — diabetes-specific, multimodal, severity-stratified |
+| UK Biobank | ~£9K (fee on approval) | [ ] applied | Scale (Y2) — fee commitment paused pending AI-READI eval (Decision #19) |
 | EyePACS private | Partnership | [ ] inquired | Scale (Y2) |
 
 ## OLIVES Feasibility Audit Findings
@@ -73,6 +74,27 @@ Missing data rate: **~0%** (< 0.1% on two biomarkers).
 
 ### **MODEL CLASS DECISION: Latent ODE — VIABLE**
 97.9% of eyes have ≥4 visits; mean 16.6. Temporal structure is richer than required. Logged in DECISIONS.md #3.
+
+## AI-READI Known Facts
+> Discovered: 2026-06-16. Source: fairhub.io, NIH Bridge2AI program documentation.
+
+**What it is:** NIH Bridge2AI-funded multi-institution dataset (UAB, UCSD, UW) built specifically for AI/ML research on type 2 diabetes. Not retrofitted from a clinical trial — designed for machine learning from the ground up.
+
+**Scale:** Full flagship dataset: 3.82 TB, 356,343 files, ~4,000 participants targeted. As of v3.0.0 (Nov 2025): 3,985+ completed in-person visits.
+
+**Diabetes severity stratification:** Four categories — no diabetes, prediabetes/lifestyle-controlled, oral/non-insulin controlled, insulin-controlled. Critically: some participants are NOT on treatment, unlike OLIVES (100% already on anti-VEGF). This enables untreated trajectory baselines.
+
+**Modalities:** 15+ including retinal imaging, ECG, continuous glucose monitoring (Dexcom G7), eye exam data, and more.
+
+**Mini dataset:** 100-participant version (179.68 GB) available explicitly for pipeline development. Per their own documentation: **"should not be used for conducting scientific investigations."** Use mini for structural inspection and pipeline dev only. All real results must come from the full dataset.
+
+**Access path:** Self-serve via fairhub.io — 9-step web wizard (login, research purpose, training module, license agreement, data selection). No institutional MTA required. Likely days, not months, to approve.
+
+**Cost:** No fee apparent from initial review. Must be CONFIRMED during wizard steps — check for any fee disclosure before submitting access request.
+
+**UW connection:** UW's Computational Ophthalmology Lab (PI: Yue Wu; affiliates: Aaron Lee, Cecilia Lee — now primarily at WashU) is one of AI-READI's data-generating sites. Relevant to planned MSECE affiliation pathway.
+
+**CRITICAL UNKNOWN — do not resolve until confirmed:** Is the retinal imaging data **longitudinal** (repeated visits per participant) or **cross-sectional** (single comprehensive visit)? This single fact determines whether AI-READI can test Bet 1 at all. See OPEN_QUESTIONS.md.
 
 ## OLIVES Reference Code
 Official repo: https://github.com/olivesgatech/OLIVES_Dataset

@@ -87,10 +87,11 @@ submitting to a venue (MICCAI, MIDL, or Nature Comms Medicine).
 **In flight:** Research Square prescreening — DOI expected within 24-48 hrs.
 
 **Next (in order):**
-1. Submit to Research Square → get DOI
-2. Incorporate Synapse as Washington State LLC ($200, sos.wa.gov) — urgent, blocks SBIR + UK Biobank MTA
-3. UK Biobank application (apply now, 2-4 month approval, runs parallel)
-4. SAM.gov UEI registration (2-4 weeks, free, requires LLC first)
-5. NIH SBIR Phase I application (NEI) — December 5, 2026 target
-6. Share preprint with 2-3 domain experts for informal feedback
-7. Return to building: true Latent ODE on expanded data once UK Biobank access granted
+1. Research Square DOI — passive wait, 24-48 hrs
+2. **Request AI-READI mini dataset access (fairhub.io)** — inspect longitudinal structure before any UK Biobank fee commitment (Decision #19)
+3. Incorporate Synapse as Washington State LLC ($200, sos.wa.gov) — urgent, blocks SBIR + SAM.gov
+4. UK Biobank application — start (free), but hold on £9K fee until AI-READI evaluated
+5. SAM.gov UEI registration (2-4 weeks, free, requires LLC first)
+6. NIH SBIR Phase I application (NEI) — December 5, 2026 target
+7. Share preprint with 2-3 domain experts for informal feedback
+8. Return to building: true Latent ODE — scale data source TBD (AI-READI or UK Biobank)
