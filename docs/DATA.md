@@ -78,9 +78,11 @@ Missing data rate: **~0%** (< 0.1% on two biomarkers).
 ## AI-READI Known Facts
 > Discovered: 2026-06-16. Source: fairhub.io, NIH Bridge2AI program documentation.
 
+**Source:** docs.aireadi.org/docs/3/dataset/healthsheet (confirmed 2026-06-16)
+
 **What it is:** NIH Bridge2AI-funded multi-institution dataset (UAB, UCSD, UW) built specifically for AI/ML research on type 2 diabetes. Not retrofitted from a clinical trial — designed for machine learning from the ground up.
 
-**Scale:** Full flagship dataset: 3.82 TB, 356,343 files, ~4,000 participants targeted. As of v3.0.0 (Nov 2025): 3,985+ completed in-person visits.
+**Scale:** Full flagship dataset: 3.82 TB, 356,343 files, ~4,000 participants targeted. v3.0.0 (Nov 2025): **2,280 participants** with completed in-person visits.
 
 **Diabetes severity stratification:** Four categories — no diabetes, prediabetes/lifestyle-controlled, oral/non-insulin controlled, insulin-controlled. Critically: some participants are NOT on treatment, unlike OLIVES (100% already on anti-VEGF). This enables untreated trajectory baselines.
 
@@ -94,7 +96,11 @@ Missing data rate: **~0%** (< 0.1% on two biomarkers).
 
 **UW connection:** UW's Computational Ophthalmology Lab (PI: Yue Wu; affiliates: Aaron Lee, Cecilia Lee — now primarily at WashU) is one of AI-READI's data-generating sites. Relevant to planned MSECE affiliation pathway.
 
-**CONFIRMED 2026-06-16 — CROSS-SECTIONAL:** One visit per participant (source: docs.aireadi.org healthsheet). Cannot be used to test Bet 1 (timing experiment requires repeated visits per eye). Useful for: representation quality benchmarking, multimodal fusion experiments, severity classification at scale. Does NOT replace UK Biobank for longitudinal dynamics work.
+**CONFIRMED 2026-06-16 — CROSS-SECTIONAL:** One visit per participant (source: docs.aireadi.org/docs/3/dataset/healthsheet). Cannot be used to test Bet 1 (timing experiment requires repeated visits per eye). Useful for: representation quality benchmarking, multimodal fusion experiments, severity classification at scale. Does NOT replace UK Biobank for longitudinal dynamics work.
+
+**Year-4 follow-up caveat:** ~4% of participants (~90 people) are expected to undergo a follow-up examination in Year 4. This sub-cohort does not yet exist and would be far too small to serve as a primary dynamics dataset even when released. Do not plan around it.
+
+**Provided split:** Dataset creators supply a 70/15/15 train/val/test split balanced on demographics and diabetes severity — use this split for any AI-READI experiments to ensure comparability with other work.
 
 ## OLIVES Reference Code
 Official repo: https://github.com/olivesgatech/OLIVES_Dataset

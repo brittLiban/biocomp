@@ -10,6 +10,7 @@
 
 | # | Date | Summary |
 |---|---|---|
+| 20 | 2026-06-16 | AI-READI ruled out as Bet 1 dataset — confirmed cross-sectional (1 visit/participant); UK Biobank remains primary longitudinal path |
 | 19 | 2026-06-16 | Pause UK Biobank £9K fee commitment; investigate AI-READI first (free, self-serve, diabetes-specific) |
 | 18 | 2026-06-16 | medRxiv final rejection confirmed; pivot to Research Square (Springer Nature) — no affiliation required, gives DOI |
 | 17 | 2026-06-15 | medRxiv rejected MEDRXIV/2026/355647 — no org affiliation; appeal sent; fallback is arXiv; no LLC yet |
@@ -29,6 +30,20 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #20 — 2026-06-16 — AI-READI ruled out as primary Bet 1 dataset
+
+Context: Investigated AI-READI as a free, fast alternative to UK Biobank for scale validation of the timing experiment. Confirmed directly from Healthsheet documentation (docs.aireadi.org/docs/3/dataset/healthsheet): "There is currently only one visit per participant." v3.0.0 has 2,280 participants.
+
+Choice: AI-READI is cross-sectional and cannot support Bet 1 (continuous-time vs discrete-time dynamics requires repeated visits per participant to model trajectories). UK Biobank restored as the sole confirmed longitudinal scale path.
+
+Future caveat: ~4% of participants (~90 people) expected to have a Year-4 follow-up. Far too small and not yet available — do not plan around it.
+
+Remaining value: AI-READI is still a strong candidate for representation-quality benchmarking, multimodal fusion, and severity classification at scale (2,280 participants, 15+ modalities, provided 70/15/15 split). These are not Bet 1 experiments.
+
+Alternatives rejected: Treating AI-READI as a longitudinal dataset — directly contradicted by their own documentation.
+
+---
 
 ## #19 — 2026-06-16 — Pause UK Biobank fee commitment; prioritize AI-READI investigation first
 
