@@ -10,9 +10,6 @@ Status: [ ] open only — answered questions are deleted, not marked [x]. Answer
 
 ## Data
 
-- [ ] **[KEY — blocks AI-READI as Bet 1 scale data]** Is AI-READI retinal imaging longitudinal (repeated visits per participant over time) or cross-sectional (single comprehensive visit)? If cross-sectional, AI-READI cannot address the timing experiment sample-size problem, though it remains valuable for representation and multimodal work.
-- [ ] Does AI-READI access via fairhub.io have any fee, or is it genuinely free? (Check during wizard steps before submitting.)
-- [ ] What CST-equivalent or OCT measurements does AI-READI actually capture, and at what frequency?
 - [ ] Do OCT scans share a timestamp/clock with the paired fundus image?
 - [ ] Can injection/treatment dates be aligned to the imaging timeline? (`full_labels/OCT-DR.xlsx` has treatment arm + injection column; needs per-visit mapping)
 - [ ] Does `full_labels/OCT-DME.xlsx` (195-col wide table, VisitNums 1–28) contain full longitudinal biomarkers for all visits? If so, pivot to long format.

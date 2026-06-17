@@ -42,6 +42,8 @@ Critical unknown: Whether AI-READI retinal imaging is longitudinal (repeated vis
 
 Alternatives rejected: Proceeding directly to UK Biobank fee payment — premature given an unverified free alternative exists.
 
+**RESOLVED 2026-06-16:** AI-READI confirmed cross-sectional — one visit per participant (source: docs.aireadi.org healthsheet). Cannot address Bet 1 timing experiment. Useful for representation quality and multimodal work only. UK Biobank restored as primary longitudinal scale data path. AI-READI open questions deleted from OPEN_QUESTIONS.md.
+
 ---
 
 ## #18 — 2026-06-16 — medRxiv final rejection; pivot to Research Square

@@ -20,8 +20,8 @@ Hard-won lessons — read before starting any large download:
 | EyePACS public | Free (Kaggle) | [x] downloaded [x] encoded (31,542 × 1024) | Encoder pretraining |
 | Messidor / -2 | Free (ADCIS + Kaggle) | [x] downloaded [x] encoded (1,748 × 1024) [x] labeled (1,744 gradable, Krause 2018 ICDR 0-4) [x] validated (AUC 0.77 OOD) | External validation |
 | FGADR | Free | [ ] downloaded | Lesion-aware aux |
-| AI-READI | Free, self-serve via fairhub.io | [ ] mini access requested [ ] full access requested [ ] longitudinal structure confirmed | Candidate scale dataset — diabetes-specific, multimodal, severity-stratified |
-| UK Biobank | ~£9K (fee on approval) | [ ] applied | Scale (Y2) — fee commitment paused pending AI-READI eval (Decision #19) |
+| AI-READI | Free, self-serve via fairhub.io | [x] longitudinal structure confirmed: CROSS-SECTIONAL (1 visit/participant) | Representation + multimodal work only — cannot address Bet 1 timing experiment |
+| UK Biobank | ~£9K (fee on approval) | [ ] applied | Scale (Y2) — primary longitudinal path; fee requires SBIR funding |
 | EyePACS private | Partnership | [ ] inquired | Scale (Y2) |
 
 ## OLIVES Feasibility Audit Findings
@@ -94,7 +94,7 @@ Missing data rate: **~0%** (< 0.1% on two biomarkers).
 
 **UW connection:** UW's Computational Ophthalmology Lab (PI: Yue Wu; affiliates: Aaron Lee, Cecilia Lee — now primarily at WashU) is one of AI-READI's data-generating sites. Relevant to planned MSECE affiliation pathway.
 
-**CRITICAL UNKNOWN — do not resolve until confirmed:** Is the retinal imaging data **longitudinal** (repeated visits per participant) or **cross-sectional** (single comprehensive visit)? This single fact determines whether AI-READI can test Bet 1 at all. See OPEN_QUESTIONS.md.
+**CONFIRMED 2026-06-16 — CROSS-SECTIONAL:** One visit per participant (source: docs.aireadi.org healthsheet). Cannot be used to test Bet 1 (timing experiment requires repeated visits per eye). Useful for: representation quality benchmarking, multimodal fusion experiments, severity classification at scale. Does NOT replace UK Biobank for longitudinal dynamics work.
 
 ## OLIVES Reference Code
 Official repo: https://github.com/olivesgatech/OLIVES_Dataset
