@@ -88,9 +88,11 @@ submitting to a venue (MICCAI, MIDL, or Nature Comms Medicine).
 
 **Next (in order):**
 1. Research Square DOI — passive wait, 24-48 hrs
-2. Incorporate Synapse as Washington State LLC ($200, sos.wa.gov) — urgent, blocks SBIR + SAM.gov
-3. UK Biobank application — start now (free to apply); £9K fee requires SBIR funding
-5. SAM.gov UEI registration (2-4 weeks, free, requires LLC first)
-6. NIH SBIR Phase I application (NEI) — December 5, 2026 target
-7. Share preprint with 2-3 domain experts for informal feedback
-8. Return to building: true Latent ODE — scale data source TBD (AI-READI or UK Biobank)
+2. **Download GRAPE** (Figshare, free, today) — second disease for Bet 1; no application needed (Decision #21)
+3. **Submit DRCR Protocol T request** (public.jaeb.org, free, this week) — treatment-response data for Bet 2
+4. Incorporate Synapse as Washington State LLC ($200, sos.wa.gov) — urgent, blocks SBIR + SAM.gov
+5. UK Biobank application — start (free), hold £9K fee; now lower priority than DRCR for treatment dynamics
+6. SAM.gov UEI registration (2-4 weeks, free, requires LLC first)
+7. NIH SBIR Phase I application (NEI) — December 5, 2026 target
+8. Share preprint with 2-3 domain experts for informal feedback
+9. Return to building: true Latent ODE on OLIVES + GRAPE once GRAPE inspected

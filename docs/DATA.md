@@ -21,7 +21,11 @@ Hard-won lessons — read before starting any large download:
 | Messidor / -2 | Free (ADCIS + Kaggle) | [x] downloaded [x] encoded (1,748 × 1024) [x] labeled (1,744 gradable, Krause 2018 ICDR 0-4) [x] validated (AUC 0.77 OOD) | External validation |
 | FGADR | Free | [ ] downloaded | Lesion-aware aux |
 | AI-READI | Free, self-serve via fairhub.io | [x] longitudinal structure confirmed: CROSS-SECTIONAL (1 visit/participant) | Representation + multimodal work only — cannot address Bet 1 timing experiment |
-| UK Biobank | ~£9K (fee on approval) | [ ] applied | Scale (Y2) — primary longitudinal path; fee requires SBIR funding |
+| GRAPE | Free, Figshare | [ ] downloaded | External validation — glaucoma, longitudinal, explicit interval metadata; second disease for Bet 1 transfer |
+| DRCR Protocol T | Free, form request (public.jaeb.org) | [ ] requested | Treatment-response dynamics — anti-VEGF, dense year-1 visits, irregular thereafter; enables Bet 2 |
+| DRCR Protocol I | Free, form request (public.jaeb.org) | [ ] requested | Treatment-response dynamics — longer 5-year follow-up; alternative to Protocol T |
+| A2A SD-OCT | Controlled (NEI Data Commons) | [ ] inquired | AMD longitudinal OCT — 316 participants, 1,499 visits, up to 7.4 years; query after SBIR submitted |
+| UK Biobank | ~£9K (fee on approval) | [ ] applied | Scale (Y2) — visits years apart, weaker for treatment dynamics; good for survival/slow progression; fee requires SBIR |
 | EyePACS private | Partnership | [ ] inquired | Scale (Y2) |
 
 ## OLIVES Feasibility Audit Findings
@@ -74,6 +78,37 @@ Missing data rate: **~0%** (< 0.1% on two biomarkers).
 
 ### **MODEL CLASS DECISION: Latent ODE — VIABLE**
 97.9% of eyes have ≥4 visits; mean 16.6. Temporal structure is richer than required. Logged in DECISIONS.md #3.
+
+## GRAPE Known Facts
+> Source: "Longitudinal Ophthalmic Imaging Datasets for Continuous-Time Disease Progression Modeling" (data/ folder). Dataset paper: Nature Scientific Data, 2023.
+
+**Disease:** Glaucoma (multi-modal follow-up)
+**Scale:** 144 patients, 263 eyes, 1,115 visit clinical records, 631 color fundus photos with OD/OC segmentations
+**Visit structure:** 3-9 visits per eye; intervals >5 months; baseline + follow-up sheets with explicit interval-years field — directly usable for ODE timing
+**Modalities:** Visual fields, color fundus photos, OCT RNFL measurements, IOP, CCT, optic disc metadata, progression labels
+**Access:** Public download via Figshare — no application, no fee, available today
+**Format:** Excel tables, image folders, JSON/segmentation files
+**Fit:** Excellent for ODE-RNN VF forecasting and progression classification; moderate for volumetric OCT treatment dynamics (OCT less central than in OLIVES)
+**Strategic value:** Second disease for Bet 1 transfer — proves ODE-RNN generalizes beyond DR/DME. External validation story for Paper 2 and SBIR preliminary data.
+**Limitation:** Coarser visit spacing than OLIVES (months not weeks); OCT not as repeatedly acquired
+
+**Next step:** Download from Figshare today. Normalize baseline + follow-up sheets into per-eye event table with interval-years as event time.
+
+## DRCR Known Facts
+> Source: "Longitudinal Ophthalmic Imaging Datasets for Continuous-Time Disease Progression Modeling" (data/ folder).
+
+**Disease:** Diabetic macular edema (DME) / Diabetic retinopathy
+**Key protocols:**
+- **Protocol T** (recommended first): 660 eyes, anti-VEGF comparative treatment-response, visits every 4 weeks through year 1 then every 4-16 weeks, one 5-year extension visit. Best for treatment-response ODE-RNN and causal dosing analysis.
+- **Protocol I**: 854 eyes from 691 subjects, ranibizumab/triamcinolone/laser, visits every 4-16 weeks depending on status, annual visits to 5 years. Best for longer-horizon treatment response and dynamic prognosis.
+- **Protocol AA**: 350+ participants, UWF fundus, fluorescein angiography, SD-OCT, BCVA, HbA1c/eGFR, urine, BP; 4-year NPDR worsening and survival-style imaging — good if endpoint is retinopathy worsening not DME response.
+**Access:** Free, form-based request at public.jaeb.org — not instant but no fee and no institutional MTA required
+**Format:** Public dataset after request; raw image inclusion NOT fully documented pre-download — must verify on receipt
+**Fit:** Excellent for treatment-response, irregular-visit ODE-RNNs, causal dosing analyses — directly enables Bet 2
+**Strategic value:** Clinical trial data with structured anti-VEGF treatment timing. This is the data Bet 2 (treatment conditioning) needs.
+**Limitation:** Raw image file content not confirmed pre-download; protocol-specific formatting; need to verify image assets on receipt
+
+**Next step:** Submit Protocol T request form at public.jaeb.org this week. Protocol I as parallel or backup.
 
 ## AI-READI Known Facts
 > Discovered: 2026-06-16. Source: fairhub.io, NIH Bridge2AI program documentation.

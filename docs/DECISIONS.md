@@ -10,6 +10,7 @@
 
 | # | Date | Summary |
 |---|---|---|
+| 21 | 2026-06-16 | Revised dataset priority: GRAPE first (free, longitudinal, glaucoma), DRCR T/I next (treatment), UK Biobank downgraded (visits years apart) |
 | 20 | 2026-06-16 | AI-READI ruled out as Bet 1 dataset — confirmed cross-sectional (1 visit/participant); UK Biobank remains primary longitudinal path |
 | 19 | 2026-06-16 | Pause UK Biobank £9K fee commitment; investigate AI-READI first (free, self-serve, diabetes-specific) |
 | 18 | 2026-06-16 | medRxiv final rejection confirmed; pivot to Research Square (Springer Nature) — no affiliation required, gives DOI |
@@ -30,6 +31,24 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #21 — 2026-06-16 — Revised dataset priority order based on longitudinal catalog
+
+Context: Reviewed a comprehensive catalog of longitudinal ophthalmic imaging datasets (data/ folder). UK Biobank was previously the primary scale target. Catalog reveals UK Biobank visits are years apart — weaker for treatment dynamics than assumed. Two better near-term options identified: GRAPE (free, longitudinal, glaucoma, available today) and DRCR Protocol T/I (free, form request, treatment-response, directly enables Bet 2).
+
+Choice:
+1. GRAPE — download from Figshare immediately. Second disease for Bet 1 transfer; free; no application needed.
+2. DRCR Protocol T/I — submit form request this week. Treatment-conditioned dynamics data; enables Bet 2; free.
+3. UK Biobank — still apply (free to apply), but hold £9K fee; useful for scale and survival but not dense treatment dynamics.
+4. A2A SD-OCT — query NEI Data Commons after SBIR submitted; AMD longitudinal OCT, 316 participants, 1,499 visits.
+
+Why UK Biobank is downgraded: Its repeat imaging is years apart, making it excellent for slow progression and survival but comparatively weak for treatment-response ODE-RNN work. DRCR clinical-trial data is denser and more directly relevant to Bet 2.
+
+Why GRAPE is urgent: It is free, publicly downloadable today, longitudinal (3-9 visits/eye, explicit interval metadata), and provides a second disease — exactly what's needed for an external-validation/disease-transfer result in Paper 2 and SBIR preliminary data.
+
+Alternatives rejected: Waiting for UK Biobank as the only path — there are free longitudinal options available now that address the science more directly.
+
+---
 
 ## #20 — 2026-06-16 — AI-READI ruled out as primary Bet 1 dataset
 

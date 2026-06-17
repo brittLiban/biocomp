@@ -15,6 +15,8 @@ Status: [ ] open only — answered questions are deleted, not marked [x]. Answer
 - [ ] Does `full_labels/OCT-DME.xlsx` (195-col wide table, VisitNums 1–28) contain full longitudinal biomarkers for all visits? If so, pivot to long format.
 - [ ] Does ACCORD EYE include raw image files or only derived datasets?
 - [ ] UK Biobank: exact independent-researcher eligibility criteria + current fee?
+- [ ] Does DRCR Protocol T/I public download include raw image files, or only tabular/derived reading-center data? (Must verify on receipt — not documented pre-download per catalog.)
+- [ ] Is A2A SD-OCT ancillary data available through the AREDS2 NEI Data Commons workflow, or requires separate contact with the study team?
 
 ## Strategy
 
