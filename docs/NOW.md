@@ -82,9 +82,9 @@ submitting to a venue (MICCAI, MIDL, or Nature Comms Medicine).
 
 **Last session:** 2026-06-15 — Preprint submitted to medRxiv (MEDRXIV/2026/355647). Paper finalized: draft markers removed, [CITE] resolved (Yau et al. 2012), Figure 1 reference removed, code availability upon request added. PDF generated via Pandoc, committed and pushed (ae12e6d). Docs updated: Q3_PLAN Chunk 2 marked done, DECISIONS #16 logged (medRxiv over arXiv), NOW.md next steps written. Strategic direction confirmed: UK Biobank application → incorporate + SAM.gov → SBIR → Latent ODE.
 
-**Current session (2026-06-16):** medRxiv issued final rejection — affiliation policy, no further appeal. Pivoting to Research Square (Springer Nature). Decision #18 logged. Submitting preprint to researchsquare.com today.
+**Current session (2026-06-16):** medRxiv issued final rejection — affiliation policy, no further appeal. Pivoted to Research Square (Springer Nature); submitted 2026-06-16, prescreening in progress. Decisions #17 and #18 logged. Discussed LLC formation (Washington State, $200 via sos.wa.gov). Discussed build timeline (14-30 months to Tier 6 product) and strategic direction confirmed: disease engine company, SBIR as near-term financial bridge. Docs committed and pushed (3a17edf).
 
-**In flight:** Research Square prescreening — submitted 2026-06-16, DOI pending (24-48 hrs).
+**In flight:** Research Square prescreening — DOI expected within 24-48 hrs.
 
 **Next (in order):**
 1. Submit to Research Square → get DOI
