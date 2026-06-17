@@ -10,6 +10,7 @@
 
 | # | Date | Summary |
 |---|---|---|
+| 23 | 2026-06-16 | Pre-committed evaluation bars for true Latent ODE on OLIVES — confirmed by human before training |
 | 22 | 2026-06-16 | Three bets precisely restated; current plan mapped to each; Bet 2 explicitly not started |
 | 21 | 2026-06-16 | Revised dataset priority: GRAPE first (free, longitudinal, glaucoma), DRCR T/I next (treatment), UK Biobank downgraded (visits years apart) |
 | 20 | 2026-06-16 | AI-READI ruled out as Bet 1 dataset — confirmed cross-sectional (1 visit/participant); UK Biobank remains primary longitudinal path |
@@ -32,6 +33,36 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #23 — 2026-06-16 — Pre-committed evaluation bars: true Latent ODE on OLIVES
+
+Context: Advisor flagged that running the Latent ODE without pre-committed bars recreates the same mistake as the original timing experiment (results interpreted post-hoc). Human confirmed these bars before any training begins.
+
+**Primary: 90% prediction interval coverage**
+| Verdict | Coverage |
+|---|---|
+| Success | ≥ 80% |
+| Inconclusive | 65–80% |
+| Failure | < 65% |
+
+**Posterior collapse check: KL divergence from prior**
+| Verdict | KL (nats) |
+|---|---|
+| Healthy | > 0.1 |
+| Marginal | 0.01–0.1 |
+| Collapsed — stop, report as failure | < 0.01 |
+
+**Point prediction check: RMSE**
+| Verdict | RMSE |
+|---|---|
+| Acceptable degradation | ≤ 85 μm |
+| Unacceptable | > 90 μm |
+
+**GRAPE bars:** Set as a separate decision AFTER the GRAPE feasibility audit confirms the prediction target and its scale. Cannot pre-commit in different units (dB or μm RNFL vs μm CST).
+
+**Bet 3 language constraint (binding):** A positive GRAPE transfer result = "directional pilot toward Bet 3, inconclusive at this scale." Cannot write "generalizes across diseases" without statistical significance on a larger dataset.
+
+---
 
 ## #22 — 2026-06-16 — Three bets precisely restated; current plan mapped to each
 
