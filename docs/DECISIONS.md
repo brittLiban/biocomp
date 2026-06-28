@@ -6,10 +6,11 @@
 
 ## Quick Index
 > Scan this first — 5 seconds to check if your question is already settled.
-> **Last updated: 2026-06-16**
+> **Last updated: 2026-06-27**
 
 | # | Date | Summary |
 |---|---|---|
+| 24 | 2026-06-27 | Data augmentation strategy for True Latent ODE v2 — subsequence sampling + embedding noise + time jitter |
 | 23 | 2026-06-16 | Pre-committed evaluation bars for true Latent ODE on OLIVES — confirmed by human before training |
 | 22 | 2026-06-16 | Three bets precisely restated; current plan mapped to each; Bet 2 explicitly not started |
 | 21 | 2026-06-16 | Revised dataset priority: GRAPE first (free, longitudinal, glaucoma), DRCR T/I next (treatment), UK Biobank downgraded (visits years apart) |
@@ -33,6 +34,27 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #24 — 2026-06-27 — Data augmentation strategy: True Latent ODE v2
+
+**Context:** v1 run (xhuntnop) showed partial posterior collapse — KL peaked at 0.36 nats at epoch 10 (warmup beta=0.33) then declined to ~0.02–0.04 nats post-warmup. Root cause: 77 training eyes is too small for the VAE to learn a meaningful posterior; the model collapses z0 toward the prior. RMSE stagnated at ~87 μm (bar: 85 μm), failing by 2 μm.
+
+**Decision:** Add three augmentations to v2 training. Evaluation bars remain identical (Decision #23 — no post-hoc changes).
+
+**Augmentation 1 — Subsequence sampling (most impactful):**
+For each eye with n visits, generate all starting-point subsequences with length ≥ 4. A subsequence starting at visit i uses visits [i … n-2] as input and CST at [i+1 … n-1] as targets. Valid because the ODE function is autonomous — disease dynamics at any point in a trajectory share the same learned f. Result: 77 eyes × ~13 subsequences ≈ 1,000 training sequences (13× increase, no fabricated data).
+
+**Augmentation 2 — Embedding noise (std=0.02):**
+Add Gaussian noise to RETFound embeddings during training only. Forces smooth latent space. 0.02 is ~1% of typical embedding scale — conservative, won't distort disease signal.
+
+**Augmentation 3 — Time jitter (±10%):**
+Randomly perturb delta_t by ±10% per step during training only. Teaches the ODE that dynamics are stable under small timing shifts (clinically: ±2–3 days on a 4-week gap). Clamped to min 0.1 to avoid zero-length integrations.
+
+**What augmentation cannot fix:** If the model still collapses with 1,000 sequences, the issue is architectural (beta too aggressive, latent_dim too large) not data volume. v2 also extends warmup from 30→50 epochs to give the VAE more time to find the posterior before full KL pressure.
+
+**Claim discipline:** Augmentation is a training strategy, not additional data. Cannot claim "trained on 1,000 eyes." Must write "77 eyes with subsequence augmentation (~1,000 training sequences)."
+
+---
 
 ## #23 — 2026-06-16 — Pre-committed evaluation bars: true Latent ODE on OLIVES
 
