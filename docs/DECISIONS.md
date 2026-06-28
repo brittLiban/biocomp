@@ -10,6 +10,7 @@
 
 | # | Date | Summary |
 |---|---|---|
+| 25 | 2026-06-28 | True Latent ODE v3 — fixed beta=0.1 (beta-VAE) + variable-endpoint subsequences (~7,000 sequences) |
 | 24 | 2026-06-27 | Data augmentation strategy for True Latent ODE v2 — subsequence sampling + embedding noise + time jitter |
 | 23 | 2026-06-16 | Pre-committed evaluation bars for true Latent ODE on OLIVES — confirmed by human before training |
 | 22 | 2026-06-16 | Three bets precisely restated; current plan mapped to each; Bet 2 explicitly not started |
@@ -34,6 +35,25 @@
 | 3 | 2026-05-31 | Latent ODE viable for OLIVES (97.9% eyes ≥ 4 visits, mean 16.6) |
 | 2 | Month 0 | OLIVES-first; feasibility audit before any model code |
 | 1 | Month 0 | Layered doc architecture for AI-driven development |
+
+## #25 — 2026-06-28 — True Latent ODE v3: fixed beta-VAE + variable-endpoint augmentation
+
+**Context:** v1 and v2 both showed the same pattern — KL peaks when beta is low (epoch 10, beta=0.2, RMSE=86.1 μm, KL=0.50) then degrades as beta anneals to 1.0. Best checkpoint in both runs was epoch 10. The problem is not the architecture or data volume — it is the full KL pressure overwhelming reconstruction on 77-eye data.
+
+**Fix 1 — Fixed beta=0.1 (beta-VAE):**
+Never anneal beta to 1.0. Keep it at 0.1 permanently. This lets reconstruction dominate while keeping light KL regularization to prevent total collapse. Evidence: at epoch 10 (beta=0.20) the model achieved its best results in both v1 and v2. A permanently lower beta should sustain this.
+
+**Fix 2 — Variable-endpoint subsequences:**
+v2 only varied the start point of subsequences (all ended at the last visit). v3 also varies the end point — every (start, end) window with end-start >= min_subseq_len is a valid training sequence. For n=16 visits with min_len=3: ~91 subsequences per eye. 77 eyes → ~7,000 training sequences (vs 778 in v2). More diverse trajectory windows means the model sees the same underlying dynamics from far more angles.
+
+**What augmentation can and cannot do:**
+- CAN: give the model more trajectory windows to learn dynamics from
+- CANNOT: create new patients, new disease states, or new imaging data
+- Claim discipline: "77 eyes with variable-window augmentation (~7,000 training sequences)"
+
+**If v3 still fails (RMSE > 85 μm):** The conclusion is that the True Latent ODE requires more real data (DRCR scale, thousands of eyes) to outperform the ODE-RNN baseline. This is a valid scientific finding — generative models have higher data requirements than discriminative ones. Report honestly and move to GRAPE.
+
+---
 
 ## #24 — 2026-06-27 — Data augmentation strategy: True Latent ODE v2
 
