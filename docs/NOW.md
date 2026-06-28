@@ -130,13 +130,19 @@ preliminary data at this stage.
 
 **Research Square:** Submitted 2026-06-16. DOI confirmed: 10.21203/rs.3.rs-10060892/v1. Preprint live.
 
+**Session (2026-06-27):**
+- DOI confirmed and logged across NOW.md, Q3_PLAN.md, ARCHITECTURE.md
+- ARCHITECTURE.md Tier 4 expanded: full implementation specs for ODE-RNN (baseline) and True Latent ODE (target) side by side
+- True Latent ODE built and tested: src/dynamics/true_latent_ode.py, scripts/true_latent_ode.py, tests/test_true_latent_ode.py (7/7 passing)
+- Architecture: backward GRU encoder → q(z0) → reparameterize → ODE forward → mu_pred + sigma_pred; ELBO loss with KL warmup; sample=False for deterministic eval RMSE
+- All Decision #23 bars wired into training script (RMSE ≤ 85 um, CI coverage ≥ 80%, KL > 0.1 nats, collapse < 0.01 nats = stop)
+- Ready to run: python scripts/true_latent_ode.py (OLIVES sequences already cached)
+
 **Next (in order):**
-1. Research Square DOI — passive wait, 24-48 hrs
-2. **Download GRAPE** (Figshare, free, today) — second disease for Bet 1; no application needed (Decision #21)
-3. **Submit DRCR Protocol T request** (public.jaeb.org, free, this week) — treatment-response data for Bet 2
-4. Incorporate Synapse as Washington State LLC ($200, sos.wa.gov) — urgent, blocks SBIR + SAM.gov
-5. UK Biobank application — start (free), hold £9K fee; now lower priority than DRCR for treatment dynamics
-6. SAM.gov UEI registration (2-4 weeks, free, requires LLC first)
-7. NIH SBIR Phase I application (NEI) — December 5, 2026 target
-8. Share preprint with 2-3 domain experts for informal feedback
-9. Return to building: true Latent ODE on OLIVES + GRAPE once GRAPE inspected
+1. **Run True Latent ODE on OLIVES** — `python scripts/true_latent_ode.py` — evaluate against Decision #23 bars, log result to RUNS.md
+2. **Download GRAPE** (Figshare, free) — run feasibility audit before any modeling
+3. **Submit DRCR Protocol T request** (public.jaeb.org, free) — starts Bet 2 data pipeline
+4. Incorporate Synapse as Washington State LLC ($200, sos.wa.gov) — blocks SBIR + SAM.gov
+5. Transfer True Latent ODE to GRAPE — after GRAPE audit and bars pre-committed
+6. SAM.gov UEI registration (requires LLC first)
+7. NIH SBIR Phase I (NEI) — December 5, 2026 target
