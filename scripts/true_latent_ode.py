@@ -397,7 +397,7 @@ def main():
         "final_kl":      final["kl_mean"],
         "collapsed":     collapsed,
     }, ckpt_path)
-    print(f"\n  Checkpoint saved → {ckpt_path}")
+    print(f"\n  Checkpoint saved -> {ckpt_path}")
 
     run.finish()
     return final
