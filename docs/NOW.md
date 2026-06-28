@@ -134,9 +134,13 @@ preliminary data at this stage.
 - DOI confirmed and logged across NOW.md, Q3_PLAN.md, ARCHITECTURE.md
 - ARCHITECTURE.md Tier 4 expanded: full implementation specs for ODE-RNN (baseline) and True Latent ODE (target) side by side
 - True Latent ODE built and tested: src/dynamics/true_latent_ode.py, scripts/true_latent_ode.py, tests/test_true_latent_ode.py (7/7 passing)
-- Architecture: backward GRU encoder → q(z0) → reparameterize → ODE forward → mu_pred + sigma_pred; ELBO loss with KL warmup; sample=False for deterministic eval RMSE
-- All Decision #23 bars wired into training script (RMSE ≤ 85 um, CI coverage ≥ 80%, KL > 0.1 nats, collapse < 0.01 nats = stop)
-- Ready to run: python scripts/true_latent_ode.py (OLIVES sequences already cached)
+- v1 run (CPU): RMSE 87.0 μm — FAILS bar. KL collapse pattern post-warmup.
+- v2 built: subsequence augmentation (77 eyes → 778 sequences), extended warmup
+
+**Session (2026-06-28):**
+- v2 run (Colab T4, run bwhhfekh): RMSE 86.1 μm best (epoch 10) — FAILS bar. Same collapse pattern despite 10x more sequences. Root cause: beta annealing to 1.0 overwhelms reconstruction on small data.
+- v3 built and running NOW (Colab T4, run rpe2r55y): fixed beta=0.1 (beta-VAE) + variable-window augmentation (77 eyes → 6,752 sequences). Decision #25 logged.
+- Colab notebook set up: notebooks/true_latent_ode_v2_colab.ipynb (GPU training ~5-10 min/run)
 
 **Next (in order):**
 1. **Run True Latent ODE on OLIVES** — `python scripts/true_latent_ode.py` — evaluate against Decision #23 bars, log result to RUNS.md
