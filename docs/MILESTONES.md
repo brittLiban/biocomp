@@ -30,11 +30,11 @@ Status key: [ ] not started · [~] in progress · [x] done · [!] blocked
 ### Q3 (Months 7-9)
 - [ ] JEPA-style fine-tuning (compare vs frozen RETFound)
 - [ ] Clinical encoder (OLIVES biomarkers)
-- [ ] Preprint draft
+- [x] Preprint draft (2026-06-15) — paper/preprint_v1.pdf, all claims checked
 - [ ] Retina-clinic pilot outreach (Track 2)
 
 ### Q4 (Months 10-12)
-- [ ] Preprint submitted to arXiv
+- [x] Preprint submitted to Research Square (Springer Nature) 2026-06-16 — prescreening in progress, DOI pending. Note: medRxiv rejected (no org affiliation, Decisions #17, #18). arXiv not used.
 - [ ] Conference/journal submission (MICCAI, NeurIPS, JAMA Ophth)
 - [ ] First investor/partner conversations
 - [ ] Scale-data path secured

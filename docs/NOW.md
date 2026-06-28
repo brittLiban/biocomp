@@ -7,7 +7,7 @@
 > Rewritten each sprint closeout. The single source of current state. Read this first.
 > **Last rewritten: 2026-06-16**
 
-**Phase:** Rung 1 complete · Rung 2 complete (prototype) · Preprint submitted to Research Square (Springer Nature) 2026-06-16, DOI pending. ODE-RNN is the published baseline model. Next: true Latent ODE (generative/VAE) as the primary architecture. Rung 3 requires controlled data (DRCR, Year 2).
+**Phase:** Rung 1 complete · Rung 2 complete (prototype) · Preprint live on Research Square (Springer Nature) 2026-06-16, DOI: 10.21203/rs.3.rs-10060892/v1. ODE-RNN is the published baseline model. Next: true Latent ODE (generative/VAE) as the primary architecture. Rung 3 requires controlled data (DRCR, Year 2).
 
 **Model architecture (critical distinction):**
 - **ODE-RNN** (Rubanova 2019, discriminative) — BUILT, published in preprint. Point prediction only. This is now a baseline, not the primary model.
@@ -117,17 +117,18 @@ preliminary data at this stage.
 
 **Last session (2026-06-15):** Preprint submitted to medRxiv (MEDRXIV/2026/355647). Paper finalized and pushed (ae12e6d).
 
-**Current session (2026-06-16) — major session, many decisions:**
+**Session (2026-06-16) — major session, all docs updated:**
 - medRxiv final rejection (no org affiliation, appeal denied) → pivoted to Research Square; submitted, prescreening in progress (Decisions #17, #18)
 - AI-READI investigated as free UK Biobank alternative → confirmed cross-sectional (1 visit/participant), ruled out for Bet 1 (Decisions #19, #20)
 - Comprehensive longitudinal dataset catalog reviewed → GRAPE identified (free, Figshare, longitudinal glaucoma, download today); DRCR Protocol T/I prioritized for Bet 2 treatment data; UK Biobank downgraded (visits years apart, weaker for treatment dynamics) (Decision #21)
 - Three bets precisely restated and locked: Bet 1 pilot done/inconclusive, Bet 2 not started, Bet 3 early pilot only via GRAPE (Decision #22)
 - Pre-committed Latent ODE evaluation bars confirmed by human (Decision #23)
-- ODE-RNN now baseline; true Latent ODE confirmed as primary architecture going forward
+- ODE-RNN now baseline; True Latent ODE confirmed as primary architecture going forward
 - LLC filing blocked — no $200 currently; will file at sos.wa.gov when funds available
 - Sprint rewritten: NOW is Latent ODE + GRAPE sprint
+- Full doc audit complete: ARCHITECTURE, Q3_PLAN, MILESTONES, RISKS all updated to reflect session decisions
 
-**In flight:** Research Square prescreening — DOI expected within 24-48 hrs.
+**Research Square:** Submitted 2026-06-16. DOI confirmed: 10.21203/rs.3.rs-10060892/v1. Preprint live.
 
 **Next (in order):**
 1. Research Square DOI — passive wait, 24-48 hrs

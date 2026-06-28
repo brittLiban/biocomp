@@ -19,9 +19,9 @@ discussion caveats before submission.
 Done when: `paper/preprint_v1.pdf` exists; all claims checked; human approved.
 
 ### Chunk 2 — Preprint Submission [x]
-Submit preprint to medRxiv (Ophthalmology). Submitted 2026-06-15.
-Submission ID: MEDRXIV/2026/355647. Screening in progress (4-5 days).
-Done when: medRxiv DOI received and logged in DECISIONS.md. ← PENDING DOI
+Submitted to medRxiv 2026-06-15 (ID: MEDRXIV/2026/355647) → rejected twice (no org affiliation).
+Pivoted to Research Square (Springer Nature) — no affiliation required, gives DOI, indexed by Google Scholar + PubMed. Submitted 2026-06-16. Decisions #17, #18.
+Done when: Research Square DOI received and logged in DECISIONS.md. ← DOI CONFIRMED: 10.21203/rs.3.rs-10060892/v1 (2026-06-27)
 
 ### Chunk 3 — Grant / SBIR Application
 Identify the right mechanism (NIH SBIR R43, NSF SBIC, or Wellcome equivalent).
@@ -35,7 +35,7 @@ Done when: one application drafted and submitted (or staged pending window).
 Done when: at least one Track 2 dataset has a concrete next step (applied / in review / responded).
 
 ## End-of-Quarter Gate (Gate 3 prep, Month 9)
-- [ ] Preprint live on arXiv
+- [x] Preprint live on Research Square — DOI: 10.21203/rs.3.rs-10060892/v1
 - [ ] At least one funding application drafted or submitted
 - [ ] Track 2 data path has a concrete next step
 - [ ] MILESTONES.md Q3 boxes ticked

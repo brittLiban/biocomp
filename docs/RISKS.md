@@ -10,7 +10,7 @@ Status: [ ] active · [~] watch · [x] retired · [!] escalated
 
 | # | Risk | Sev | Status | Mitigation |
 |---|---|---|---|---|
-| S1 | OLIVES temporal depth too thin for latent ODE | MED | [ ] | Feasibility audit FIRST — decides model class before any model code |
+| S1 | OLIVES temporal depth too thin for latent ODE | MED | [x] RETIRED 2026-06-01 | Feasibility audit complete: 97.9% eyes ≥4 visits, mean 16.6 — viable (Decision #3) |
 | S2 | Models learn imaging artifacts not disease signal | HIGH | [ ] | External validation (Messidor-2); subgroup analysis; clinician review |
 | S3 | Disease dynamics not learnable from available data | HIGH | [ ] | Falsify early and pivot — accept this is a real possibility |
 | S4 | OLIVES too small to support strong claims | HIGH | [ ] | Scope claims to prototype + small-n caveats; controlled data for scale |
@@ -20,7 +20,7 @@ Status: [ ] active · [~] watch · [x] retired · [!] escalated
 
 | # | Risk | Sev | Status | Mitigation |
 |---|---|---|---|---|
-| D1 | All controlled-data paths stall (UKB, EyePACS, ACCORD, clinic) | MED | [ ] | Multiple parallel routes started Month 1-3; OLIVES sustains Y1 regardless |
+| D1 | All controlled-data paths stall (UKB, EyePACS, ACCORD, clinic) | MED | [~] | GRAPE (free, Figshare, download today) + DRCR Protocol T (form request, no fee) added as unblocked routes 2026-06-16 (Decision #21). UK Biobank deferred (£9K). Multiple paths active. |
 | D2 | UK Biobank application rejected or delayed | LOW-MED | [ ] | Grant funding buffers cost; not personal runway; pursue parallel routes |
 | D3 | EyePACS partnership negotiations slow or fail | MED | [ ] | Start early (Month 2-3); narrow initial ask; ACCORD/UKB are alternatives |
 | D4 | ACCORD EYE has no raw images (only derived data) | MED | [ ] | BioLINCC request to confirm — do not assume raw images exist |
