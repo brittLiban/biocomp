@@ -208,9 +208,8 @@ class TrueLatentODE(nn.Module):
                 self.ode_func,
                 z0[i : i + 1],                          # (1, latent_dim)
                 t_grid,
-                method="dopri5",
-                rtol=self.rtol,
-                atol=self.atol,
+                method="rk4",
+                options={"step_size": 0.5},
             )                                            # (L+1, 1, latent_dim)
 
             # z_traj[0] = z0 at t=0; z_traj[1:] = z at each prediction time
