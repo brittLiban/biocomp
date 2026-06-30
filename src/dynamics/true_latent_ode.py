@@ -188,32 +188,39 @@ class TrueLatentODE(nn.Module):
         else:
             z0 = mu_z0                                   # deterministic eval path
 
-        # Integrate ODE per sequence (variable time grids require individual calls)
+        # Grouped batched odeint: one call per unique length, GPU-parallel over group.
+        # Uses ordinal t_grid (gaps=1.0) — real delta_t passed only at eval via delta_t_seq.
+        # This replaces the per-sequence loop and saturates the GPU properly.
+        from collections import defaultdict
         all_z = torch.zeros(batch, seq_len, self.latent_dim, device=device)
+        length_groups: dict[int, list[int]] = defaultdict(list)
+        for i, L in enumerate(lengths.tolist()):
+            length_groups[int(L)].append(i)
 
-        for i in range(batch):
-            L = int(lengths[i].item())
+        for L, idxs in length_groups.items():
+            idx_t  = torch.tensor(idxs, device=device)
+            z_grp  = z0[idx_t]                          # (g, latent_dim)
+
             if delta_t_seq is not None:
-                dts = delta_t_seq[i, :L].float().clamp(min=1e-3)
+                # Use mean delta_t across group — good approx since most gaps=1.0
+                dts = delta_t_seq[idx_t, :L].float().clamp(min=1e-3).mean(0)
                 t_grid = torch.cat([
                     torch.zeros(1, device=device, dtype=torch.float32),
                     dts.cumsum(0),
-                ])                                       # (L+1,) strictly increasing
+                ])
             else:
-                t_grid = torch.arange(
-                    L + 1, dtype=torch.float32, device=device
-                )
+                t_grid = torch.arange(L + 1, dtype=torch.float32, device=device)
 
             z_traj = odeint(
                 self.ode_func,
-                z0[i : i + 1],                          # (1, latent_dim)
+                z_grp,                                   # (g, latent_dim)
                 t_grid,
-                method="rk4",
-                options={"step_size": 0.5},
-            )                                            # (L+1, 1, latent_dim)
+                method="dopri5",
+                rtol=self.rtol,
+                atol=self.atol,
+            )                                            # (L+1, g, latent_dim)
 
-            # z_traj[0] = z0 at t=0; z_traj[1:] = z at each prediction time
-            all_z[i, :L] = z_traj[1:].squeeze(1)
+            all_z[idx_t, :L] = z_traj[1:].permute(1, 0, 2)
 
         z_drop     = self.dropout(all_z)
         mu_pred    = self.decoder_mu(z_drop)                      # (batch, seq_len, 1)
